@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: GitHub Action for pytest
         # uses: cclauss/GitHub-Action-for-pytest@5863d02de95f37516a732802fa6257dfdf93e54c
         uses: cclauss/GitHub-Action-for-pytest@0.5.0
@@ -23,6 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+          
       - name: Python Linter
         # uses: sunnysid3up/python-linter@93076bd8f740f062069291d738fc70c1b4171c1d
         uses: sunnysid3up/python-linter@v0.1-beta.7
@@ -31,11 +37,19 @@ jobs:
           source: vanquisher  
 
   build-win:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: PyInstaller Windows
         # uses: JackMcKew/pyinstaller-action-windows@a8dee21ad01bbc7e7363d445bb632691b95ba057
         uses: JackMcKew/pyinstaller-action-windows@v0.1.2
         with:
           path: vanquisher
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: name-of-artifact
+          path: dist/windows
