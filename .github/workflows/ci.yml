@@ -36,20 +36,20 @@ jobs:
         with:
           source: vanquisher  
 
-  build-win:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
-      - name: PyInstaller Windows
-        # uses: JackMcKew/pyinstaller-action-windows@a8dee21ad01bbc7e7363d445bb632691b95ba057
-        uses: JackMcKew/pyinstaller-action-windows@v0.1.2
-        with:
-          path: vanquisher
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: name-of-artifact
-          path: dist/windows
+  #build-win:
+  #  runs-on: ubuntu-latest
+  #  
+  #  steps:
+  #    - name: Checkout code
+  #      uses: actions/checkout@v2
+  #      
+  #    - name: PyInstaller Windows
+  #      # uses: JackMcKew/pyinstaller-action-windows@a8dee21ad01bbc7e7363d445bb632691b95ba057
+  #      uses: JackMcKew/pyinstaller-action-windows@v0.1.2
+  #      with:
+  #        path: vanquisher
+  #
+  #    - uses: actions/upload-artifact@v2
+  #      with:
+  #        name: name-of-artifact
+  #        path: dist/windows
