@@ -10,7 +10,6 @@ import uuid
 import math
 
 import typing_extensions as typext
-import js2py
 
 from . import vector, object_type, world
 
@@ -43,7 +42,7 @@ class VariableFoundCallback(typext.Protocol):
     """
 
     def __call__(
-        self, set_func: VariableSetCallback, value: typing.Any
+        self, value: typing.Any, set_func: VariableSetCallback
     ) -> typing.Optional[typing.Any]:
         ...
 
@@ -306,7 +305,7 @@ class GameObjectJS:
 
         return self.__obj.variables.get(name, None)
 
-    def varadd(self, name: str, to_add: float) -> float:
+    def varadd(self, name: str, to_add: typing.Any) -> typing.Any:
         """
         JavaScript API shorthand method.
 

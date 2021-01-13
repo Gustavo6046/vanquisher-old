@@ -8,7 +8,7 @@ import uuid
 import warnings
 
 import typing_extensions as typext
-import js2py
+import js2py  # type: ignore
 
 from . import objects, game
 
@@ -37,9 +37,7 @@ class TypeDefinitionObject(typext.Protocol):
         ...
 
     @typing.overload
-    def __getitem__(
-        self, key: typing.Literal["inherit"]
-    ) -> typing.Optional[typing.Iterable[str]]:
+    def __getitem__(self, key: typing.Literal["inherit"]) -> typing.Iterable[str]:
         ...
 
     @typing.overload
@@ -67,6 +65,9 @@ class TypeDefinitionObject(typext.Protocol):
         ...
 
     def __getitem__(self, key: str) -> typing.Any:
+        ...
+
+    def __contains__(self, key: str) -> bool:
         ...
 
 
