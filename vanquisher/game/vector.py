@@ -4,10 +4,9 @@ as well as internally the pooling of vectors
 for performance purposes.
 """
 
-import typing
-
-import warnings
 import math
+import typing
+import warnings
 
 
 class Vec2Pool:

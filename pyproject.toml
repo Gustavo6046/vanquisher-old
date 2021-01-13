@@ -21,6 +21,11 @@ flake8 = "^3.8.4"
 pylint = "^2.6.0"
 rope = "^0.18.0"
 nox = "^2020.12.31"
+isort = "^5.7.0"
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
 
 [build-system]
 requires = ["poetry_core>=1.0.0"]

@@ -4,9 +4,10 @@ of specifically terrain. Every world.Chunk has a terrain property
 of type TerrainChunk.
 """
 
-import typing
 import math
 import random
+import typing
+
 import attr
 
 

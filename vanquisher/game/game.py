@@ -6,8 +6,7 @@ level that can still be narrowed down to "just" the playsim.
 import typing
 import uuid
 
-from . import world
-from . import objects, object_type
+from . import object_type, objects, world
 
 
 class Game:

@@ -4,11 +4,11 @@ its basic structure, and how it contains and integrates
 the objects that live and the terrain that lay in it.
 """
 
+import math
 import typing
 import uuid
-import math
 
-from . import terrain, objects, vector, game
+from . import game, objects, terrain, vector
 
 
 class Chunk:

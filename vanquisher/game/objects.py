@@ -4,14 +4,13 @@ both for Python and for the object definitions in
 JavaScript.
 """
 
-import typing
-
-import uuid
 import math
+import typing
+import uuid
 
 import typing_extensions as typext
 
-from . import vector, object_type, world
+from . import object_type, vector, world
 
 
 class ObjectCallback(typext.Protocol):
