@@ -94,7 +94,7 @@ class GameObject:
         self._obj_type = obj_type
         self.type: object_type.ObjectType = self.game.object_types.get_type(self._obj_type)
 
-        self.variables = js2py.base.PyJsObject()
+        self.variables = {}
 
         for v_name, v_default in self.type.variables.items():
             self.variables[v_name] = v_default
@@ -376,19 +376,6 @@ class GameObjectJS:
         """
 
         return self.__obj.type.attributes.get(name.lower(), None)
-
-    def met(self, name: str) -> typing.Optional[typing.Callable]:
-        """
-        JavaScript API shorthand method.
-
-        Gets an object type method.
-
-        Will not raise KeyError, to
-        stay consistent with JavaScript object
-        behaviour.
-        """
-
-        return self.__obj.type.methods.get(name.lower(), None)
 
     @property
     def typename(self) -> str:

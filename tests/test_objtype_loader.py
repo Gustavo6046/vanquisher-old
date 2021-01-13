@@ -109,14 +109,14 @@ def test_load_object_2():
 
     # check if begin callback updated cookies
     # (begin callback should've added 5 to the default of 10)
-    assert cookie_object.variables['cookies'].value == 15.0
+    assert cookie_object.variables['cookies'] == 15.0
 
     # try the methods
     cookie_object.call('make_cookie')
-    assert cookie_object.variables['cookies'].value == 16.0 # one more!
+    assert cookie_object.variables['cookies'] == 16.0 # one more!
 
     for _ in range(9): cookie_object.call('eat_cookie') # yum!
-    assert cookie_object.variables['cookies'].value == 7.0
+    assert cookie_object.variables['cookies'] == 7.0
 
 
 def test_load_object_3():
@@ -134,7 +134,7 @@ def test_load_object_3():
                 },
 
                 do_noise: function(self) {
-                    return "The " + self.att.animal_name + " goes '" + self.call('get_noise') + "!'";
+                    return "The " + self.att('animal_name') + " goes '" + self.call('get_noise') + "!'";
                     // Yep, single-quote after excl. mark. Judge me.
                 },
             },

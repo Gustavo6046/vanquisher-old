@@ -97,7 +97,7 @@ class GameContextJS:
 
         self.def_context.register_type(otype)
 
-    def iter_all_objects(self, callback: objects.ObjectCallback):
+    def iter_all_objects(self, callback: "objects.ObjectCallback"):
         """
         Iterates on all objects in the game. For each object,
         calls the callback (in ordinary circumstances a JS
