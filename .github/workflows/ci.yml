@@ -1,0 +1,26 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Nox testing and linting
+        # uses: excitedleigh/setup-nox@a6d43a0eef88d70d7e52909c793c51037c8fbbb1
+        uses: excitedleigh/setup-nox@1.0.0
+
+      - name: PyInstaller Windows
+        # uses: JackMcKew/pyinstaller-action-windows@a8dee21ad01bbc7e7363d445bb632691b95ba057
+        uses: JackMcKew/pyinstaller-action-windows@v0.1.2
+        with:
+          path: vanquisher
