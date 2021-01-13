@@ -11,14 +11,26 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Nox testing and linting
+      - name: GitHub Action for pytest
+        # uses: cclauss/GitHub-Action-for-pytest@5863d02de95f37516a732802fa6257dfdf93e54c
+        uses: cclauss/GitHub-Action-for-pytest@0.5.0
+
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Setup Nox
         # uses: excitedleigh/setup-nox@a6d43a0eef88d70d7e52909c793c51037c8fbbb1
         uses: excitedleigh/setup-nox@1.0.0
 
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
       - name: PyInstaller Windows
         # uses: JackMcKew/pyinstaller-action-windows@a8dee21ad01bbc7e7363d445bb632691b95ba057
         uses: JackMcKew/pyinstaller-action-windows@v0.1.2
