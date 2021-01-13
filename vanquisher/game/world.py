@@ -11,7 +11,6 @@ import math
 from . import terrain, objects, vector, game
 
 
-
 class Chunk:
     """
     A chunk; a piece of the world that was generated ans
@@ -55,6 +54,7 @@ class Chunk:
 
         self.objects_in_chunk.remove(obj.identifier)
 
+
 class World:
     """
     The world in which objects interact to the terrain
@@ -62,11 +62,11 @@ class World:
     """
 
     def __init__(self,
-            my_game: "game.Game",
-            terrain_generator: typing.Optional[terrain.TerrainGenerator] = None,
-            chunk_width: int = 32,
-            base_height: float = 32.0,
-            gravity: float = -4.0):
+                 my_game: "game.Game",
+                 terrain_generator: typing.Optional[terrain.TerrainGenerator] = None,
+                 chunk_width: int = 32,
+                 base_height: float = 32.0,
+                 gravity: float = -4.0):
         self.game = my_game
         self.chunk_width = chunk_width
         self.base_height = base_height
@@ -99,7 +99,7 @@ class World:
 
         return self.get_chunk(
             (math.floor(pos_x / self.chunk_width),
-            math.floor(pos_y / self.chunk_width))
+             math.floor(pos_y / self.chunk_width))
         )
 
     def object_register(self, obj: objects.GameObject):

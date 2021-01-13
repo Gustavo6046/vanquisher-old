@@ -10,7 +10,6 @@ from . import world
 from . import objects, object_type
 
 
-
 class Game:
     """
     The main game class that holds information about
@@ -31,11 +30,13 @@ class Game:
 
         self.object_types = object_type.ObjectTypeContext(self)
 
-    def object_create(self,
+    def object_create(
+            self,
             kind: str,
             pos: typing.Tuple[float, float],
             *args,
-            **kwargs) -> objects.GameObject:
+            **kwargs
+    ) -> objects.GameObject:
         """
         Instantiates a new object of the
         specified kind, at the specified location.

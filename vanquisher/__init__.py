@@ -21,5 +21,3 @@ It is split into multiple subpackages for convenience:
 """
 
 __version__ = '0.1.0'
-
-from . import game

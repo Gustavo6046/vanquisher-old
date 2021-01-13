@@ -10,7 +10,6 @@ import random
 import attr
 
 
-
 def interpolate(low: float, high: float, alpha: float) -> float:
     """
     Linear interpolatino between two values.
@@ -126,11 +125,11 @@ class Peak:
 
     x: float = attr.ib()
     y: float = attr.ib()
-    strength: float = attr.ib(default = 1.5)
-    height: float = attr.ib(default = 40)
-    max_radius: float = attr.ib(default = 32)
-    lip: float = attr.ib(default = 5)
-    tip: float = attr.ib(default = 9)
+    strength: float = attr.ib(default=1.5)
+    height: float = attr.ib(default=40)
+    max_radius: float = attr.ib(default=32)
+    lip: float = attr.ib(default=5)
+    tip: float = attr.ib(default=9)
 
     def distance_squared(self, other_x: int, other_y: int) -> float:
         """

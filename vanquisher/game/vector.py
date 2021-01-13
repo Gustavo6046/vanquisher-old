@@ -10,7 +10,6 @@ import warnings
 import math
 
 
-
 class Vec2Pool:
     """
     A pool of vectors.
@@ -25,7 +24,7 @@ class Vec2Pool:
     def __init__(self, chunk_size: int = 50):
         self.chunk_size: int = chunk_size
 
-        self.pool_free: typing.List[bool]   = [True for _ in range(chunk_size)]
+        self.pool_free: typing.List[bool] = [True for _ in range(chunk_size)]
         self.pool: typing.List['Vec2'] = []
 
         self.free: int = chunk_size
@@ -180,8 +179,9 @@ class Vec2Pool:
         if index < self.next_free:
             self.next_free = index
 
-    def context(self,
-            vecs: typing.Iterable[typing.Tuple[float, float]] = ((0, 0),)
+    def context(
+        self,
+        vecs: typing.Iterable[typing.Tuple[float, float]] = ((0, 0),)
     ) -> 'VectorContext':
         """
         Allocates several vectors at once.
@@ -198,7 +198,9 @@ class Vec2Pool:
 
         return VectorContext(new_vecs)
 
+
 DEFAULT_POOL = Vec2Pool()
+
 
 class Vec2:
     """
@@ -252,35 +254,39 @@ class Vec2:
         with the coordinate values specified in a (float, float) tuple.
         """
 
-        return cls.make(*tup, pool = pool)
+        return cls.make(*tup, pool=pool)
 
     def __add__(self, other: "Vec2") -> "Vec2":
         """
         Vector addition.
         """
 
-        return self.make(self.x + other.x, self.y + other.y, pool = self._pool or DEFAULT_POOL)
+        return self.make(self.x + other.x, self.y + other.y,
+                         pool=self._pool or DEFAULT_POOL)
 
     def __sub__(self, other: "Vec2") -> "Vec2":
         """
         Vector subtraction.
         """
 
-        return self.make(self.x - other.x, self.y - other.y, pool = self._pool or DEFAULT_POOL)
+        return self.make(self.x - other.x, self.y - other.y,
+                         pool=self._pool or DEFAULT_POOL)
 
     def __mul__(self, value: float) -> "Vec2":
         """
         Vector-scalar multiplicaiton.
         """
 
-        return self.make(self.x * value, self.y * value, pool = self._pool or DEFAULT_POOL)
+        return self.make(self.x * value, self.y * value,
+                         pool=self._pool or DEFAULT_POOL)
 
     def __truediv__(self, value: float) -> "Vec2":
         """
         Vector-scalar division.
         """
 
-        return self.make(self.x / value, self.y / value, pool = self._pool or DEFAULT_POOL)
+        return self.make(self.x / value, self.y / value,
+                         pool=self._pool or DEFAULT_POOL)
 
     def __iadd__(self, other: "Vec2"):
         """
@@ -424,7 +430,8 @@ class Vec2:
 
     def __repr__(self):
         """
-        Internal human-readable representation of this vector. Slightly verbose.
+        Internal human-readable representation of this vector.
+        Slightly verbose.
         """
 
         return 'Vec2({0.x},{0.y},|{0.size}|)#{0._index}'.format(self)
@@ -438,8 +445,8 @@ class Vec2:
 
     def __enter__(self):
         """
-        Using a 'with' statement on this vector  automatically calls done() on it
-        after the end of the with block.
+        Using a 'with' statement on this vector  automatically calls
+        done() on it after the end of the with block.
         """
 
         return self
@@ -447,7 +454,9 @@ class Vec2:
     def __exit__(self, _1, _2, _3):
         self.done()
 
+
 DEFAULT_POOL.initialize_pool()
+
 
 def vec2(init_x: float, init_y: float) -> Vec2:
     """
@@ -459,6 +468,7 @@ def vec2(init_x: float, init_y: float) -> Vec2:
 
     return Vec2.make(init_x, init_y, pool=DEFAULT_POOL)
 
+
 def from_tuple2(tup: typing.Tuple[float, float]) -> Vec2:
     """
     A shorthand to quickly make a 2D vector
@@ -469,6 +479,7 @@ def from_tuple2(tup: typing.Tuple[float, float]) -> Vec2:
     """
 
     return Vec2.from_tuple(tup, pool=DEFAULT_POOL)
+
 
 class VectorContext:
     """

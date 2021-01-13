@@ -21,6 +21,7 @@ class ObjectTypeMethod(typext.Protocol):
 
     def __call__(self, object_self: "objects.GameObjectJS", *args: typing.Any) -> typing.Any: ...
 
+
 class TypeDefinitionObject(typext.Protocol):
     """
     An object that is passed to ctx.register_object_type
@@ -33,23 +34,23 @@ class TypeDefinitionObject(typext.Protocol):
 
     @typing.overload
     def __getitem__(self, key: typing.Literal['inherit']) \
-            -> typing.Optional[typing.Iterable[str]]: ...
+        -> typing.Optional[typing.Iterable[str]]: ...
 
     @typing.overload
     def __getitem__(self, key: typing.Literal['methods']) \
-            -> typing.Mapping[str, ObjectTypeMethod]: ...
+        -> typing.Mapping[str, ObjectTypeMethod]: ...
 
     @typing.overload
     def __getitem__(self, key: typing.Literal['callbacks']) \
-            -> typing.Mapping[str, ObjectTypeMethod]: ...
+        -> typing.Mapping[str, ObjectTypeMethod]: ...
 
     @typing.overload
     def __getitem__(self, key: typing.Literal['attributes']) \
-            -> typing.Mapping[str, typing.Any]: ...
+        -> typing.Mapping[str, typing.Any]: ...
 
     @typing.overload
     def __getitem__(self, key: typing.Literal['variables']) \
-            -> typing.Mapping[str, typing.Any]: ...
+        -> typing.Mapping[str, typing.Any]: ...
 
     def __getitem__(self, key: str) -> typing.Any: ...
 
@@ -106,6 +107,7 @@ class GameContextJS:
         for obj in self.__game.objects.values():
             callback(obj.js_wrapper)
 
+
 class ObjectTypeContext:
     """
     A context that holds object types for a specific
@@ -137,6 +139,7 @@ class ObjectTypeContext:
         """
 
         return self.object_types[type_name.lower()]
+
 
 class ObjectType:
     """

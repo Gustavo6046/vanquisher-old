@@ -15,13 +15,13 @@ import js2py
 from . import vector, object_type, world
 
 
-
 class ObjectCallback(typext.Protocol):
     """
     A callback that operates on GameObjectJS,
     usually passed to object iterators.
     """
     def __call__(self, obj_ref: "GameObjectJS"): ...
+
 
 class VariableSetCallback(typext.Protocol):
     """
@@ -30,6 +30,7 @@ class VariableSetCallback(typext.Protocol):
     """
     def __call__(self, new_value: typing.Any) -> typing.Any: ...
 
+
 class VariableFoundCallback(typext.Protocol):
     """
     A callback that allows setting the value of a variable.
@@ -37,7 +38,8 @@ class VariableFoundCallback(typext.Protocol):
     This one is called when the variable exists and is found.
     """
     def __call__(self, set_func: VariableSetCallback, value: typing.Any) \
-            -> typing.Optional[typing.Any]: ...
+        -> typing.Optional[typing.Any]: ...
+
 
 class VariableNotFoundCallback(typext.Protocol):
     """
@@ -48,7 +50,7 @@ class VariableNotFoundCallback(typext.Protocol):
     and/or is not found.
     """
     def __call__(self, set_func: VariableSetCallback) \
-            -> typing.Optional[typing.Any]: ...
+        -> typing.Optional[typing.Any]: ...
 
 
 class GameObject:
@@ -57,19 +59,19 @@ class GameObject:
     """
 
     def __init__(self,
-            my_world: "world.World",
-            identifier: typing.Optional[uuid.UUID],
-            obj_type: str,
-            pos: typing.Tuple[float, float],
-            height: typing.Optional[float] = None,
-            vel_speed: float = 0.0,
-            restitution: float = 0.0,
-            rolling: float = 0.5,
-            horz_speed: typing.Tuple[float, float] = (0, 0),
-            friction: float = 0.7,
-            num_roll_samples: int = 8,
-            sample_distance: float = 0.5,
-            gravity: float = 1.0):
+                 my_world: "world.World",
+                 identifier: typing.Optional[uuid.UUID],
+                 obj_type: str,
+                 pos: typing.Tuple[float, float],
+                 height: typing.Optional[float] = None,
+                 vel_speed: float = 0.0,
+                 restitution: float = 0.0,
+                 rolling: float = 0.5,
+                 horz_speed: typing.Tuple[float, float] = (0, 0),
+                 friction: float = 0.7,
+                 num_roll_samples: int = 8,
+                 sample_distance: float = 0.5,
+                 gravity: float = 1.0):
         self.identifier = identifier or uuid.uuid4()
 
         self.pos: vector.Vec2 = vector.from_tuple2(pos)
@@ -313,10 +315,9 @@ class GameObjectJS:
         return self.__obj.variables[name]
 
     def vard(self,
-            name: str,
-            on_found: VariableFoundCallback,
-            on_not_found:
-            typing.Optional[VariableNotFoundCallback] = None) -> bool:
+             name: str,
+             on_found: VariableFoundCallback,
+             on_not_found: typing.Optional[VariableNotFoundCallback] = None) -> bool:
         """
         JavaScript API shorthand method.
 
