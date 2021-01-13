@@ -23,12 +23,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Setup Nox
-        # uses: excitedleigh/setup-nox@a6d43a0eef88d70d7e52909c793c51037c8fbbb1
-        uses: excitedleigh/setup-nox@1.0.0
+      - name: Python Linter
+        # uses: sunnysid3up/python-linter@93076bd8f740f062069291d738fc70c1b4171c1d
+        uses: sunnysid3up/python-linter@v0.1-beta.7
 
-  publish:
-    runs-on: ubuntu-latest
+  build-win:
+    runs-on: windows
     
     steps:
       - name: PyInstaller Windows
