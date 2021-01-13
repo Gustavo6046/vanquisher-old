@@ -25,7 +25,7 @@ class Vec2Pool:
         self.chunk_size: int = chunk_size
 
         self.pool_free: typing.List[bool] = [True for _ in range(chunk_size)]
-        self.pool: typing.List['Vec2'] = []
+        self.pool: typing.List["Vec2"] = []
 
         self.free: int = chunk_size
         self.size: int = chunk_size
@@ -40,7 +40,7 @@ class Vec2Pool:
             #     and it's not my fault!)
             pass
 
-    def make(self, init_x: float, init_y: float) -> 'Vec2':
+    def make(self, init_x: float, init_y: float) -> "Vec2":
         """
         Allocates and initializes a vector from this pool.
         """
@@ -64,7 +64,7 @@ class Vec2Pool:
         Please do not touch this, unless you know EXACTLY what you are doing.
         """
 
-        self.pool: typing.List['Vec2'] = [Vec2(self, i) for i in range(self.chunk_size)]
+        self.pool: typing.List["Vec2"] = [Vec2(self, i) for i in range(self.chunk_size)]
 
     def expand(self):
         """
@@ -84,8 +84,8 @@ class Vec2Pool:
         Contracts the pool forcibly.
         """
 
-        self.pool = self.pool[:self.size - self.chunk_size]
-        self.pool_free = self.pool_free[:self.size - self.chunk_size]
+        self.pool = self.pool[: self.size - self.chunk_size]
+        self.pool_free = self.pool_free[: self.size - self.chunk_size]
 
         self.size -= self.chunk_size
 
@@ -106,7 +106,7 @@ class Vec2Pool:
         self._contract()
         return True
 
-    def get(self, index: int) -> typing.Optional['Vec2']:
+    def get(self, index: int) -> typing.Optional["Vec2"]:
         """
         'Gets' (allocates) a vector at a specific index in this pool,
         if it is free.
@@ -117,7 +117,7 @@ class Vec2Pool:
 
         return self._get(index)
 
-    def _get(self, index: int) -> 'Vec2':
+    def _get(self, index: int) -> "Vec2":
         """
         Returns a vector at a specific index of the pool, while setting it
         to 'allocated' if it wasn't already. This does not check whether
@@ -129,7 +129,7 @@ class Vec2Pool:
 
         return self.pool[index]
 
-    def allocate(self) -> 'Vec2':
+    def allocate(self) -> "Vec2":
         """
         'Allocates' the first vector available and returns it. If there
         are no free slots, it automatically expands the pool.
@@ -148,9 +148,12 @@ class Vec2Pool:
 
                 return res
 
-        warnings.warn(RuntimeWarning(
-            "VectorContext made space for more vectors, yet still couldn't allocate one"
-            " - this might indicate a race condition, expect things to go awry"))
+        warnings.warn(
+            RuntimeWarning(
+                "VectorContext made space for more vectors, yet still couldn't allocate one"
+                " - this might indicate a race condition, expect things to go awry"
+            )
+        )
 
         # fallback - unpooled vector
         return Vec2(None, -1)
@@ -163,9 +166,9 @@ class Vec2Pool:
         """
 
         if self.pool_free[index]:
-            warnings.warn(RuntimeWarning(
-                "Vector pool's index {} was already freed".format(index)
-            ))
+            warnings.warn(
+                RuntimeWarning("Vector pool's index {} was already freed".format(index))
+            )
             return
 
         self.pool[index].reset()
@@ -180,9 +183,8 @@ class Vec2Pool:
             self.next_free = index
 
     def context(
-        self,
-        vecs: typing.Iterable[typing.Tuple[float, float]] = ((0, 0),)
-    ) -> 'VectorContext':
+        self, vecs: typing.Iterable[typing.Tuple[float, float]] = ((0, 0),)
+    ) -> "VectorContext":
         """
         Allocates several vectors at once.
 
@@ -261,32 +263,36 @@ class Vec2:
         Vector addition.
         """
 
-        return self.make(self.x + other.x, self.y + other.y,
-                         pool=self._pool or DEFAULT_POOL)
+        return self.make(
+            self.x + other.x, self.y + other.y, pool=self._pool or DEFAULT_POOL
+        )
 
     def __sub__(self, other: "Vec2") -> "Vec2":
         """
         Vector subtraction.
         """
 
-        return self.make(self.x - other.x, self.y - other.y,
-                         pool=self._pool or DEFAULT_POOL)
+        return self.make(
+            self.x - other.x, self.y - other.y, pool=self._pool or DEFAULT_POOL
+        )
 
     def __mul__(self, value: float) -> "Vec2":
         """
         Vector-scalar multiplicaiton.
         """
 
-        return self.make(self.x * value, self.y * value,
-                         pool=self._pool or DEFAULT_POOL)
+        return self.make(
+            self.x * value, self.y * value, pool=self._pool or DEFAULT_POOL
+        )
 
     def __truediv__(self, value: float) -> "Vec2":
         """
         Vector-scalar division.
         """
 
-        return self.make(self.x / value, self.y / value,
-                         pool=self._pool or DEFAULT_POOL)
+        return self.make(
+            self.x / value, self.y / value, pool=self._pool or DEFAULT_POOL
+        )
 
     def __iadd__(self, other: "Vec2"):
         """
@@ -434,14 +440,14 @@ class Vec2:
         Slightly verbose.
         """
 
-        return 'Vec2({0.x},{0.y},|{0.size}|)#{0._index}'.format(self)
+        return "Vec2({0.x},{0.y},|{0.size}|)#{0._index}".format(self)
 
     def __str__(self):
         """
         Human-readable string representation of this vector. Succint.
         """
 
-        return '<{0.x},{0.y}>'.format(self)
+        return "<{0.x},{0.y}>".format(self)
 
     def __enter__(self):
         """

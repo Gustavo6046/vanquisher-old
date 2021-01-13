@@ -1,7 +1,6 @@
 import vanquisher.game.game as gamepkg
 
 
-
 def test_load_object_1():
     """
     A simple test focused on loading simple
@@ -28,10 +27,10 @@ def test_load_object_1():
 
     assert len(game.object_types.object_types) == 1
 
-    my_new_type = game.object_types.get_type('my_type')
+    my_new_type = game.object_types.get_type("my_type")
 
     # ensure sane loading
-    assert my_new_type.name == 'my_type'
+    assert my_new_type.name == "my_type"
     assert len(my_new_type.attributes) == 3
     assert len(my_new_type.variables) == 0
     assert len(my_new_type.methods) == 0
@@ -39,10 +38,11 @@ def test_load_object_1():
     assert my_new_type.inherit is None
 
     # check those attributes
-    assert my_new_type.attributes['a'] == 42
-    assert my_new_type.attributes['b'] == "Hello World!"
-    assert len(my_new_type.attributes['c']) == 3
-    assert tuple(my_new_type.attributes['c']) == (2, 3, 4)
+    assert my_new_type.attributes["a"] == 42
+    assert my_new_type.attributes["b"] == "Hello World!"
+    assert len(my_new_type.attributes["c"]) == 3
+    assert tuple(my_new_type.attributes["c"]) == (2, 3, 4)
+
 
 def test_load_object_2():
     """
@@ -82,10 +82,10 @@ def test_load_object_2():
 
     assert len(game.object_types.object_types) == 1
 
-    my_new_type = game.object_types.get_type('my_type')
+    my_new_type = game.object_types.get_type("my_type")
 
     # ensure sane loading
-    assert my_new_type.name == 'my_type'
+    assert my_new_type.name == "my_type"
     assert len(my_new_type.attributes) == 0
     assert len(my_new_type.variables) == 1
     assert len(my_new_type.methods) == 2
@@ -93,13 +93,13 @@ def test_load_object_2():
     assert my_new_type.inherit is None
 
     # check all vars and methods were loaded
-    assert set(my_new_type.variables.keys()) == { 'cookies' }
-    assert set(my_new_type.methods.keys()) == { 'eat_cookie', 'make_cookie' }
-    assert set(my_new_type.callbacks.keys()) == { 'begin' }
-    assert my_new_type.variables['cookies'] == 10 # the default, before begin callback
+    assert set(my_new_type.variables.keys()) == {"cookies"}
+    assert set(my_new_type.methods.keys()) == {"eat_cookie", "make_cookie"}
+    assert set(my_new_type.callbacks.keys()) == {"begin"}
+    assert my_new_type.variables["cookies"] == 10  # the default, before begin callback
 
     # instantiate an object of that kind
-    cookie_object = game.object_create('my_type', (5, 7))
+    cookie_object = game.object_create("my_type", (5, 7))
 
     # ensure sane creatoin
     assert cookie_object.pos.x == 5
@@ -109,14 +109,15 @@ def test_load_object_2():
 
     # check if begin callback updated cookies
     # (begin callback should've added 5 to the default of 10)
-    assert cookie_object.variables['cookies'] == 15.0
+    assert cookie_object.variables["cookies"] == 15.0
 
     # try the methods
-    cookie_object.call('make_cookie')
-    assert cookie_object.variables['cookies'] == 16.0 # one more!
+    cookie_object.call("make_cookie")
+    assert cookie_object.variables["cookies"] == 16.0  # one more!
 
-    for _ in range(9): cookie_object.call('eat_cookie') # yum!
-    assert cookie_object.variables['cookies'] == 7.0
+    for _ in range(9):
+        cookie_object.call("eat_cookie")  # yum!
+    assert cookie_object.variables["cookies"] == 7.0
 
 
 def test_load_object_3():
@@ -174,14 +175,14 @@ def test_load_object_3():
 
     assert len(game.object_types.object_types) == 3
 
-    animal_t = game.object_types.get_type('animal')
-    duck_t = game.object_types.get_type('duck')
-    cow_t = game.object_types.get_type('cow')
+    animal_t = game.object_types.get_type("animal")
+    duck_t = game.object_types.get_type("duck")
+    cow_t = game.object_types.get_type("cow")
 
     # ensure sane loading
-    assert animal_t.name == 'animal'
-    assert duck_t.name == 'duck'
-    assert cow_t.name == 'cow'
+    assert animal_t.name == "animal"
+    assert duck_t.name == "duck"
+    assert cow_t.name == "cow"
 
     assert animal_t.inherit is None
     assert duck_t.inherit is not None
@@ -189,7 +190,7 @@ def test_load_object_3():
 
     assert len(duck_t.inherit) == 1
     assert len(cow_t.inherit) == 1
-    assert set(duck_t.inherit) & set(cow_t.inherit) == { 'animal' }
+    assert set(duck_t.inherit) & set(cow_t.inherit) == {"animal"}
 
     assert len(duck_t.attributes) == 1
     assert len(cow_t.attributes) == 1
@@ -200,8 +201,8 @@ def test_load_object_3():
     assert len(animal_t.methods) == 2
 
     # try the noises
-    my_duck = game.object_create('duck', (0, 0))
-    my_cow  = game.object_create('cow', (0, 0))
+    my_duck = game.object_create("duck", (0, 0))
+    my_cow = game.object_create("cow", (0, 0))
 
-    assert my_duck.call('do_noise') == "The Duck goes 'Quack!'"
-    assert my_cow.call('do_noise') == "The Cow goes 'Moo!'"
+    assert my_duck.call("do_noise") == "The Duck goes 'Quack!'"
+    assert my_cow.call("do_noise") == "The Cow goes 'Moo!'"

@@ -20,7 +20,9 @@ class ObjectCallback(typext.Protocol):
     A callback that operates on GameObjectJS,
     usually passed to object iterators.
     """
-    def __call__(self, obj_ref: "GameObjectJS"): ...
+
+    def __call__(self, obj_ref: "GameObjectJS"):
+        ...
 
 
 class VariableSetCallback(typext.Protocol):
@@ -28,7 +30,9 @@ class VariableSetCallback(typext.Protocol):
     A function that allows seting the value of an object
     variable. Passed to 'GameObjectJS.vardo' callbacks.
     """
-    def __call__(self, new_value: typing.Any) -> typing.Any: ...
+
+    def __call__(self, new_value: typing.Any) -> typing.Any:
+        ...
 
 
 class VariableFoundCallback(typext.Protocol):
@@ -37,8 +41,11 @@ class VariableFoundCallback(typext.Protocol):
 
     This one is called when the variable exists and is found.
     """
-    def __call__(self, set_func: VariableSetCallback, value: typing.Any) \
-        -> typing.Optional[typing.Any]: ...
+
+    def __call__(
+        self, set_func: VariableSetCallback, value: typing.Any
+    ) -> typing.Optional[typing.Any]:
+        ...
 
 
 class VariableNotFoundCallback(typext.Protocol):
@@ -49,8 +56,9 @@ class VariableNotFoundCallback(typext.Protocol):
     This one is called when the variable does not exists
     and/or is not found.
     """
-    def __call__(self, set_func: VariableSetCallback) \
-        -> typing.Optional[typing.Any]: ...
+
+    def __call__(self, set_func: VariableSetCallback) -> typing.Optional[typing.Any]:
+        ...
 
 
 class GameObject:
@@ -58,20 +66,22 @@ class GameObject:
     A game object.
     """
 
-    def __init__(self,
-                 my_world: "world.World",
-                 identifier: typing.Optional[uuid.UUID],
-                 obj_type: str,
-                 pos: typing.Tuple[float, float],
-                 height: typing.Optional[float] = None,
-                 vel_speed: float = 0.0,
-                 restitution: float = 0.0,
-                 rolling: float = 0.5,
-                 horz_speed: typing.Tuple[float, float] = (0, 0),
-                 friction: float = 0.7,
-                 num_roll_samples: int = 8,
-                 sample_distance: float = 0.5,
-                 gravity: float = 1.0):
+    def __init__(
+        self,
+        my_world: "world.World",
+        identifier: typing.Optional[uuid.UUID],
+        obj_type: str,
+        pos: typing.Tuple[float, float],
+        height: typing.Optional[float] = None,
+        vel_speed: float = 0.0,
+        restitution: float = 0.0,
+        rolling: float = 0.5,
+        horz_speed: typing.Tuple[float, float] = (0, 0),
+        friction: float = 0.7,
+        num_roll_samples: int = 8,
+        sample_distance: float = 0.5,
+        gravity: float = 1.0,
+    ):
         self.identifier = identifier or uuid.uuid4()
 
         self.pos: vector.Vec2 = vector.from_tuple2(pos)
@@ -92,7 +102,9 @@ class GameObject:
         self.sample_distance: float = sample_distance
 
         self._obj_type = obj_type
-        self.type: object_type.ObjectType = self.game.object_types.get_type(self._obj_type)
+        self.type: object_type.ObjectType = self.game.object_types.get_type(
+            self._obj_type
+        )
 
         self.variables = {}
 
@@ -170,7 +182,7 @@ class GameObject:
             slope = new_height - self.floor_height
 
             if slope > 0:
-                offset /= (1 + slope)
+                offset /= 1 + slope
 
             elif slope < 0:
                 offset *= 1 - slope
@@ -314,10 +326,12 @@ class GameObjectJS:
 
         return self.__obj.variables[name]
 
-    def vard(self,
-             name: str,
-             on_found: VariableFoundCallback,
-             on_not_found: typing.Optional[VariableNotFoundCallback] = None) -> bool:
+    def vard(
+        self,
+        name: str,
+        on_found: VariableFoundCallback,
+        on_not_found: typing.Optional[VariableNotFoundCallback] = None,
+    ) -> bool:
         """
         JavaScript API shorthand method.
 
@@ -457,9 +471,11 @@ class GameObjectJS:
             # check if chunk overlaps radius
             corner_x, corner_y = (
                 (chunk.chunk_pos[0] + 0.5) * my_world.chunk_width,
-                (chunk.chunk_pos[1] + 0.5) * my_world.chunk_width
+                (chunk.chunk_pos[1] + 0.5) * my_world.chunk_width,
             )
-            distance = (corner_x - self.__obj.pos.x) ** 2 + (corner_y - self.__obj.pos.y) ** 2
+            distance = (corner_x - self.__obj.pos.x) ** 2 + (
+                corner_y - self.__obj.pos.y
+            ) ** 2
 
             if distance > max_chunk_dist_sq:
                 continue

@@ -20,4 +20,4 @@ It is split into multiple subpackages for convenience:
    need extra server info to be .
 """
 
-__version__ = '0.1.0'
+__version__ = "0.1.0"

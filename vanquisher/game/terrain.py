@@ -99,7 +99,9 @@ class TerrainChunk:
         (x_pos, y_pos) = pos
         self.heightmap[y_pos * self.width + x_pos] = value
 
-    def generate(self, generator: "TerrainGenerator", offset: typing.Tuple[int, int] = (0, 0)):
+    def generate(
+        self, generator: "TerrainGenerator", offset: typing.Tuple[int, int] = (0, 0)
+    ):
         """
         Generates the heightmap of this terrain chunk from
         a TerrainGenerator instance.
@@ -167,8 +169,8 @@ class Peak:
         val = (self.height - base_height) / falloff
 
         # some values
-        max_distance = max_radius_sq ** (1/2)
-        distance = distance_sq ** (1/2)
+        max_distance = max_radius_sq ** (1 / 2)
+        distance = distance_sq ** (1 / 2)
 
         edge_distance = max_distance - distance
 
@@ -207,9 +209,9 @@ class TerrainGenerator:
         used when generating terrain later on.
         """
 
-        self.height:    float = height
+        self.height: float = height
         self.roughness: float = roughness
-        self.peaks:     typing.List[Peak] = list(peaks)
+        self.peaks: typing.List[Peak] = list(peaks)
 
     def height_at(self, x_pos: int, y_pos: int) -> float:
         """

@@ -61,12 +61,14 @@ class World:
     and each other.
     """
 
-    def __init__(self,
-                 my_game: "game.Game",
-                 terrain_generator: typing.Optional[terrain.TerrainGenerator] = None,
-                 chunk_width: int = 32,
-                 base_height: float = 32.0,
-                 gravity: float = -4.0):
+    def __init__(
+        self,
+        my_game: "game.Game",
+        terrain_generator: typing.Optional[terrain.TerrainGenerator] = None,
+        chunk_width: int = 32,
+        base_height: float = 32.0,
+        gravity: float = -4.0,
+    ):
         self.game = my_game
         self.chunk_width = chunk_width
         self.base_height = base_height
@@ -86,7 +88,9 @@ class World:
 
         return self.make_chunk(*chunk_pos)
 
-    def chunk_at_pos(self, pos: typing.Union[vector.Vec2, typing.Tuple[float, float]]) -> Chunk:
+    def chunk_at_pos(
+        self, pos: typing.Union[vector.Vec2, typing.Tuple[float, float]]
+    ) -> Chunk:
         """
         Gets a chunk at a world-space position.
         """
@@ -98,8 +102,7 @@ class World:
             pos_x, pos_y = pos
 
         return self.get_chunk(
-            (math.floor(pos_x / self.chunk_width),
-             math.floor(pos_y / self.chunk_width))
+            (math.floor(pos_x / self.chunk_width), math.floor(pos_y / self.chunk_width))
         )
 
     def object_register(self, obj: objects.GameObject):

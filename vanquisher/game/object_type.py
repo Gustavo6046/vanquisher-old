@@ -19,7 +19,10 @@ class ObjectTypeMethod(typext.Protocol):
     defines a method for an object type.
     """
 
-    def __call__(self, object_self: "objects.GameObjectJS", *args: typing.Any) -> typing.Any: ...
+    def __call__(
+        self, object_self: "objects.GameObjectJS", *args: typing.Any
+    ) -> typing.Any:
+        ...
 
 
 class TypeDefinitionObject(typext.Protocol):
@@ -30,29 +33,41 @@ class TypeDefinitionObject(typext.Protocol):
     """
 
     @typing.overload
-    def __getitem__(self, key: typing.Literal['name']) -> str: ...
+    def __getitem__(self, key: typing.Literal["name"]) -> str:
+        ...
 
     @typing.overload
-    def __getitem__(self, key: typing.Literal['inherit']) \
-        -> typing.Optional[typing.Iterable[str]]: ...
+    def __getitem__(
+        self, key: typing.Literal["inherit"]
+    ) -> typing.Optional[typing.Iterable[str]]:
+        ...
 
     @typing.overload
-    def __getitem__(self, key: typing.Literal['methods']) \
-        -> typing.Mapping[str, ObjectTypeMethod]: ...
+    def __getitem__(
+        self, key: typing.Literal["methods"]
+    ) -> typing.Mapping[str, ObjectTypeMethod]:
+        ...
 
     @typing.overload
-    def __getitem__(self, key: typing.Literal['callbacks']) \
-        -> typing.Mapping[str, ObjectTypeMethod]: ...
+    def __getitem__(
+        self, key: typing.Literal["callbacks"]
+    ) -> typing.Mapping[str, ObjectTypeMethod]:
+        ...
 
     @typing.overload
-    def __getitem__(self, key: typing.Literal['attributes']) \
-        -> typing.Mapping[str, typing.Any]: ...
+    def __getitem__(
+        self, key: typing.Literal["attributes"]
+    ) -> typing.Mapping[str, typing.Any]:
+        ...
 
     @typing.overload
-    def __getitem__(self, key: typing.Literal['variables']) \
-        -> typing.Mapping[str, typing.Any]: ...
+    def __getitem__(
+        self, key: typing.Literal["variables"]
+    ) -> typing.Mapping[str, typing.Any]:
+        ...
 
-    def __getitem__(self, key: str) -> typing.Any: ...
+    def __getitem__(self, key: str) -> typing.Any:
+        ...
 
 
 class GameContextJS:
@@ -66,7 +81,7 @@ class GameContextJS:
         self.__game = my_game
 
     @property
-    def def_context(self) -> 'ObjectTypeContext':
+    def def_context(self) -> "ObjectTypeContext":
         """
         The ObjectTypeContext this GameContextJS indirectly pertains to.
         """
@@ -119,7 +134,7 @@ class ObjectTypeContext:
         self.js_context = GameContextJS(self.game)
         self.object_types: typing.Dict[str, "ObjectType"] = {}
 
-    def register_type(self, obj_type: 'ObjectType'):
+    def register_type(self, obj_type: "ObjectType"):
         """
         Registers an object type to this ObjectTypeContext.
         """
@@ -151,44 +166,48 @@ class ObjectType:
     """
 
     def __init__(self, ctx: ObjectTypeContext, object_type_js: TypeDefinitionObject):
-        self.name = str(object_type_js['name']).lower()
+        self.name = str(object_type_js["name"]).lower()
 
         self.inherit: typing.Optional[typing.List[str]]
 
-        if 'inherit' in object_type_js:
-            self.inherit = [str(x).lower() for x in object_type_js['inherit']]
+        if "inherit" in object_type_js:
+            self.inherit = [str(x).lower() for x in object_type_js["inherit"]]
 
         else:
             self.inherit = None
 
         self.methods: typing.Dict[str, typing.Callable] = {}
-        self.attributes: typing.Dict[str, typing.Optional[typing.Union[str, int, float]]] = {}
-        self.variables: typing.Dict[str, typing.Optional[typing.Union[str, int, float]]] = {}
+        self.attributes: typing.Dict[
+            str, typing.Optional[typing.Union[str, int, float]]
+        ] = {}
+        self.variables: typing.Dict[
+            str, typing.Optional[typing.Union[str, int, float]]
+        ] = {}
         self.callbacks: typing.Dict[str, typing.Callable] = {}
 
-        if 'methods' in object_type_js:
-            d_methods = object_type_js['methods']
+        if "methods" in object_type_js:
+            d_methods = object_type_js["methods"]
 
             for method_name in d_methods:
                 method_func = d_methods[method_name]
                 self.methods[method_name.lower()] = method_func
 
-        if 'attributes' in object_type_js:
-            d_attrs = object_type_js['attributes']
+        if "attributes" in object_type_js:
+            d_attrs = object_type_js["attributes"]
 
             for attr_name in d_attrs:
                 attr_val = d_attrs[attr_name]
                 self.attributes[attr_name.lower()] = attr_val
 
-        if 'variables' in object_type_js:
-            d_vars = object_type_js['variables']
+        if "variables" in object_type_js:
+            d_vars = object_type_js["variables"]
 
             for var_name in d_vars:
                 var_default = d_vars[var_name]
                 self.variables[var_name.lower()] = var_default
 
-        if 'callbacks' in object_type_js:
-            d_callbacks = object_type_js['callbacks']
+        if "callbacks" in object_type_js:
+            d_callbacks = object_type_js["callbacks"]
 
             for cb_name in d_callbacks:
                 cb_func = d_callbacks[cb_name]
@@ -217,7 +236,7 @@ class ObjectType:
             self.mixin(inherited)
             return True
 
-    def mixin(self, mixin_type: 'ObjectType'):
+    def mixin(self, mixin_type: "ObjectType"):
         """
         Mixes the methods, attributes and variables of another
         type into this type, as long as they don't already exist.

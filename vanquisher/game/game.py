@@ -31,11 +31,7 @@ class Game:
         self.object_types = object_type.ObjectTypeContext(self)
 
     def object_create(
-            self,
-            kind: str,
-            pos: typing.Tuple[float, float],
-            *args,
-            **kwargs
+        self, kind: str, pos: typing.Tuple[float, float], *args, **kwargs
     ) -> objects.GameObject:
         """
         Instantiates a new object of the
