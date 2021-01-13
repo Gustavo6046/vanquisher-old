@@ -98,8 +98,8 @@ class Vec2Pool:
             # zero is too little
             return False
 
-        for i in range(self.size - self.chunk_size, self.size):
-            if not self.pool_free[i]:
+        for check_index in range(self.size - self.chunk_size, self.size):
+            if not self.pool_free[check_index]:
                 # allocated vectors overlapping area to be contracted, operation denied
                 return False
 

@@ -12,17 +12,15 @@ uvicorn = {extras = ["standard"], version = "^0.13.3"}
 pygame = "^2.0.1"
 Js2Py = "^0.70"
 anyio = "^2.0.2"
-nox = "^2020.12.31"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
-tox = "^3.21.0"
 snakeviz = "^2.1.0"
 mypy = "^0.790"
 flake8 = "^3.8.4"
 pylint = "^2.6.0"
 rope = "^0.18.0"
-plotnine = "^0.7.1"
+nox = "^2020.12.31"
 
 [build-system]
 requires = ["poetry_core>=1.0.0"]

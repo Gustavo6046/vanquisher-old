@@ -186,6 +186,21 @@ class ObjectType:
         ] = {}
         self.callbacks: typing.Dict[str, typing.Callable] = {}
 
+        self._load_type_members(object_type_js)
+
+        if self.inherit:
+            for inherit_name in self.inherit:
+                self.check_mixin(ctx, inherit_name)
+
+    def _load_type_members(self, object_type_js: TypeDefinitionObject):
+        """
+        Loads the methods, attributes, variables and callbacks of
+        this JS type definition object into this ObjectType.
+
+        Should not be used outside of ObjectType, unless you know
+        EXACTLY what you're doing, which is just so unlikely.
+        """
+
         if "methods" in object_type_js:
             d_methods = object_type_js["methods"]
 
@@ -213,10 +228,6 @@ class ObjectType:
             for cb_name in d_callbacks:
                 cb_func = d_callbacks[cb_name]
                 self.callbacks[cb_name.lower()] = cb_func
-
-        if self.inherit:
-            for inherit_name in self.inherit:
-                self.check_mixin(ctx, inherit_name)
 
     def check_mixin(self, ctx: ObjectTypeContext, maybe_mixin_type: str) -> bool:
         """
