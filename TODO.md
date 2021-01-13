@@ -4,12 +4,13 @@ Note: the state of this document does NOT reflect, in any way, the status or
 progress of completion of the project, or any part of it, anyhow.
 
 
+-----
 
 ## Engine
 
 The actual Vanquisher Engine.
 
-#### Planned
+#### > Planned
 
 * Flesh out the basic infrastructure, particularly wrt terrain generation
   and playsim structure
@@ -48,15 +49,17 @@ The actual Vanquisher Engine.
 * ...
 
 
-#### In Progress
+#### > In Progress
 
 * Full integration of a JavaScript object API
 
 
-#### Completed
+#### > Completed
 
 * Basic barebones code
 
+
+-----
 
 
 ## Game
@@ -67,7 +70,7 @@ capabilities¹ of Vanquisher Engine.
 ¹ Take this with a huge grain of salt. Preferably don't believe in it at all.
 
 
-#### Planned
+#### > Planned
 
 * Basic gameplay concepts, make plenty use of mixins for common behaviour
 
@@ -93,8 +96,14 @@ capabilities¹ of Vanquisher Engine.
 	* Shops, duh!
 
 
-#### In Progress
+#### > In Progress
 
-#### Completed
+#### > Completed
 
 * Basic example to guide the JS API
+
+
+-----
+
+
+A rough roadmap, if nothing else. :)
