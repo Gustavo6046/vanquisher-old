@@ -31,7 +31,7 @@ jobs:
           source: vanquisher  
 
   build-win:
-    runs-on: windows
+    runs-on: windows-latest
     
     steps:
       - name: PyInstaller Windows
