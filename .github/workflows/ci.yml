@@ -34,7 +34,7 @@ jobs:
         uses: Gr1N/setup-poetry@v4
         
       - name: Run Nox unit test session
-        run:  source $HOME/.poetry/env && poetry run nox -s test -p ${{ matrix.python-version }} --envdir $HOME/.nox
+        run:  cd $GITHUB_WORKSPACE && source $HOME/.poetry/env && poetry run nox -s test -p ${{ matrix.python-version }} --envdir $HOME/.nox
 
   lint:
     runs-on: ubuntu-latest
@@ -54,7 +54,7 @@ jobs:
         uses: Gr1N/setup-poetry@v4
         
       - name: Run Nox linting session
-        run:  source $HOME/.poetry/env && poetry run nox -s lint -p 3.9 --envdir $HOME/.nox
+        run:  cd $GITHUB_WORKSPACE && source $HOME/.poetry/env && poetry run nox -s lint -p 3.9 --envdir $HOME/.nox
 
   #build-win:
   #  runs-on: ubuntu-latest
