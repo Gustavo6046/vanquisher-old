@@ -34,7 +34,7 @@ jobs:
         uses: Gr1N/setup-poetry@v4
         
       - name: Run Nox unit test session
-        run:  poetry run nox -s test -p ${{ matrix.python-version }}
+        run:  poetry run nox -s test -p ${{ matrix.python-version }} --envdir .nox
 
   lint:
     runs-on: ubuntu-latest
@@ -54,7 +54,7 @@ jobs:
         uses: Gr1N/setup-poetry@v4
         
       - name: Run Nox linting session
-        run:  poetry run nox -s lint -p 3.9
+        run:  poetry run nox -s lint -p 3.9 --envdir .nox
 
   #build-win:
   #  runs-on: ubuntu-latest
