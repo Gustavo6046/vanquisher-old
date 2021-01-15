@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [ '3.8', '3.9' ]
+        python-version: [ '3.6', '3.7', '3.8', '3.9', 'pypy-3.7' ]
 
     name: Unit Testing on Python ${{ matrix.python-version }}
 
@@ -88,27 +88,30 @@ jobs:
       - name: Install Poetry dependencies
         run: poetry update
 
-        # Linters, in descending order of precedence
-      - name: Run mypy
-        run:  poetry run mypy vanquisher
+      - name: Run tox
+        run:  tox
 
-      - name: Run bandit
-        run:  poetry run bandit -r vanquisher -c .banditrc
+      #  # Linters, in descending order of precedence
+      #- name: Run mypy
+      #  run:  poetry run mypy vanquisher
 
-      - name: Run pylint
-        run:  poetry run pylint vanquisher
+      #- name: Run bandit
+      #  run:  poetry run bandit -r vanquisher -c .banditrc
 
-      - name: Run black (check)
-        run:  poetry run black -c vanquisher
+      #- name: Run pylint
+      #  run:  poetry run pylint vanquisher
 
-      - name: Run flake8
-        run:  poetry run flake8 vanquisher
+      #- name: Run black (check)
+      #  run:  poetry run black -c vanquisher
 
-      - name: Run isort (check)
-        run:  poetry run isort -c vanquisher
+      #- name: Run flake8
+      #  run:  poetry run flake8 vanquisher
 
-      - name: Run interrogate
-        run:  poetry run interrogate -r vanquisher
+      #- name: Run isort (check)
+      #  run:  poetry run isort -c vanquisher
+
+      #- name: Run interrogate
+      #  run:  poetry run interrogate -r vanquisher
 
 
   #build-win:
