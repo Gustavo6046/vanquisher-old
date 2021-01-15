@@ -96,7 +96,7 @@ jobs:
         run:  poetry run black -c vanquisher
         
       - name: Run flake8
-        run:  poetry run flake8 -c vanquisher
+        run:  poetry run flake8 vanquisher
       
       - name: Run isort (check)
         run:  poetry run isort -c vanquisher
