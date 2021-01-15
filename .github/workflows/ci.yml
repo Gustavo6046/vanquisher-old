@@ -53,7 +53,7 @@ jobs:
         run:  poetry run coverage run --source=vanquisher -m pytest
 
       - name: Report on test coverage
-        run:  poetry run coverage report
+        run:  poetry run coverage report -m
 
   lint:
     runs-on: ubuntu-latest
