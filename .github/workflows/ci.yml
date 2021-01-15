@@ -50,7 +50,10 @@ jobs:
         run: poetry update
         
       - name: Run pytest
-        run:  poetry run pytest
+        run:  poetry run coverage run -m pytest
+
+      - name: Report on test coverage
+        run:  poetry run coverage report
 
   lint:
     runs-on: ubuntu-latest
@@ -84,7 +87,6 @@ jobs:
         
       - name: Install Poetry dependencies
         run: poetry update
-        
         # Linters, in descending order of precedence
       - name: Run mypy
         run:  poetry run mypy vanquisher
@@ -106,6 +108,7 @@ jobs:
 
       - name: Run interrogate
         run:  poetry run interrogate -r vanquisher
+
 
   #build-win:
   #  runs-on: ubuntu-latest
