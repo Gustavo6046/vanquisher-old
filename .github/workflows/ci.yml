@@ -50,7 +50,7 @@ jobs:
         run: poetry update
         
       - name: Run pytest
-        run:  poetry run coverage run -m pytest
+        run:  poetry run coverage run --source=vanquisher -m pytest
 
       - name: Report on test coverage
         run:  poetry run coverage report
