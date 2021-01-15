@@ -89,7 +89,7 @@ jobs:
         run: poetry update
 
       - name: Run tox
-        run:  tox
+        run: poetry run tox
 
       #  # Linters, in descending order of precedence
       #- name: Run mypy
