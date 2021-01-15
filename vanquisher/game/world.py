@@ -40,14 +40,14 @@ class Chunk:
         for obj_id in self.objects_in_chunk:
             yield self.game.objects[obj_id]
 
-    def object_register(self, obj: objects.GameObject):
+    def object_register(self, obj: "objects.GameObject"):
         """
         Regsiters an object to this chunk.
         """
 
         self.objects_in_chunk.add(obj.identifier)
 
-    def object_unregister(self, obj: objects.GameObject):
+    def object_unregister(self, obj: "objects.GameObject"):
         """
         Unregsiters an object from this chunk.
         """
@@ -105,7 +105,7 @@ class World:
             (math.floor(pos_x / self.chunk_width), math.floor(pos_y / self.chunk_width))
         )
 
-    def object_register(self, obj: objects.GameObject):
+    def object_register(self, obj: "objects.GameObject"):
         """
         Registers a game object to the chunk it is in.
 
@@ -116,7 +116,7 @@ class World:
         chunk = self.chunk_at_pos(obj.pos.as_tuple())
         chunk.object_register(obj)
 
-    def object_unregister(self, obj: objects.GameObject):
+    def object_unregister(self, obj: "objects.GameObject"):
         """
         Unregisters a game object from the chunk it was in.
 
