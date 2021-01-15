@@ -13,7 +13,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         python-version: [ '3.8', '3.9' ]
@@ -23,18 +23,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
-        
+
       - name: Setup Poetry
         uses: Gr1N/setup-poetry@v4
         env:
           POETRY_VIRTUALENVS_PATH: "$HOME/.cache/pypoetry/virtualenvs"
-      
+
       - name: Cache Poetry
         uses: actions/cache@v1
         with:
@@ -42,13 +42,13 @@ jobs:
           key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
           restore-keys: |
             ${{ runner.os }}-poetry-
-            
+
       - name: Check Poetry
         run:  poetry --version
-        
+
       - name: Install Poetry dependencies
         run: poetry update
-        
+
       - name: Run pytest
         run:  poetry run coverage run --source=vanquisher -m pytest
 
@@ -57,23 +57,23 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    
+
     name: Linting
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
           python-version: 3.9
-        
+
       - name: Setup Poetry
         uses: Gr1N/setup-poetry@v4
         env:
           POETRY_VIRTUALENVS_PATH: "$HOME/.cache/pypoetry/virtualenvs"
-      
+
       - name: Cache Poetry
         uses: actions/cache@v1
         with:
@@ -84,25 +84,26 @@ jobs:
 
       - name: Check Poetry
         run:  poetry --version
-        
+
       - name: Install Poetry dependencies
         run: poetry update
+
         # Linters, in descending order of precedence
       - name: Run mypy
         run:  poetry run mypy vanquisher
 
       - name: Run bandit
         run:  poetry run bandit -r vanquisher -c .banditrc
-        
+
       - name: Run pylint
         run:  poetry run pylint vanquisher
-        
+
       - name: Run black (check)
         run:  poetry run black -c vanquisher
-        
+
       - name: Run flake8
         run:  poetry run flake8 vanquisher
-      
+
       - name: Run isort (check)
         run:  poetry run isort -c vanquisher
 
@@ -112,11 +113,11 @@ jobs:
 
   #build-win:
   #  runs-on: ubuntu-latest
-  #  
+  #
   #  steps:
   #    - name: Checkout code
   #      uses: actions/checkout@v2
-  #      
+  #
   #    - name: PyInstaller Windows
   #      uses: JackMcKew/pyinstaller-action-windows@v0.1.2
   #      with:
