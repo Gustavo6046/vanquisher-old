@@ -32,7 +32,7 @@ class Chunk:
         """
         return self.world.game
 
-    def objects_inside(self) -> typing.Iterator[objects.GameObject]:
+    def objects_inside(self) -> typing.Generator["objects.GameObject", None, None]:
         """
         Iterates on all the objects in this chunk.
         """
