@@ -90,7 +90,7 @@ jobs:
         run:  poetry run mypy vanquisher
 
       - name: Run bandit
-        run:  poetry run bandit -r vanquisher
+        run:  poetry run bandit -r vanquisher -c .banditrc
         
       - name: Run pylint
         run:  poetry run pylint vanquisher
