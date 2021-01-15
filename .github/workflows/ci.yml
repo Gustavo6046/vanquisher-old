@@ -32,6 +32,22 @@ jobs:
         
       - name: Setup Poetry
         uses: Gr1N/setup-poetry@v4
+        env:
+          POETRY_VIRTUALENVS_PATH: "$HOME/.cache/pypoetry/virtualenvs"
+      
+      - name: Cache Poetry
+        uses: actions/cache@v1
+        with:
+          path: "$HOME/.cache/pypoetry/virtualenvs"
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+            
+      - name: Check Poetry
+        run:  poetry --version
+        
+      - name: Install Poetry dependencies
+        run: poetry update
         
       - name: Run pytest
         run:  poetry run pytest
@@ -52,6 +68,22 @@ jobs:
         
       - name: Setup Poetry
         uses: Gr1N/setup-poetry@v4
+        env:
+          POETRY_VIRTUALENVS_PATH: "$HOME/.cache/pypoetry/virtualenvs"
+      
+      - name: Cache Poetry
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
+      - name: Check Poetry
+        run:  poetry --version
+        
+      - name: Install Poetry dependencies
+        run: poetry update
         
         # Linters, in descending order of precedence
       - name: Run mypy
