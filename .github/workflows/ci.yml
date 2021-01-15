@@ -88,6 +88,9 @@ jobs:
         # Linters, in descending order of precedence
       - name: Run mypy
         run:  poetry run mypy vanquisher
+
+      - name: Run bandit
+        run:  poetry run bandit -r vanquisher
         
       - name: Run pylint
         run:  poetry run pylint vanquisher
@@ -100,6 +103,9 @@ jobs:
       
       - name: Run isort (check)
         run:  poetry run isort -c vanquisher
+
+      - name: Run interrogate
+        run:  poetry run interrogate -r vanquisher
 
   #build-win:
   #  runs-on: ubuntu-latest
