@@ -5,9 +5,9 @@ for rendering, for obvious reasons.
 """
 
 
-import typing
 import functools
 import math
+import typing
 
 from ..game import vector as vec
 

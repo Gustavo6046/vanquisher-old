@@ -502,6 +502,7 @@ def vec2(init_x: float, init_y: float) -> Vec2:
 
     return Vec2.make(init_x, init_y, pool=DEFAULT_POOL)
 
+
 def clone(other: Vec2) -> Vec2:
     """
     Rapidly "clones" a Vec2; that is, allocates another

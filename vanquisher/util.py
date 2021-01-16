@@ -4,7 +4,6 @@ Common utility functions to be used throughout Vanquisher.
 
 import typing
 
-
 RGB = typing.Tuple[float, float, float]
 
 
@@ -15,7 +14,8 @@ def interpolate(low: float, high: float, alpha: float) -> float:
 
     return (high - low) * alpha + low
 
-def interpolate_color(low: RGB, high: RGB, alpha: float) -> float:
+
+def interpolate_color(low: RGB, high: RGB, alpha: float) -> RGB:
     """
     Linear interpolation between two colours. Neat shorthand;
     """

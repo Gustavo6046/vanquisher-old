@@ -13,7 +13,6 @@ import attr
 from ...util import interpolate
 
 
-
 class TerrainChunk:
     """
     A square chunk of terrain. This is the terrain part of the game's

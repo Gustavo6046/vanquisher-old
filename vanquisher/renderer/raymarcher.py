@@ -22,10 +22,10 @@ Ray step sizes:
       step size is below a configured minimum step size.
 """
 
+import abc
 import functools
 import math
 import typing
-import abc
 
 import typing_extensions as typext
 
@@ -100,7 +100,7 @@ class Ray:
         max_hit_check: float = 0.15,
         first_pass_coarsening: float = 1.25,
         hit_slowing: float = 2.0,
-        max_distance: float = 128.0
+        max_distance: float = 128.0,
     ):
         """
         Configures this particular ray.
@@ -171,7 +171,7 @@ class Ray:
 
             self.first_pass = False
 
-            return False # not done
+            return False  # not done
 
         self.hit = True
 
@@ -244,9 +244,7 @@ class Raymarcher(abc.ABC):
         Only called if the ray hits anything.
         """
 
-    def setup_ray(
-        self, size: typing.Tuple[int, int], x: int, y: int, **kwargs
-    ):
+    def setup_ray(self, size: typing.Tuple[int, int], x: int, y: int, **kwargs):
         """
         Sets up this raymarcher's Ray toward the given pixel.
         """
@@ -279,10 +277,7 @@ class Raymarcher(abc.ABC):
                 return False
 
     def raymarch_one(
-        self,
-        size: typing.Tuple[int, int],
-        x: int, y: int,
-        **kwargs
+        self, size: typing.Tuple[int, int], x: int, y: int, **kwargs
     ) -> bool:
         """
         Raymarches the given pixel according to the given screen size.

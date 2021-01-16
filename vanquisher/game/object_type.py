@@ -10,8 +10,7 @@ import warnings
 import js2py  # type: ignore
 import typing_extensions as typext
 
-from . import objects
-from . import Game
+from . import Game, objects
 
 
 class ObjectTypeMethod(typext.Protocol):

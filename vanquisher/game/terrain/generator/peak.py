@@ -2,8 +2,8 @@
 A lame peak-based terrain generator.
 """
 
-import typing
 import math
+import typing
 
 import attr
 
@@ -82,6 +82,7 @@ class Peak:
             val = interpolate(val, 0.0, lip_alpha)
 
         return val
+
 
 class PeakTerrainGenerator(TerrainGenerator):
     """

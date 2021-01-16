@@ -5,12 +5,12 @@ Uses the raymarcher module to render
 the terrain.
 """
 
-import typing
-import math
 import functools
+import math
+import typing
 
 from ...util import interpolate, interpolate_color
-from ..raymarcher import Raymarcher, Ray
+from ..raymarcher import Ray, Raymarcher
 from . import Subrenderer
 
 if typing.TYPE_CHECKING:
@@ -30,7 +30,7 @@ class TerrainRaymarcher(Raymarcher):
         self,
         subrenderer: "TerrainSubrenderer",
         bluishness: float = 1.4,
-        scale: float = 32
+        scale: float = 32,
     ):
         """
         Sets this raymarcher up, in this case
@@ -91,9 +91,7 @@ class TerrainRaymarcher(Raymarcher):
         return ray.height < terrain_height
 
     def get_color(
-        self,
-        distance: float,
-        height_offset: float
+        self, distance: float, height_offset: float
     ) -> typing.Tuple[float, float, float]:
         """
         Computes a colour for the current pixel depending on the ray's
@@ -102,16 +100,16 @@ class TerrainRaymarcher(Raymarcher):
 
         # Get bluishness from distance
         # (air refracting light type thing?)
-        bluishness = 1.0 - (1.0 / (
-            1.0 + math.log(distance / self.scale + 1.0) / self.bluishness_log
-        ))
+        bluishness = 1.0 - (
+            1.0 / (1.0 + math.log(distance / self.scale + 1.0) / self.bluishness_log)
+        )
         blue = (0.1, 0.4, 0.8)
 
         # Get brightness from vertical offset
         if height_offset < 0:
             # This ray goes down; going down makes the grass dark.
             light_green = (0.4, 0.7, 0.4)
-            dark_green  = (0.02, 0.15, 0.1)
+            dark_green = (0.02, 0.15, 0.1)
 
             darkness = 1.0 / (1.0 + math.log(-height_offset))
             green = interpolate_color(light_green, dark_green, darkness)
@@ -119,7 +117,7 @@ class TerrainRaymarcher(Raymarcher):
         else:
             # This ray goes down; going up makes the grass closer to the sky.
             light_green = (0.4, 0.7, 0.4)
-            sky_green   = (0.5, 0.82, 0.6)
+            sky_green = (0.5, 0.82, 0.6)
 
             skyness = 1.0 / (1.0 + math.log(height_offset))
             green = interpolate_color(light_green, sky_green, skyness)

@@ -4,9 +4,9 @@ a single aspect of the game; for instance,
 the sky backdrop, the terrain, and the objects.
 """
 
-import typing
-import functools
 import abc
+import functools
+import typing
 
 if typing.TYPE_CHECKING:
     from .. import Renderer

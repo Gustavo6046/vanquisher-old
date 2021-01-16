@@ -4,10 +4,9 @@ first loaded and does not have terrain in it yet.
 """
 
 
-import typing
 import abc
 import random
-
+import typing
 
 
 class TerrainGenerator(abc.ABC):

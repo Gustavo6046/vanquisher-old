@@ -92,7 +92,6 @@ class World:
         self.terrain_generator = terrain_generator
         self.chunks: typing.Dict[typing.Tuple[int, int], Chunk] = {}
 
-
     def get_chunk(self, chunk_pos: typing.Tuple[int, int]) -> Chunk:
         """
         Gets a chunk at a chunk-space position.
