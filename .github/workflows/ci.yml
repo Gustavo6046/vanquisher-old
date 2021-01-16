@@ -55,9 +55,6 @@ jobs:
       - name: Run tox
         run:  poetry run tox -e test
 
-      - name: Generate test coverage XML report for Codacy
-        run:  poetry run coverage xml
-
       - name: Send XML coverage report to Codacy
         uses: codacy/codacy-coverage-reporter-action@0.2.0
         with:
