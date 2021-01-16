@@ -457,6 +457,72 @@ class Vec2:
         self.x += tup[0]
         self.y += tup[1]
 
+    def __eq__(self, other: "Vec2") -> bool:
+        """
+        Checks whether two vectors are equal.
+        """
+        return self.x == other.x and self.y == other.y
+
+    def __ne__(self, other: "Vec2") -> bool:
+        """
+        Checks whether two vectors are different.
+        """
+        return self.x != other.x or self.y != other.y
+
+    def __xor__(self, other: "Vec2") -> float:
+        """
+        Returns the 'distance' between two vectors.
+        """
+
+        return math.sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
+
+    def __pow__(self, other: "Vec2") -> float:
+        """
+        Returns the unit product between two vectors.
+        """
+
+        return self.unit_dot(other)
+
+    def __mod__(self, other: "Vec2") -> bool:
+        """
+        Returns True or False depending on whether
+        the two vectors have the same length.
+        """
+
+        return self.size == other.size
+
+    def __invert__(self) -> Vec2:
+        """
+        Allocates and returns a vector that is
+        the opposite of this one.
+        """
+
+        return self.make(-self.x, -self.y, pool=self._pool or DEFAULT_POOL)
+
+    def __gt__(self, other: "Vec2") -> bool:
+        """
+        Checks whether this vector is longer than the other one.
+        """
+        return self.size > other.size
+
+    def __lt__(self, other: "Vec2") -> bool:
+        """
+        Checks whether this vector is shorter than the other one.
+        """
+        return self.size < other.size
+
+    def __ge__(self, other: "Vec2") -> bool:
+        """
+        Checks whether this vector is longer than or as long as the other one.
+        """
+        return self.size >= other.size
+
+    def __le__(self, other: "Vec2") -> bool:
+        """
+        Checks whether this vector is shorter than  or as long asthe other one.
+        """
+        return self.size <= other.size
+
     def __repr__(self):
         """
         Internal human-readable representation of this vector.
