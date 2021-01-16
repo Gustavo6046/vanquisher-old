@@ -207,17 +207,11 @@ class Raymarcher(abc.ABC):
     render the terrain of the game.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self):
         """
         Initializes this raymarcher.
         """
         self.ray = Ray()
-        self.setup(*args, **kwargs)
-
-    def setup(self, *args, **kwargs):
-        """
-        Sets this raymarcher up.
-        """
 
     @abc.abstractproperty
     def camera(self) -> "Camera":

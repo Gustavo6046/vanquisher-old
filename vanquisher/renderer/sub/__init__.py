@@ -25,16 +25,12 @@ class Subrenderer(abc.ABC):
     def __init__(self, renderer: "Renderer"):
         """
         Initializes it with the renderer.
+
+        Feel free to override this function, but
+        make sure to call super().__init__(renderer)
+        if you do.
         """
         self.renderer = renderer
-
-        self.setup()
-
-    def setup(self):
-        """
-        Initializes and sets this subrenderer
-        up, if desired.
-        """
 
     @functools.cached_property
     def camera(self) -> "Camera":

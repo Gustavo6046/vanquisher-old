@@ -13,20 +13,20 @@ class TerrainGenerator(abc.ABC):
     Base TerrainGenerator class.
 
     The only method you need to override is `height_at`.
-    You may want to define a `setup` function with any
-    arguments in order to initialize parameters.
+    You may want to define a `__init__` function in order
+    to initialize parameters, but call `super().__init__`
+    if you do.
 
     This example implementation puts much of its code in
     height_at.
     """
 
-    def __init__(self, seed: random.Random, *args, **kwargs):
+    def __init__(self, seed: int):
         """
         Initializes this TerrainGenerator with a random
-        number generator seed, and .
+        number generator seed.
         """
         self.rng: random.Random = random.Random(seed)
-        self.setup(*args, **kwargs)
 
     @abc.abstractmethod
     def height_at(self, x_pos: int, y_pos: int) -> float:
@@ -35,9 +35,3 @@ class TerrainGenerator(abc.ABC):
         parameters to return a height value.
         """
         ...
-
-    def setup(self, *args, **kwargs):
-        """
-        Configures this TerrainGenerator based on the
-        parameters that were passed to it.
-        """

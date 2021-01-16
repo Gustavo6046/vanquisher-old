@@ -19,6 +19,7 @@ if typing.TYPE_CHECKING:
     from ..surface import FramebufferSurface
 
     from ..camera import Camera
+    from .. import Renderer
     from ...game.world import World
 
 
@@ -27,7 +28,7 @@ class TerrainRaymarcher(Raymarcher):
     The terrain raymarcher.
     """
 
-    def setup(
+    def __init__(
         self,
         subrenderer: "TerrainSubrenderer",
         bluishness: float = 1.4,
@@ -37,6 +38,8 @@ class TerrainRaymarcher(Raymarcher):
         Sets this raymarcher up, in this case
         by setting its subrenderer.
         """
+        super().__init__()
+
         self.subrenderer = subrenderer
         self.bluishness = bluishness
         self.scale = scale
@@ -140,10 +143,12 @@ class TerrainSubrenderer(Subrenderer):
     under the hood.
     """
 
-    def setup(self):
+    def __init__(self, renderer: "Renderer"):
         """
         Sets this Subrenderer up to have a raymarcher.
         """
+        super().__init__(renderer)
+
         self.raymarcher = TerrainRaymarcher(self)
 
     def render(self, surface: "FramebufferSurface"):

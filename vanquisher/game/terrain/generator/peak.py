@@ -93,11 +93,12 @@ class PeakTerrainGenerator(TerrainGenerator):
     is available.
     """
 
-    def setup(self, height: float, roughness: float, *peaks: Peak):
+    def __init__(self, seed: int, height: float, roughness: float, *peaks: Peak):
         """
-        Initializes the TerrainGenerator's parameters. They are
+        Initializes the PeakTerrainGenerator's parameters. They are
         used when generating terrain later on.
         """
+        super().__init__(seed)
 
         self.height: float = height
         self.roughness: float = roughness
