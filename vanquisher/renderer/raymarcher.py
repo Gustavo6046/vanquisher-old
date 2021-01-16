@@ -31,6 +31,9 @@ import typing_extensions as typext
 
 from ..game import vector as vec
 
+if typing.TYPE_CHECKING:
+    from .camera import Camera
+
 
 class Ray:
     """
@@ -219,7 +222,7 @@ class Raymarcher(abc.ABC):
         """
 
     @abc.abstractproperty
-    def camera(self) -> "camera.Camera":
+    def camera(self) -> "Camera":
         """
         The camera this Raymarcher should get perspective
         informatino from.
@@ -261,7 +264,7 @@ class Raymarcher(abc.ABC):
         if it went beyond the maximum distance instead.
         """
 
-        while True:
+        while self.ray.distance < self.ray.max_distance:
             self.ray.step()
 
             if not self.ray_hit(self.ray):
@@ -272,9 +275,8 @@ class Raymarcher(abc.ABC):
                 # We're done!
                 return True
 
-            if self.ray.distance > self.ray.max_distance:
-                # We're also done! But the ray did not hit.
-                return False
+        # We're also done! But the ray did not hit.
+        return False
 
     def raymarch_one(
         self, size: typing.Tuple[int, int], x: int, y: int, **kwargs
@@ -290,8 +292,12 @@ class Raymarcher(abc.ABC):
 
         self.setup_ray(size, x, y, **kwargs)
 
-        if self.march():
+        hit = self.march()
+
+        if hit:
             self.put(x, y, self.ray.distance, self.ray)
+
+        return hit
 
     def raymarch_all(self, size: typing.Tuple[int, int], **kwargs):
         """

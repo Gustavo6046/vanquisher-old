@@ -11,6 +11,9 @@ import typing
 if typing.TYPE_CHECKING:
     from .. import Renderer
     from ..surface import FramebufferSurface
+    from ..camera import Camera
+    from ...game import Game
+    from ...game.world import World
 
 
 class Subrenderer(abc.ABC):
@@ -33,25 +36,22 @@ class Subrenderer(abc.ABC):
         up, if desired.
         """
 
-    @property
     @functools.cached_property
-    def camera(self):
+    def camera(self) -> "Camera":
         """
         Gets the camera of this subrenderer.
         """
         return self.renderer.camera
 
-    @property
     @functools.cached_property
-    def game(self):
+    def game(self) -> "Game":
         """
         Gets the game this subrenderer belongs to.
         """
         return self.renderer.game
 
-    @property
     @functools.cached_property
-    def world(self):
+    def world(self) -> "World":
         """
         Gets the world this subrenderer is supposed
         to render or otherwise display.

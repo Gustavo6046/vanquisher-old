@@ -13,7 +13,7 @@ the objects.
 import typing
 
 if typing.TYPE_CHECKING:
-    from . import camera
+    from .camera import Camera
     from ..game import Game
     from .sub import Subrenderer
     from .surface import FramebufferSurface
@@ -31,16 +31,16 @@ class Renderer:
     at the same time easy to test individually.
     """
 
-    def __init__(self, game: "game.Game", camera: "camera.Camera"):
+    def __init__(self, game: "Game", camera: "Camera"):
         """
         Initializes this renderer with a camera.
         """
         self.game = game
         self.camera = camera
-        self.subrenderers = []
+        self.subrenderers: typing.List["Subrenderer"] = []
         self.current_surface: typing.Optional["FramebufferSurface"] = None
 
-    def add_subrenderer(self, subrenderer: "sub.Subrenderer"):
+    def add_subrenderer(self, subrenderer: "Subrenderer"):
         """
         Adds a Subrendererer to this Renderer's subrendering
         pipeline.

@@ -36,7 +36,7 @@ class PygameSurface(FramebufferSurface):
         that the renderer uses.
         """
 
-        return pygame.display.get_window_size(self.surf)
+        return pygame.display.get_window_size()
 
     def plot_pixel(self, x: int, y: int, rgb: typing.Tuple[float, float, float]):
         """

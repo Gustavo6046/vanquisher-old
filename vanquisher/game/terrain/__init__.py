@@ -12,6 +12,9 @@ import attr
 
 from ...util import interpolate
 
+if typing.TYPE_CHECKING:
+    from . import generator
+
 
 class TerrainChunk:
     """
@@ -110,7 +113,7 @@ class TerrainChunk:
         self.heightmap[y_pos * self.width + x_pos] = value
 
     def generate(
-        self, generator: "TerrainGenerator", offset: typing.Tuple[int, int] = (0, 0)
+        self, generator: "generator.TerrainGenerator", offset: typing.Tuple[int, int] = (0, 0)
     ):
         """
         Generates the heightmap of this terrain chunk from

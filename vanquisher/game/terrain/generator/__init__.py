@@ -26,7 +26,7 @@ class TerrainGenerator(abc.ABC):
         Initializes this TerrainGenerator with a random
         number generator seed, and .
         """
-        self.rng: random.random = random.Random(seed)
+        self.rng: random.Random = random.Random(seed)
         self.setup(*args, **kwargs)
 
     @abc.abstractmethod
@@ -37,7 +37,7 @@ class TerrainGenerator(abc.ABC):
         """
         ...
 
-    def setup(self, *args, **Kwargs):
+    def setup(self, *args, **kwargs):
         """
         Configures this TerrainGenerator based on the
         parameters that were passed to it.

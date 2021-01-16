@@ -19,6 +19,7 @@ if typing.TYPE_CHECKING:
 
     from ...game import Game
     from ...game import world
+    from ..surface import FramebufferSurface
 
 
 class TerrainRaymarcher(Raymarcher):
@@ -55,7 +56,6 @@ class TerrainRaymarcher(Raymarcher):
         """
         return self._bluishness_log(self.bluishness)
 
-    @property
     @functools.cached_property
     def camera(self) -> "camera.Camera":
         """
@@ -63,7 +63,6 @@ class TerrainRaymarcher(Raymarcher):
         """
         return self.subrenderer.camera
 
-    @property
     @functools.cached_property
     def world(self) -> "world.World":
         """
@@ -72,7 +71,7 @@ class TerrainRaymarcher(Raymarcher):
         return self.subrenderer.world
 
     @property
-    def draw_surface(self) -> "surface.FramebufferSurface":
+    def draw_surface(self) -> typing.Optional["surface.FramebufferSurface"]:
         """
         The surface this raymarcher is rendering to.
         """
@@ -128,6 +127,8 @@ class TerrainRaymarcher(Raymarcher):
         """
         Puts the current pixel according to the ray's hit status.
         """
+        assert self.draw_surface is not None
+
         self.draw_surface.plot_pixel(x, y, self.get_color(distance, ray.height_offset))
 
 
