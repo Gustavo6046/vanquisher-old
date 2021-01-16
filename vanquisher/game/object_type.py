@@ -10,7 +10,8 @@ import warnings
 import js2py  # type: ignore
 import typing_extensions as typext
 
-from . import game, objects
+from . import objects
+from . import Game
 
 
 class ObjectTypeMethod(typext.Protocol):
@@ -22,6 +23,9 @@ class ObjectTypeMethod(typext.Protocol):
     def __call__(
         self, object_self: "objects.GameObjectJS", *args: typing.Any
     ) -> typing.Any:
+        """
+        Calls this method of the object type.
+        """
         ...
 
 
@@ -33,41 +37,71 @@ class TypeDefinitionObject(typext.Protocol):
     """
 
     @typing.overload
-    def __getitem__(self, key: typing.Literal["name"]) -> str:
+    def __getitem__(self, key: typext.Literal["name"]) -> str:
+        """
+        The name of the defined object type.
+        """
         ...
 
     @typing.overload
-    def __getitem__(self, key: typing.Literal["inherit"]) -> typing.Iterable[str]:
+    def __getitem__(self, key: typext.Literal["inherit"]) -> typing.Iterable[str]:
+        """
+        Optionally, the inheritance of the defined object type.
+        """
         ...
 
     @typing.overload
     def __getitem__(
-        self, key: typing.Literal["methods"]
+        self, key: typext.Literal["methods"]
     ) -> typing.Mapping[str, ObjectTypeMethod]:
+        """
+        Optionally, the methods of the defined object type.
+        """
         ...
 
     @typing.overload
     def __getitem__(
-        self, key: typing.Literal["callbacks"]
+        self, key: typext.Literal["callbacks"]
     ) -> typing.Mapping[str, ObjectTypeMethod]:
+        """
+        Optionally, the callbacks of the defined object type.
+        """
         ...
 
     @typing.overload
     def __getitem__(
-        self, key: typing.Literal["attributes"]
+        self, key: typext.Literal["attributes"]
     ) -> typing.Mapping[str, typing.Any]:
+        """
+        Optionally, the attributes of the defined object type.
+        """
         ...
 
     @typing.overload
     def __getitem__(
-        self, key: typing.Literal["variables"]
+        self, key: typext.Literal["variables"]
     ) -> typing.Mapping[str, typing.Any]:
+        """
+        Optionally, the variables of the defined object type.
+        """
         ...
 
     def __getitem__(self, key: str) -> typing.Any:
+        """
+        Gets a property of this JS object.
+
+        Usually it'll be one of those defined above.
+        """
         ...
 
     def __contains__(self, key: str) -> bool:
+        """
+        Whether a property is contained in this JS object.
+
+        If this is a parameter that was omitted, returns
+        False. This should only happen to optional
+        parameters, such as inheritance.
+        """
         ...
 
 
@@ -78,7 +112,13 @@ class GameContextJS:
     In JS call it something short, like maybe just G.
     """
 
-    def __init__(self, my_game: "game.Game"):
+    def __init__(self, my_game: "Game"):
+        """
+        Creates a JS game context to access the passed
+        Game from the JS API.
+
+        Used internally, do not bother.
+        """
         self.__game = my_game
 
     @property
@@ -130,7 +170,15 @@ class ObjectTypeContext:
     game.
     """
 
-    def __init__(self, my_game: "game.Game"):
+    def __init__(self, my_game: "Game"):
+        """
+        Creates a context for the passed game, within which
+        defined types are kept, and from the which they
+        can be retrieved.
+
+        Used internally, do not bother.
+        """
+
         self.game = my_game
         self.js_context = GameContextJS(self.game)
         self.object_types: typing.Dict[str, "ObjectType"] = {}
@@ -167,6 +215,14 @@ class ObjectType:
     """
 
     def __init__(self, ctx: ObjectTypeContext, object_type_js: TypeDefinitionObject):
+        """
+        Creates an object type given an ObjectTypeContext to
+        lookup inheritance from and a TypeDefinitionObject
+        from the which to extract the definition properties.
+
+        Used internally, do not bother.
+        """
+
         self.name = str(object_type_js["name"]).lower()
 
         self.inherit: typing.Optional[typing.List[str]]

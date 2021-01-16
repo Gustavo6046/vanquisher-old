@@ -21,6 +21,12 @@ class Vec2Pool:
     """
 
     def __init__(self, chunk_size: int = 50):
+        """
+        Creates a vector pool and initializes it
+        with the given chunk size. The chunk size
+        is always the initial size.
+        """
+
         self.chunk_size: int = chunk_size
 
         self.pool_free: typing.List[bool] = [True for _ in range(chunk_size)]
@@ -90,7 +96,8 @@ class Vec2Pool:
 
     def contract(self) -> bool:
         """
-        Contracts the pool if there are no allocated vectors in the area to be contracted.
+        Contracts the pool if there are no allocated vectors in the area
+        to be contracted.
         """
 
         if self.size <= self.chunk_size:
@@ -99,7 +106,8 @@ class Vec2Pool:
 
         for check_index in range(self.size - self.chunk_size, self.size):
             if not self.pool_free[check_index]:
-                # allocated vectors overlapping area to be contracted, operation denied
+                # allocated vectors overlapping area to be contracted,
+                # operation denied
                 return False
 
         self._contract()
@@ -149,8 +157,9 @@ class Vec2Pool:
 
         warnings.warn(
             RuntimeWarning(
-                "VectorContext made space for more vectors, yet still couldn't allocate one"
-                " - this might indicate a race condition, expect things to go awry"
+                "VectorContext made space for more vectors, yet still couldn't"
+                "allocate one - this might indicate a race condition, so"
+                "expect things to go awry"
             )
         )
 
@@ -212,9 +221,13 @@ class Vec2:
     you learned it in Despicable Me.
     """
 
-    def __init__(self, pool: typing.Optional[Vec2Pool], _index: int):
+    def __init__(self, pool: typing.Optional[Vec2Pool], _index: typing.Optional[int]):
+        """
+        Creates a zero vector.
+        """
+
         self._pool: typing.Optional[Vec2Pool] = pool
-        self._index: int = _index
+        self._index: typing.Optional[int] = _index
 
         self.x: float = 0.0
         self.y: float = 0.0
@@ -256,6 +269,17 @@ class Vec2:
         """
 
         return cls.make(*tup, pool=pool)
+
+    def set_to(self, other: "Vec2"):
+        """
+        Resets this vector's coordinates to
+        match other's.
+        """
+
+        self.x = other.x
+        self.y = other.y
+
+        self.update()
 
     def __add__(self, other: "Vec2") -> "Vec2":
         """
@@ -457,6 +481,11 @@ class Vec2:
         return self
 
     def __exit__(self, _1, _2, _3):
+        """
+        Calls done() - that is, discards the vector - after any
+        operations concerning it are finished..
+        """
+
         self.done()
 
 
@@ -472,6 +501,19 @@ def vec2(init_x: float, init_y: float) -> Vec2:
     """
 
     return Vec2.make(init_x, init_y, pool=DEFAULT_POOL)
+
+def clone(other: Vec2) -> Vec2:
+    """
+    Rapidly "clones" a Vec2; that is, allocates another
+    Vector and sets its coordinates to match those
+    of `other`.
+
+    This should be used when a Vec2 is passed for
+    initialization, so that the original can be discarded
+    readily in its original context.
+    """
+
+    return Vec2.make(other.x, other.y, pool=DEFAULT_POOL)
 
 
 def from_tuple2(tup: typing.Tuple[float, float]) -> Vec2:
@@ -494,11 +536,23 @@ class VectorContext:
     """
 
     def __init__(self, *vecs):
+        """
+        Initializes the vector context with a bunch of vectors.
+        """
+
         self._vecs = list(vecs)
 
     def __enter__(self):
+        """
+        Returns a bunch of vectors.
+        """
+
         return self._vecs
 
     def __exit__(self, _1, _2, _3):
+        """
+        Discards a bunch of vectors.
+        """
+
         for vec in self._vecs:
             vec.done()

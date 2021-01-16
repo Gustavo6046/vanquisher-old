@@ -20,6 +20,10 @@ class ObjectCallback(typext.Protocol):
     """
 
     def __call__(self, obj_ref: "GameObjectJS"):
+        """
+        Calls this callback with the object reference
+        that is to be passed.
+        """
         ...
 
 
@@ -30,6 +34,10 @@ class VariableSetCallback(typext.Protocol):
     """
 
     def __call__(self, new_value: typing.Any) -> typing.Any:
+        """
+        Calls this callback with the value
+        that is to be set in the GameObject.
+        """
         ...
 
 
@@ -43,6 +51,12 @@ class VariableFoundCallback(typext.Protocol):
     def __call__(
         self, value: typing.Any, set_func: VariableSetCallback
     ) -> typing.Optional[typing.Any]:
+        """
+        Calls this callback with the value
+        that is to be passed, as well as
+        a callback for setting it to another
+        value.
+        """
         ...
 
 
@@ -56,6 +70,10 @@ class VariableNotFoundCallback(typext.Protocol):
     """
 
     def __call__(self, set_func: VariableSetCallback) -> typing.Optional[typing.Any]:
+        """
+        Calls this callback with the value
+        that is to be passed.
+        """
         ...
 
 
@@ -80,6 +98,13 @@ class GameObject:
         sample_distance: float = 0.5,
         gravity: float = 1.0,
     ):
+        """
+        Creates a new GameObject.
+
+        This is not sufficient to place your object in the world,
+        as you still have to add it. If you want a simpler way
+        to create objects, see  World.object_create.
+        """
         self.identifier = identifier or uuid.uuid4()
 
         self.pos: vector.Vec2 = vector.from_tuple2(pos)
@@ -284,6 +309,12 @@ class GameObjectJS:
     """
 
     def __init__(self, obj: GameObject):
+        """
+        Creates a GameObjectJS view into an
+        existing GameObject.
+
+        This does not create a new object.
+        """
         self.__obj: GameObject = obj
 
     def var(self, name: str, value: typing.Any = None) -> typing.Optional[typing.Any]:
@@ -458,10 +489,10 @@ class GameObjectJS:
 
         my_world = self.__obj.world
 
-        # Chunks are square. The diagonal of a square is the largest distance within said square.
-        # It is sqrt(2) times the width of the square.
-        # So sqrt(2) * world.chunk_width is the maximum we need to add to the search radius
-        # to make sure we don't rule out eligible chunks.
+        # Chunks are square. The diagonal of a square is the largest distance
+        # within said square. t is sqrt(2) times the width of the square.
+        # So sqrt(2) * world.chunk_width is the maximum we need to add to the
+        # search radius to make sure we don't rule out eligible chunks.
         # Also, a little epsilon, just to be extra sure!
         max_chunk_dist_sq = (radius + math.sqrt(2) * my_world.chunk_width + 0.0001) ** 2
 

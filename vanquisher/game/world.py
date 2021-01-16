@@ -8,7 +8,11 @@ import math
 import typing
 import uuid
 
-from . import game, objects, terrain, vector
+from . import terrain, vector
+
+if typing.TYPE_CHECKING:
+    from . import Game
+    from . import objects
 
 
 class Chunk:
@@ -18,6 +22,11 @@ class Chunk:
     """
 
     def __init__(self, world: "World", chunk_pos: typing.Tuple[int, int]):
+        """
+        Initializes this chunk, with an initial, ungenerated TerrainChunk.
+        This does not generate the terrain; World does that automatically
+        if it has a generator set when this chunk is generated.
+        """
         self.world = world
         self.chunk_pos = chunk_pos
         self.width = self.world.chunk_width
@@ -63,20 +72,26 @@ class World:
 
     def __init__(
         self,
-        my_game: "game.Game",
-        terrain_generator: typing.Optional[terrain.TerrainGenerator] = None,
+        my_game: "Game",
+        terrain_generator: typing.Optional[terrain.generator.TerrainGenerator] = None,
         chunk_width: int = 32,
         base_height: float = 32.0,
         gravity: float = -4.0,
     ):
+        """
+        Creates an empty world, with a few parameters and
+        an empty list of chunks, and optionally sets its
+        generator too.
+        """
+
         self.game = my_game
         self.chunk_width = chunk_width
         self.base_height = base_height
-        self.terrain_generator = terrain_generator
+        self.gravity = gravity
 
+        self.terrain_generator = terrain_generator
         self.chunks: typing.Dict[typing.Tuple[int, int], Chunk] = {}
 
-        self.gravity = gravity
 
     def get_chunk(self, chunk_pos: typing.Tuple[int, int]) -> Chunk:
         """
