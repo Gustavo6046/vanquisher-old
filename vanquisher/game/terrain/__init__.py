@@ -113,7 +113,9 @@ class TerrainChunk:
         self.heightmap[y_pos * self.width + x_pos] = value
 
     def generate(
-        self, generator: "generator.TerrainGenerator", offset: typing.Tuple[int, int] = (0, 0)
+        self,
+        generator: "generator.TerrainGenerator",
+        offset: typing.Tuple[int, int] = (0, 0),
     ):
         """
         Generates the heightmap of this terrain chunk from
