@@ -40,7 +40,7 @@ The actual Vanquisher Engine.
 
 * Client implemetation
 
-    * Renderer (probably a raymarcher of sorts)
+	* Renderer (probably a raymarcher of sorts)
 
 * Network protocol
 
