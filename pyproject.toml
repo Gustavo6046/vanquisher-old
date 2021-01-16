@@ -43,10 +43,13 @@ build-backend = "poetry.core.masonry.api"
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py39
+envlist =
+    test
+    lint
+
 isolated_build = True
 
-[testenv]
+[testenv:lint]
 deps =
     poetry
 
@@ -61,4 +64,17 @@ commands =
     poetry run flake8 vanquisher
     poetry run isort -c -rc vanquisher
     poetry run interrogate -v vanquisher
+
+[testenv:test]
+deps =
+    poetry
+
+commands =
+	poetry install
+
+	# Run test
+	poetry run pytest --cov=vanquisher tests
+
+	# Show coverage report
+	coverage report -m
 """
