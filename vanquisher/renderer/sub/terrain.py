@@ -66,6 +66,7 @@ class TerrainRaymarcher(Raymarcher):
         """
         return self.subrenderer.camera
 
+    @property
     def world(self) -> "World":
         """
         Gets the world whose terrain this raymarcher is rendering.
