@@ -134,7 +134,7 @@ class Vec2Pool:
         self.pool_free[index] = False
         self.free -= 1
 
-        self.pool[index]._used = True
+        self.pool[index].is_used()
 
         return self.pool[index]
 
@@ -233,6 +233,8 @@ class Vec2:
 
         self.size: float = 0.0
 
+        self._used: bool = False
+
     def done(self):
         """
         Deallocates the vector once you're done using it.
@@ -252,6 +254,12 @@ class Vec2:
         self.size = 0.0
 
         self._used = False
+
+    def is_used(self):
+        """
+        Called when this Vector is allocated.
+        """
+        self._used = True
 
     @classmethod
     def make(cls, init_x: float, init_y: float, pool: Vec2Pool = DEFAULT_POOL):
