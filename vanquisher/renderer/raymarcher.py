@@ -66,7 +66,6 @@ class Ray:
         self.height_offset: float = 0.0
 
     @classmethod
-    @functools.lru_cache()
     def _step_offset(
         cls, angle: float, size: float, pitch: float
     ) -> typing.Tuple[vec.Vec2, float]:
@@ -117,10 +116,9 @@ class Ray:
         Configures this particular ray.
         """
 
-        if self.pos.size:
-            self.pos -= self.pos
+        self.pos.done()
+        self.pos = vec.clone(pos)
 
-        self.pos += pos
         self.height = height
 
         self.angle = angle
@@ -195,7 +193,8 @@ class Ray:
         step size coarser.
         """
 
-        self.step_size *= self.first_pass_coarsening
+        if self.first_pass:
+            self.step_size *= self.first_pass_coarsening
 
     def __del__(self):
         """
