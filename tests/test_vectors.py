@@ -1,32 +1,45 @@
+"""
+Test cases concerned with the vectors
+that Vanquisher provide.
+"""
+
 import math
 
 import vanquisher.game.vector as vc
 
 
 def test_indices():
+    """
+    Tests that vector pooling works well.
+    """
+
     pool = vc.Vec2Pool()
 
-    v1 = pool.make(2, 2)
-    v2 = pool.make(1, 2)
+    vec_1 = pool.make(2, 2)
+    vec_2 = pool.make(1, 2)
 
-    assert v1._index == 0
-    assert v2._index == 1
+    assert vec_1._index == 0
+    assert vec_2._index == 1
 
-    v3 = v1 + v2
+    vec_3 = vec_1 + vec_2
 
-    assert v3._index == 2
-    assert v3.x == 3
-    assert v3.y == 4
-    assert v3.size == 5
+    assert vec_3._index == 2
+    assert vec_3.x == 3
+    assert vec_3.y == 4
+    assert vec_3.size == 5
 
-    v1.done()
-    v2.done()
-    v3.done()
+    vec_1.done()
+    vec_2.done()
+    vec_3.done()
 
     assert pool.free == pool.size
 
 
 def test_vector_arithmetics():
+    """
+    Tests that vector arithmetics work well.
+    """
+
     pool = vc.Vec2Pool()
 
     pos = pool.make(5, 0)
@@ -47,7 +60,8 @@ def test_vector_arithmetics():
 
     with vel * 9 as accum_vel:
         pos += accum_vel  # nine more timesteps, for a total of ten
-        # I promise I'll find something more convenient than the 'with block' gizmos someday.
+        # I promise I'll find something more convenient than the
+        # 'with block' gimmick someday.
 
     assert pos.as_tuple() == (25, 20)
 
