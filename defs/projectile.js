@@ -9,27 +9,27 @@ function def(G) {
             angle: 0
         },
         methods: {
-            propel: function(self, angle, speed) {
+            propel: (self, angle, speed) => {
                 self.propel(Math.cos(angle) * speed, Math.sin(angle) * speed);
             }
         },
         callbacks: {
-            begin: function(self) {
+            begin: (self) => {
                 self.gravity(0.5);
             },
-            end: function(self) {
-                self.foreach_radius_objects(5, function(other_obj) {
-                    if (other_obj.met.damage_self) {
-                        other_obj.met.damage_self(10 + Math.random() * self.att.damage);
+            end: (self) => {
+                self.foreach_radius_objects(5, function(otherObj) {
+                    if (otherObj.met.damage_self) {
+                        otherObj.met.damage_self(10 + Math.random() * self.att.damage);
                     }
                 });
             },
-            tick: function(self, time_delta) {
+            tick: (self, timeDelta) => {
                 // there is friction even in the air lol
-                self.m.propel(self.var.angle, self.var.speed * time_delta);
+                self.m.propel(self.var.angle, self.var.speed * timeDelta);
 
                 // but let's not thrust our projectile too much
-                self.var.speed /= Math.pow(1.2, time_delta);
+                self.var.speed /= Math.pow(1.2, timeDelta);
             }
         }
     });
