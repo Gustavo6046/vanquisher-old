@@ -55,6 +55,6 @@ commands =
     poetry run pylint vanquisher
     poetry run black -c vanquisher
     poetry run flake8 vanquisher
-    poetry run isort -c vanquisher
-    poetry run interrogate -r vanquisher
+    poetry run isort -c -rc vanquisher
+    poetry run interrogate -v vanquisher
 """
