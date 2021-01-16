@@ -235,7 +235,7 @@ class Vec2:
 
         self._used: bool = False
 
-    def pool_index(self) -> int:
+    def pool_index(self) -> typing.Optional[int]:
         """
         Gets the internal pool index of this vector.
 
