@@ -15,7 +15,7 @@ from vanquisher.game.vector import DEFAULT_POOL, Vec2, vec2
 from vanquisher.renderer.camera import Camera
 from vanquisher.renderer.raymarcher import Ray, Raymarcher
 
-SelfType = typing.TypeVar("SelfType")
+SelfType = typing.TypeVar("SelfType", bound="GuineaRaymarcher")
 
 
 class GuineaRaymarcher(Raymarcher):
@@ -33,7 +33,7 @@ class GuineaRaymarcher(Raymarcher):
 
         self._camera = camera
 
-        self.next_hit_callback = None
+        self.next_hit_callback: typing.Optional[typing.Callable[["Ray"], bool]] = None
 
     @property
     def camera(self) -> "Camera":
