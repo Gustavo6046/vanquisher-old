@@ -134,6 +134,8 @@ class Vec2Pool:
         self.pool_free[index] = False
         self.free -= 1
 
+        self.pool[index]._used = True
+
         return self.pool[index]
 
     def allocate(self) -> "Vec2":
@@ -251,6 +253,8 @@ class Vec2:
         self.y = 0.0
 
         self.size = 0.0
+
+        self._used = False
 
     @classmethod
     def make(cls, init_x: float, init_y: float, pool: Vec2Pool = DEFAULT_POOL):
