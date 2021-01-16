@@ -60,9 +60,9 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [ '3.6', '3.7', '3.8', '3.9' ]
+        python-version: [ '6', '7', '8', '9' ] # Imagine a '3.' in front of each. Okay, now blame Tox.
 
-    name: Linting on Python ${{ matrix.python-version }}
+    name: Linting on Python 3.${{ matrix.python-version }}
 
     steps:
       - name: Checkout code
@@ -71,7 +71,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.${{ matrix.python-version }}
 
       - name: Setup Poetry
         uses: Gr1N/setup-poetry@v4
@@ -93,7 +93,7 @@ jobs:
         run: poetry update
 
       - name: Run tox
-        run: poetry run tox -e py${{ matrix.python-version }}
+        run: poetry run tox -e py3${{ matrix.python-version }}
 
   #build-win:
   #  runs-on: ubuntu-latest
