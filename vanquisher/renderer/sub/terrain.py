@@ -14,13 +14,10 @@ from ..raymarcher import Ray, Raymarcher
 from . import Subrenderer
 
 if typing.TYPE_CHECKING:
-    from .. import surface
-
-    from ..surface import FramebufferSurface
-
-    from ..camera import Camera
-    from .. import Renderer
     from ...game.world import World
+    from .. import Renderer, surface
+    from ..camera import Camera
+    from ..surface import FramebufferSurface
 
 
 class TerrainRaymarcher(Raymarcher):
@@ -132,7 +129,9 @@ class TerrainRaymarcher(Raymarcher):
         """
 
         if self.draw_surface is not None:
-            self.draw_surface.plot_pixel(x, y, self.get_color(distance, ray.height_offset))
+            self.draw_surface.plot_pixel(
+                x, y, self.get_color(distance, ray.height_offset)
+            )
 
 
 class TerrainSubrenderer(Subrenderer):

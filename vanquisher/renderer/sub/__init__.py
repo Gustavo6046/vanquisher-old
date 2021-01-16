@@ -8,11 +8,11 @@ import abc
 import typing
 
 if typing.TYPE_CHECKING:
-    from .. import Renderer
-    from ..surface import FramebufferSurface
-    from ..camera import Camera
     from ...game import Game
     from ...game.world import World
+    from .. import Renderer
+    from ..camera import Camera
+    from ..surface import FramebufferSurface
 
 
 class Subrenderer(abc.ABC):

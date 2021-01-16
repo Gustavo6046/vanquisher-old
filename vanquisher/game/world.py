@@ -11,8 +11,7 @@ import uuid
 from . import terrain, vector
 
 if typing.TYPE_CHECKING:
-    from . import Game
-    from . import objects
+    from . import Game, objects
     from .terrain.generator import TerrainGenerator
 
 

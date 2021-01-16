@@ -13,8 +13,8 @@ the objects.
 import typing
 
 if typing.TYPE_CHECKING:
-    from .camera import Camera
     from ..game import Game
+    from .camera import Camera
     from .sub import Subrenderer
     from .surface import FramebufferSurface
 
