@@ -1,6 +1,5 @@
 """
-A small suite of tests meant to test
-the raymarcher.
+A small suite of tests meant to test the raymarcher.
 
 Instead of trying to check against rendering
 output (which would be basicaly impossible),

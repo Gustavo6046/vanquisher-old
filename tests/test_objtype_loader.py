@@ -1,6 +1,5 @@
 """
-Tests concerned with object types and
-the JavaScript API in general.
+Tests concerned with object types and the JavaScript API in general.
 """
 
 import vanquisher.game as gamepkg

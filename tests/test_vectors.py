@@ -1,6 +1,5 @@
 """
-Test cases concerned with the vectors
-that Vanquisher provide.
+Test cases concerned with the vectors that Vanquisher provide.
 """
 
 import math

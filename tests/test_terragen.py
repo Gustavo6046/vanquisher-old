@@ -1,6 +1,5 @@
 """
-A few tests concerning the terrain functionality
-of Vanquisher, primarily generation.
+A few tests concerning the terrain functionality of Vanquisher, primarily generation.
 """
 
 from vanquisher.game.terrain import TerrainChunk, generator as terragen
