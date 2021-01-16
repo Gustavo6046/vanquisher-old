@@ -32,21 +32,21 @@ class Subrenderer(abc.ABC):
         """
         self.renderer = renderer
 
-    @functools.cached_property
+    @functools.property
     def camera(self) -> "Camera":
         """
         Gets the camera of this subrenderer.
         """
         return self.renderer.camera
 
-    @functools.cached_property
+    @functools.property
     def game(self) -> "Game":
         """
         Gets the game this subrenderer belongs to.
         """
         return self.renderer.game
 
-    @functools.cached_property
+    @functools.property
     def world(self) -> "World":
         """
         Gets the world this subrenderer is supposed

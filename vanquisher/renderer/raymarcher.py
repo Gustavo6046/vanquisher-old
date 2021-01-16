@@ -66,7 +66,7 @@ class Ray:
         self.height_offset: float = 0.0
 
     @classmethod
-    @functools.cache
+    @functools.lru_cache
     def _step_offset(
         cls, angle: float, size: float, pitch: float
     ) -> typing.Tuple[vec.Vec2, float]:

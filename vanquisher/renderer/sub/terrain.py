@@ -44,7 +44,7 @@ class TerrainRaymarcher(Raymarcher):
         self.bluishness = bluishness
         self.scale = scale
 
-    @functools.cache
+    @functools.lru_cache
     @classmethod
     def _bluishness_log(cls, bluishness: float) -> float:
         """
@@ -66,7 +66,6 @@ class TerrainRaymarcher(Raymarcher):
         """
         return self.subrenderer.camera
 
-    @functools.cached_property
     def world(self) -> "World":
         """
         Gets the world whose terrain this raymarcher is rendering.
