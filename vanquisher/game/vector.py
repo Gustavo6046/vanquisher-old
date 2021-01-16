@@ -457,17 +457,23 @@ class Vec2:
         self.x += tup[0]
         self.y += tup[1]
 
-    def __eq__(self, other: "Vec2") -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Checks whether two vectors are equal.
         """
-        return self.x == other.x and self.y == other.y
+        if isinstance(other, Vec2):
+            return self.x == other.x and self.y == other.y
 
-    def __ne__(self, other: "Vec2") -> bool:
+        return NotImplemented
+
+    def __ne__(self, other: object) -> bool:
         """
         Checks whether two vectors are different.
         """
-        return self.x != other.x or self.y != other.y
+        if isinstance(other, Vec2):
+            return self.x != other.x or self.y != other.y
+
+        return NotImplemented
 
     def __xor__(self, other: "Vec2") -> float:
         """
@@ -491,7 +497,7 @@ class Vec2:
 
         return self.size == other.size
 
-    def __invert__(self) -> Vec2:
+    def __invert__(self) -> "Vec2":
         """
         Allocates and returns a vector that is
         the opposite of this one.
@@ -558,7 +564,7 @@ class Vec2:
 DEFAULT_POOL.initialize_pool()
 
 
-def vec2(init_x: float, init_y: float) -> Vec2:
+def vec2(init_x: float, init_y: float) -> "Vec2":
     """
     A shorthand to quickly make a 2D vector.
     Try using this with a 'with' block to
@@ -569,7 +575,7 @@ def vec2(init_x: float, init_y: float) -> Vec2:
     return Vec2.make(init_x, init_y, pool=DEFAULT_POOL)
 
 
-def clone(other: Vec2) -> Vec2:
+def clone(other: Vec2) -> "Vec2":
     """
     Rapidly "clones" a Vec2; that is, allocates another
     Vector and sets its coordinates to match those
@@ -583,7 +589,7 @@ def clone(other: Vec2) -> Vec2:
     return Vec2.make(other.x, other.y, pool=DEFAULT_POOL)
 
 
-def from_tuple2(tup: typing.Tuple[float, float]) -> Vec2:
+def from_tuple2(tup: typing.Tuple[float, float]) -> "Vec2":
     """
     A shorthand to quickly make a 2D vector
     from a (float,float) coordinate tuple.
