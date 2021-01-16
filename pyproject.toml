@@ -46,7 +46,7 @@ envlist = py39
 isolated_build = True
 
 [testenv]
-dependencies =
+deps =
     poetry
 
 commands =
