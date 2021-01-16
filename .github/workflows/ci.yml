@@ -55,6 +55,15 @@ jobs:
       - name: Report on test coverage
         run:  poetry run coverage report -m
 
+      - name: Generate test coverage XML report for Codacy
+        run:  poetry run coverage xml
+
+      - name: Send XML coverage report to Codacy
+        uses: codacy/codacy-coverage-reporter-action@0.2.0
+        with:
+          project-token: 91b49712af1246ed881f3ed23f0647f1
+          coverage-reports: coverage.xml
+
   lint:
     runs-on: ubuntu-latest
 
