@@ -18,12 +18,12 @@ def test_indices():
     vec_1 = pool.make(2, 2)
     vec_2 = pool.make(1, 2)
 
-    assert vec_1._index == 0
-    assert vec_2._index == 1
+    assert vec_1.pool_index() == 0
+    assert vec_2.pool_index() == 1
 
     vec_3 = vec_1 + vec_2
 
-    assert vec_3._index == 2
+    assert vec_3.pool_index() == 2
     assert vec_3.x == 3
     assert vec_3.y == 4
     assert vec_3.size == 5
@@ -54,7 +54,7 @@ def test_vector_arithmetics():
 
     pos += vel
 
-    assert pos._index == 0  # still the same
+    assert pos.pool_index() == 0  # still the same
 
     assert pos.as_tuple() == (7, 2)
 

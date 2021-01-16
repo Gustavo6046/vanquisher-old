@@ -235,6 +235,15 @@ class Vec2:
 
         self._used: bool = False
 
+    def pool_index(self) -> int:
+        """
+        Gets the internal pool index of this vector.
+
+        You shouldn't need this if you just use the
+        vector. This method is intended for unit tests.
+        """
+        return self._index
+
     def done(self):
         """
         Deallocates the vector once you're done using it.
