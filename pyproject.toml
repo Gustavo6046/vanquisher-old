@@ -77,4 +77,7 @@ commands =
 
 	# Show coverage report
 	coverage report -m
+
+	# Generate coverage XML (for CI)
+	coverage xml
 """
