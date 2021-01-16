@@ -15,7 +15,7 @@ from vanquisher.game.vector import DEFAULT_POOL, Vec2, vec2
 from vanquisher.renderer.camera import Camera
 from vanquisher.renderer.raymarcher import Ray, Raymarcher
 
-T = typing.TypeVar("T")
+SelfType = typing.TypeVar("SelfType")
 
 
 class GuineaRaymarcher(Raymarcher):
@@ -43,7 +43,7 @@ class GuineaRaymarcher(Raymarcher):
         """
         return self._camera
 
-    def __call__(self: T, next_hit_callback: typing.Callable[["Ray"], bool]) -> T:
+    def __call__(self: SelfType, next_hit_callback: typing.Callable[["Ray"], bool]) -> SelfType:
         """
         Allows using this object as a decorator to
         define the callback that decides the outcome
