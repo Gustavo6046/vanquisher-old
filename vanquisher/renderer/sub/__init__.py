@@ -5,7 +5,6 @@ the sky backdrop, the terrain, and the objects.
 """
 
 import abc
-import functools
 import typing
 
 if typing.TYPE_CHECKING:
