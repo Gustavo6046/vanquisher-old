@@ -1,5 +1,8 @@
-#![PyPI downloads](http://img.shields.io/pypi/dm/vanquisher.svg)
-#![PyPI Version](http://img.shields.io/pypi/v/vanquisher.svg)
+<!--
+  ![PyPI downloads](http://img.shields.io/pypi/dm/vanquisher.svg)
+  ![PyPI Version](http://img.shields.io/pypi/v/vanquisher.svg)
+-->
+
 ![CI status](https://img.shields.io/github/workflow/status/Gustavo6046/vanquisher/CI)
 ![Codacy grade](https://img.shields.io/codacy/grade/fdd2d7b144c44703ab963c0426bea6f0)
 ![Codacy coverage](https://img.shields.io/codacy/coverage/fdd2d7b144c44703ab963c0426bea6f0)
