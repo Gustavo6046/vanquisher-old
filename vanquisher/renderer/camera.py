@@ -145,8 +145,8 @@ class Camera:
         # Also, the smaller axis does not reach the full amplitude
         # of the larger one.
 
-        rightness = (x / view_width) * 2 - 1
-        upwardness = -(y / view_width) * 2 - 1
+        rightness = ((x + 0.5) / view_width) * 2 - 1
+        upwardness = -(((y + 0.5) / view_width) * 2 - 1)
 
         return self.screen_angle(rightness, upwardness)
 
