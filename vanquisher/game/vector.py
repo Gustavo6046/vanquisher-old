@@ -176,10 +176,7 @@ class Vec2Pool:
         """
 
         if self.pool_free[index]:
-            warnings.warn(
-                RuntimeWarning("Vector pool's index {} was already freed".format(index))
-            )
-            return
+            raise RuntimeError("Vector pool's index {} was already freed".format(index))
 
         self.pool[index].reset()
         self.pool_free[index] = True
