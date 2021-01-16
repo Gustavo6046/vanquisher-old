@@ -40,7 +40,7 @@ class Camera:
         self.fov = fov
 
     @classmethod
-    @functools.lru_cache
+    @functools.lru_cache()
     def _fov_tan(cls, fov):
         """
         The tangent of the width angle of the field of view.

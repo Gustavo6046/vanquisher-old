@@ -44,7 +44,7 @@ class TerrainRaymarcher(Raymarcher):
         self.bluishness = bluishness
         self.scale = scale
 
-    @functools.lru_cache
+    @functools.lru_cache()
     @classmethod
     def _bluishness_log(cls, bluishness: float) -> float:
         """
