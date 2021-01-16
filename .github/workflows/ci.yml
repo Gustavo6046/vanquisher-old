@@ -89,11 +89,14 @@ jobs:
       - name: Check Poetry
         run:  poetry --version
 
-      - name: Install Poetry dependencies
-        run: poetry update
+      #- name: Install Poetry dependencies
+      #  run: poetry update
+
+      - name: Install tox
+        run:  poetry run pip install tox
 
       - name: Run tox
-        run: poetry run tox -e py3${{ matrix.python-version }}
+        run:  poetry run tox -e py3${{ matrix.python-version }}
 
   #build-win:
   #  runs-on: ubuntu-latest
