@@ -129,9 +129,9 @@ class TerrainRaymarcher(Raymarcher):
         """
         Puts the current pixel according to the ray's hit status.
         """
-        assert self.draw_surface is not None
-
-        self.draw_surface.plot_pixel(x, y, self.get_color(distance, ray.height_offset))
+        
+        if self.draw_surface is not None:
+            self.draw_surface.plot_pixel(x, y, self.get_color(distance, ray.height_offset))
 
 
 class TerrainSubrenderer(Subrenderer):
