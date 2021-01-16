@@ -23,7 +23,6 @@ Ray step sizes:
 """
 
 import abc
-import functools
 import math
 import typing
 
