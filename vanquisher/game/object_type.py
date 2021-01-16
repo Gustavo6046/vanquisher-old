@@ -10,7 +10,8 @@ import warnings
 import js2py  # type: ignore
 import typing_extensions as typext
 
-from . import Game, objects
+if typing.TYPE_CHECKING:
+    from . import Game, objects
 
 
 class ObjectTypeMethod(typext.Protocol):
@@ -134,7 +135,7 @@ class GameContextJS:
         """
 
         uid = uuid.UUID(ident)
-        obj: typing.Optional[objects.GameObject] = self.__game.objects.get(uid, None)
+        obj: typing.Optional["objects.GameObject"] = self.__game.objects.get(uid, None)
 
         if obj:
             return obj.js_wrapper

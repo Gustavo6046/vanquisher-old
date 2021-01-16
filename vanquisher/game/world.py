@@ -13,6 +13,7 @@ from . import terrain, vector
 if typing.TYPE_CHECKING:
     from . import Game
     from . import objects
+    from .terrain.generator import TerrainGenerator
 
 
 class Chunk:
@@ -73,7 +74,7 @@ class World:
     def __init__(
         self,
         my_game: "Game",
-        terrain_generator: typing.Optional[terrain.generator.TerrainGenerator] = None,
+        terrain_generator: typing.Optional["TerrainGenerator"] = None,
         chunk_width: int = 32,
         base_height: float = 32.0,
         gravity: float = -4.0,

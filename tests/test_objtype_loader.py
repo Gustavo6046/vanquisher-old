@@ -1,4 +1,4 @@
-import vanquisher.game.game as gamepkg
+import vanquisher.game as gamepkg
 
 
 def test_load_object_1():
