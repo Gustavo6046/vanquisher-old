@@ -76,8 +76,8 @@ commands =
 	poetry run pytest --cov=vanquisher tests
 
 	# Show coverage report
-	coverage report -m
+	- coverage report -m
 
 	# Generate coverage XML (for CI)
-	coverage xml
+	- coverage xml
 """
