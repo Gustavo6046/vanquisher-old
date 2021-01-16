@@ -5,10 +5,7 @@ of type TerrainChunk.
 """
 
 import math
-import random
 import typing
-
-import attr
 
 from ...util import interpolate
 

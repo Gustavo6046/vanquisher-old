@@ -9,17 +9,17 @@ import functools
 import math
 import typing
 
-from ...util import interpolate, interpolate_color
+from ...util import interpolate_color
 from ..raymarcher import Ray, Raymarcher
 from . import Subrenderer
 
 if typing.TYPE_CHECKING:
-    from .. import Renderer
-    from .. import camera, surface
+    from .. import surface
 
-    from ...game import Game
-    from ...game import world
     from ..surface import FramebufferSurface
+
+    from ..camera import Camera
+    from ...game.world import World
 
 
 class TerrainRaymarcher(Raymarcher):
@@ -56,15 +56,15 @@ class TerrainRaymarcher(Raymarcher):
         """
         return self._bluishness_log(self.bluishness)
 
-    @functools.cached_property
-    def camera(self) -> "camera.Camera":
+    @property
+    def camera(self) -> "Camera":
         """
         Gets this Raymarcher's camera.
         """
         return self.subrenderer.camera
 
     @functools.cached_property
-    def world(self) -> "world.World":
+    def world(self) -> "World":
         """
         Gets the world whose terrain this raymarcher is rendering.
         """

@@ -2,7 +2,6 @@
 A lame peak-based terrain generator.
 """
 
-import math
 import typing
 
 import attr

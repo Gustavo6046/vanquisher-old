@@ -27,8 +27,6 @@ import functools
 import math
 import typing
 
-import typing_extensions as typext
-
 from ..game import vector as vec
 
 if typing.TYPE_CHECKING:

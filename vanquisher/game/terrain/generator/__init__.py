@@ -6,7 +6,6 @@ first loaded and does not have terrain in it yet.
 
 import abc
 import random
-import typing
 
 
 class TerrainGenerator(abc.ABC):
