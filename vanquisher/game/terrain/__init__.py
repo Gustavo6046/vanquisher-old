@@ -53,6 +53,19 @@ class TerrainChunk:
         x_mid = x_pos % 1.0
         y_mid = y_pos % 1.0
 
+        # Cannot interpolate between chunks ... yet.
+        if x_pos < 0.0:
+            x_pos = 0.0
+
+        if x_pos > self.width - 1.0:
+            x_pos = self.width - 1.0
+
+        if y_pos < 0.0:
+            y_pos = 0.0
+
+        if y_pos > self.width - 1.0:
+            y_pos = self.width - 1.0
+
         # Check if interpolation is not not allowed.
         if not self.allow_height_interpolation:
             # Interpolation is either disallowed or unnecessary.
@@ -122,7 +135,7 @@ class TerrainChunk:
         x_offset, y_offset = offset
 
         for i_pos in range(self.width * self.width):
-            x_pos = i_pos % self.width + x_offset
-            y_pos = math.floor(i_pos / self.width) + y_offset
+            x_pos = i_pos % self.width
+            y_pos = math.floor(i_pos / self.width)
 
-            self[x_pos, y_pos] = generator.height_at(x_pos, y_pos)
+            self[x_pos, y_pos] = generator.height_at(x_pos + x_offset, y_pos + y_offset)
