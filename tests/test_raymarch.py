@@ -9,7 +9,7 @@ when stepping, when hit, and when not hit.
 import math
 import typing
 
-from vanquisher.game.vector import DEFAULT_POOL, vec2
+from vanquisher.game.vector import DEFAULT_POOL, vec2, from_tuple2
 from vanquisher.renderer.camera import Camera
 from vanquisher.renderer.raymarcher import Ray, Raymarcher
 
@@ -85,6 +85,8 @@ def test_ray():
     step_size_1: float = guinea_ray.step_size
     offset_xy, offset_z = guinea_ray.next_step_offset
     coarsening: float = guinea_ray.first_pass_coarsening
+
+    offset_xy = from_tuple2(offset_xy)
 
     total_size_sq: float = offset_xy.size ** 2 + offset_z ** 2
     assert total_size_sq == guinea_ray.step_size ** 2
@@ -177,6 +179,7 @@ def test_raymarcher():
     ray = guinea_marcher.ray
 
     step_xy, step_z = ray.next_step_offset
+    step_xy = from_tuple2(step_xy)
 
     with step_xy:
         assert step_z == 0.0  # no camera pitch
