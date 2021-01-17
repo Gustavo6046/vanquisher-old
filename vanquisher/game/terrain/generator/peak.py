@@ -1,6 +1,4 @@
-"""
-A lame peak-based terrain generator.
-"""
+"""A lame peak-based terrain generator."""
 
 import typing
 
