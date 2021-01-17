@@ -82,4 +82,6 @@ class Renderer:
         for subrenderer in self.subrenderers:
             subrenderer.render(surface)
 
+        surface.update()
+
         self.current_surface = None
