@@ -30,7 +30,6 @@ class GuineaRaymarcher(Raymarcher):
 
         self.next_hit_callback: typing.Optional[typing.Callable[["Ray"], bool]] = None
 
-    @property
     def camera(self) -> "Camera":
         """Tells the raymarcher that _camera is our camera."""
         return self._camera

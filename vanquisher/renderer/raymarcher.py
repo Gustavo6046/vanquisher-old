@@ -207,7 +207,7 @@ class Raymarcher(abc.ABC):
     """A generic raymarcher implementation.
 
     In order to utilize, please subclass and provide
-    a `camera` property and a `ray_hit` function
+    a `camera`, 'put' and `ray_hit` method
     implementations. Feel free to override `setup`.
 
     This raymarcher is used in the TerrainSubrenderer to
