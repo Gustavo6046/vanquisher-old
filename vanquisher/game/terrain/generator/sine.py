@@ -18,6 +18,7 @@ class PeakTerrainGenerator(TerrainGenerator):
     def __init__(
         self,
         seed: int,
+        base_height: float = 20.0,
         period: float = 9.0,
         amplitude: float = 7.5,
         x_scale: float = 1.0,
@@ -28,6 +29,7 @@ class PeakTerrainGenerator(TerrainGenerator):
 
         self.frequency: float = math.pi * 2.0 / period
         self.amplitude: float = amplitude
+        self.base_height: float = base_height
 
         self.x_scale: float = x_scale
         self.y_scale: float = y_scale
@@ -38,7 +40,7 @@ class PeakTerrainGenerator(TerrainGenerator):
         This generator averages two sine waves, one along the X axis, and
         one along the Y axis.
         """
-        return self.amplitude * (
+        return self.base_height + self.amplitude * (
             math.sin(x_pos * self.frequency * self.x_scale) +
             math.sin(y_pos * self.frequency * self.y_scale)
         ) / 2
