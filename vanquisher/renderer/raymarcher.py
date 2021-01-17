@@ -312,7 +312,16 @@ class Raymarcher(abc.ABC):
         area = width * size[1]
 
         for pos in range(area):
+            print(
+                "\rRaymarching: {}/{} ({:.2f}%)...".format(
+                    pos, area, 100.0 * pos / area
+                ),
+                end="",
+            )
+
             x = pos % width
             y = math.floor(pos / width)
 
             self.raymarch_one(size, x, y, **kwargs)
+
+        print("\r{}".format(" " * len("Raymarching: XXXX/XXXX (XXXXXX%)...")))

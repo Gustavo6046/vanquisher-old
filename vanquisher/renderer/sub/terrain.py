@@ -106,7 +106,9 @@ class TerrainRaymarcher(Raymarcher):
             skyness = 1.0 / (1.0 + math.log(height_offset))
             green = interpolate_color(light_green, sky_green, skyness)
 
-        return interpolate_color(green, blue, bluishness)
+        res = interpolate_color(green, blue, bluishness)
+
+        return res
 
     def put(self, x: int, y: int, distance: float, ray: Ray):
         """Puts the current pixel according to the ray's hit status."""
