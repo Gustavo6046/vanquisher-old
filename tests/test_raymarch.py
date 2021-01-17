@@ -1,5 +1,4 @@
-"""
-A small suite of tests meant to test the raymarcher.
+"""A small suite of tests meant to test the raymarcher.
 
 Instead of trying to check against rendering
 output (which would be basicaly impossible),
@@ -10,7 +9,7 @@ when stepping, when hit, and when not hit.
 import math
 import typing
 
-from vanquisher.game.vector import DEFAULT_POOL, Vec2, vec2
+from vanquisher.game.vector import DEFAULT_POOL, vec2
 from vanquisher.renderer.camera import Camera
 from vanquisher.renderer.raymarcher import Ray, Raymarcher
 
@@ -18,16 +17,13 @@ SelfType = typing.TypeVar("SelfType", bound="GuineaRaymarcher")
 
 
 class GuineaRaymarcher(Raymarcher):
-    """
-    A Raymarcher implementation used for testing.
+    """A Raymarcher implementation used for testing.
 
     Allows setting when it is hit.
     """
 
     def __init__(self, camera: "Camera"):
-        """
-        Initializes the test raymarcher.
-        """
+        """Initialize the test raymarcher."""
         super().__init__()
 
         self._camera = camera
@@ -36,14 +32,14 @@ class GuineaRaymarcher(Raymarcher):
 
     @property
     def camera(self) -> "Camera":
-        """
-        Tells the raymarcher that _camera is
-        our camera.
-        """
+        """Tells the raymarcher that _camera is our camera."""
         return self._camera
 
-    def __call__(self: SelfType, next_hit_callback: typing.Callable[["Ray"], bool]) -> SelfType:
-        """
+    def __call__(
+        self: SelfType, next_hit_callback: typing.Callable[["Ray"], bool]
+    ) -> SelfType:
+        """Raymarcher's usability as a decorator, to set the 'hit callback'.
+
         Allows using this object as a decorator to
         define the callback that decides the outcome
         of the next ray hit check for testing purposes.
@@ -53,29 +49,19 @@ class GuineaRaymarcher(Raymarcher):
         return self
 
     def ray_hit(self, ray: "Ray") -> bool:
-        """
-        Tells the raymarcher whether the
-        current state is a hit.
-        """
-
+        """Tell the raymarcher whether the current state is a hit."""
         if self.next_hit_callback is None:
             return False
 
         return self.next_hit_callback(ray)
 
     def put(self, x: int, y: int, distance: float, ray: Ray):
-        """
-        No-op, we're not interested.
-        """
+        """No-op, we're not interested."""
         ...
 
 
 def test_ray():
-    """
-    Tests the behaviour of raymarcher rays
-    to ensure they function properly.
-    """
-
+    """Tests the behaviour of raymarcher rays to ensure they function properly."""
     init_free = DEFAULT_POOL.free
 
     guinea_ray = Ray()
@@ -167,12 +153,12 @@ def test_ray():
 
 
 def test_raymarcher():
-    """
+    """Tests the Raymarcher itself.
+    
     Ensure that the generic Raymarcher implementation
     generally works as it should, by testing a general
     barebones implementation of it.
     """
-
     init_free = DEFAULT_POOL.free
 
     with vec2(0.0, 0.0) as pos:
