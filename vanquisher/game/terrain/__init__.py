@@ -19,7 +19,7 @@ class TerrainChunk:
     concept of chunk. Chunk.terrain is a TerrainChunk.
     """
 
-    def __init__(self, width=32, allow_height_interpolation=True):
+    def __init__(self, width=32):
         """
         Creates a new terrain, with the given square width and
         configuration, and with a heightmap that defaults to a flat
@@ -31,7 +31,6 @@ class TerrainChunk:
 
         self.heightmap = [0.0 for _ in range(width * width)]
         self.width = width
-        self.allow_height_interpolation = allow_height_interpolation
 
     def get(self, x_pos: int, y_pos: int) -> float:
         """
@@ -45,7 +44,7 @@ class TerrainChunk:
     def __getitem__(self, coords: typing.Tuple[float, float]) -> float:
         """
         Gets the height at any point of this TerrainChunk, including
-        using bilinear interpolation if needed and allowed.
+        using bilinear interpolation.
         """
 
         (x_pos, y_pos) = coords
@@ -66,26 +65,17 @@ class TerrainChunk:
         if y_pos > self.width - 1.0:
             y_pos = self.width - 1.0
 
-        # Check if interpolation is not not allowed.
-        if not self.allow_height_interpolation:
-            # Interpolation is either disallowed or unnecessary.
-            return self.get(int(x_pos), int(y_pos))
 
-        # If required, do bilinear interpolation.
-        if y_mid != 0.0 or x_mid != 0.0:
-            x_lo = math.floor(x_pos)
-            x_hi = math.ceil(x_pos)
-            y_lo = math.floor(y_pos)
-            y_hi = math.ceil(y_pos)
+        # Do bilinear interpolation.
+        x_lo = math.floor(x_pos)
+        x_hi = math.ceil(x_pos)
+        y_lo = math.floor(y_pos)
+        y_hi = math.ceil(y_pos)
 
-            interm_1 = interpolate(self.get(x_lo, y_lo), self.get(x_lo, y_hi), x_mid)
-            interm_2 = interpolate(self.get(x_hi, y_lo), self.get(x_hi, y_hi), x_mid)
+        interm_1 = interpolate(self.get(x_lo, y_lo), self.get(x_lo, y_hi), x_mid)
+        interm_2 = interpolate(self.get(x_hi, y_lo), self.get(x_hi, y_hi), x_mid)
 
-            return interpolate(interm_1, interm_2, y_mid)
-
-        # Interpolatoin is not required.
-        # Just fetch the value directly.
-        return self.get(int(x_pos), int(y_pos))
+        return interpolate(interm_1, interm_2, y_mid)
 
     def __setitem__(self, pos: typing.Tuple[int, int], value: float):
         """
