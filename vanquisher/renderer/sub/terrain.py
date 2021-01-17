@@ -21,20 +21,15 @@ if typing.TYPE_CHECKING:
 
 
 class TerrainRaymarcher(Raymarcher):
-    """
-    The terrain raymarcher.
-    """
+    """The terrain raymarcher."""
 
     def __init__(
         self,
         subrenderer: "TerrainSubrenderer",
         bluishness: float = 1.4,
-        scale: float = 32,
+        scale: float = 32.0
     ):
-        """
-        Sets this raymarcher up, in this case
-        by setting its subrenderer.
-        """
+        """Sets this raymarcher up, in this case b setting its subrenderer."""
         super().__init__()
 
         self.subrenderer = subrenderer
@@ -44,44 +39,34 @@ class TerrainRaymarcher(Raymarcher):
     @functools.lru_cache()
     @classmethod
     def _bluishness_log(cls, bluishness: float) -> float:
-        """
-        The logarithm of a distance bluishness.
-        """
+        """The logarithm of a distance bluishness."""
         return math.log(bluishness)
 
     @property
     def bluishness_log(self) -> float:
-        """
-        The logarithm of this terrain raymarcher's distance bluishness.
-        """
+        """The logarithm of this terrain raymarcher's distance bluishness."""
         return self._bluishness_log(self.bluishness)
 
     @property
     def camera(self) -> "Camera":
-        """
-        Gets this Raymarcher's camera.
-        """
+        """Gets this Raymarcher's camera."""
         return self.subrenderer.camera
 
     @property
     def world(self) -> "World":
-        """
-        Gets the world whose terrain this raymarcher is rendering.
-        """
+        """Gets the world whose terrain this raymarcher is rendering."""
         return self.subrenderer.world
 
     @property
     def draw_surface(self) -> typing.Optional["surface.FramebufferSurface"]:
-        """
-        The surface this raymarcher is rendering to.
-        """
+        """The surface this raymarcher is rendering to."""
         return self.subrenderer.renderer.current_surface
 
     def ray_hit(self, ray: Ray) -> bool:
-        """
-        Checks whether the ray has hit relevant
-        geometry in its current position; in this
-        case, terrain.
+        """A callback to check when the ray is inside rendered geometry.
+
+        Checks whether the ray has hit relevant geometry in its current
+        position; in this case, terrain.
         """
 
         chunk = self.world.chunk_at_pos(ray.pos)
@@ -92,10 +77,7 @@ class TerrainRaymarcher(Raymarcher):
     def get_color(
         self, distance: float, height_offset: float
     ) -> typing.Tuple[float, float, float]:
-        """
-        Computes a colour for the current pixel depending on the ray's
-        distance and height offset.
-        """
+        """Gets the current pixel's color depending on the ray's distance and depth."""
 
         # Get bluishness from distance
         # (air refracting light type thing?)
@@ -124,10 +106,7 @@ class TerrainRaymarcher(Raymarcher):
         return interpolate_color(green, blue, bluishness)
 
     def put(self, x: int, y: int, distance: float, ray: Ray):
-        """
-        Puts the current pixel according to the ray's hit status.
-        """
-
+        """Puts the current pixel according to the ray's hit status."""
         if self.draw_surface is not None:
             self.draw_surface.plot_pixel(
                 x, y, self.get_color(distance, ray.height_offset)
@@ -135,23 +114,18 @@ class TerrainRaymarcher(Raymarcher):
 
 
 class TerrainSubrenderer(Subrenderer):
-    """
-    The terrain subrenderer.
+    """The terrain subrenderer.
 
     Uses TerrainRaymarcher (and, by extension, Raymarcher)
     under the hood.
     """
 
     def __init__(self, renderer: "Renderer"):
-        """
-        Sets this Subrenderer up to have a raymarcher.
-        """
+        """Sets this Subrenderer up to have a raymarcher."""
         super().__init__(renderer)
 
         self.raymarcher = TerrainRaymarcher(self)
 
     def render(self, surface: "FramebufferSurface"):
-        """
-        Renders the terrain using the raymarcher.
-        """
+        """Renders the terrain using the raymarcher."""
         self.raymarcher.raymarch_all(surface.get_size())
