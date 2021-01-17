@@ -140,7 +140,7 @@ def test_load_object_3():
 
                 do_noise: function(self) {
                     return (
-                        "The " + self.att('animal_name') + 
+                        "The " + self.att('animal_name') +
                         " goes '" + self.call('get_noise') + "!'"
                     );
                 },
