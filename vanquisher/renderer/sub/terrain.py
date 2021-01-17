@@ -5,7 +5,6 @@ Uses the raymarcher module to render
 the terrain.
 """
 
-import functools
 import math
 import typing
 
@@ -36,16 +35,17 @@ class TerrainRaymarcher(Raymarcher):
         self.bluishness = bluishness
         self.scale = scale
 
-    @functools.lru_cache()
-    @classmethod
-    def _bluishness_log(cls, bluishness: float) -> float:
-        """The logarithm of a distance bluishness."""
-        return math.log(bluishness)
+        self._bluishness_cached: typing.Optional[float] = None
+        self._bluishness_log: float = 0.0
 
     @property
     def bluishness_log(self) -> float:
         """The logarithm of this terrain raymarcher's distance bluishness."""
-        return self._bluishness_log(self.bluishness)
+        if self._bluishness_cached is None or self._bluishness_cached != self.bluishness:
+            self._bluishness_cached = self.bluishness
+            self._bluishness_log = math.log(self.bluishness)
+        
+        return self._bluishness_log
 
     @property
     def camera(self) -> "Camera":
