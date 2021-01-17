@@ -43,7 +43,7 @@ class PygameSurface(FramebufferSurface):
         rgb_int = (
             min(255, max(0, math.floor(r * 255.0))),
             min(255, max(0, math.floor(g * 255.0))),
-            min(255, max(0, math.floor(b * 255.0)))
+            min(255, max(0, math.floor(b * 255.0))),
         )
 
         self.surf.set_at((x, y), rgb_int)

@@ -94,7 +94,7 @@ class TerrainRaymarcher(Raymarcher):
         res = (
             res[0] / darkness_denomin,
             res[1] / darkness_denomin,
-            res[2] / darkness_denomin
+            res[2] / darkness_denomin,
         )
 
         return res

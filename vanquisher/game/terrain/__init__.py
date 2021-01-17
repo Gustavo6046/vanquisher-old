@@ -74,9 +74,9 @@ class TerrainChunk:
         # If required, do bilinear interpolation.
         if y_mid != 0.0 or x_mid != 0.0:
             x_lo = math.floor(x_pos)
-            x_hi =  math.ceil(x_pos)
+            x_hi = math.ceil(x_pos)
             y_lo = math.floor(y_pos)
-            y_hi =  math.ceil(y_pos)
+            y_hi = math.ceil(y_pos)
 
             interm_1 = interpolate(self.get(x_lo, y_lo), self.get(x_lo, y_hi), x_mid)
             interm_2 = interpolate(self.get(x_hi, y_lo), self.get(x_hi, y_hi), x_mid)
