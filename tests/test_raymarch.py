@@ -154,7 +154,7 @@ def test_ray():
 
 def test_raymarcher():
     """Tests the Raymarcher itself.
-    
+
     Ensure that the generic Raymarcher implementation
     generally works as it should, by testing a general
     barebones implementation of it.
