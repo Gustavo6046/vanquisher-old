@@ -45,7 +45,7 @@ class Camera:
         """
         The tangent of the width angle of the field of view.
         """
-        return math.tan(math.radians(fov))
+        return math.tan(math.radians(fov) / 2.0)
 
     @property
     def fov_tan(self):

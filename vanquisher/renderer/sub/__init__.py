@@ -21,7 +21,7 @@ class Subrenderer(abc.ABC):
     only drawing things that are relevant to it.
     """
 
-    def __init__(self, renderer: "Renderer"):
+    def __init__(self, renderer: "Renderer", *args, **kwargs):
         """
         Initializes it with the renderer.
 

@@ -3,6 +3,7 @@ Defines a pygame surface that implements the
 FramebufferSurface interface.
 """
 
+import math
 import typing
 
 import pygame
@@ -38,7 +39,14 @@ class PygameSurface(FramebufferSurface):
         Plots an RGB pixel at the specified position with the
         specified colour, within the pygame window.
         """
-        self.surf.set_at((x, y), rgb)
+        r, g, b = rgb
+        rgb_int = (
+            min(255, max(0, math.floor(r * 255.0))),
+            min(255, max(0, math.floor(g * 255.0))),
+            min(255, max(0, math.floor(b * 255.0)))
+        )
+
+        self.surf.set_at((x, y), rgb_int)
 
     def plot_rect(
         self,
@@ -56,4 +64,4 @@ class PygameSurface(FramebufferSurface):
 
     def update(self):
         """Updates the pygame surface."""
-        pygame.display.update()
+        pygame.display.flip()

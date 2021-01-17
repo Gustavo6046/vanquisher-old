@@ -71,44 +71,17 @@ class TerrainChunk:
             # Interpolation is either disallowed or unnecessary.
             return self.get(int(x_pos), int(y_pos))
 
-        # Find what interpolation may be required.
-        interp = 0
-
-        # - Check if interpolation is required in the X axis.
-        if x_mid != 0.0:
+        # If required, do bilinear interpolation.
+        if y_mid != 0.0 or x_mid != 0.0:
             x_lo = math.floor(x_pos)
-            x_hi = math.ceil(x_pos)
-
-            interp |= 0b01
-
-        # - Check if interpolation is required in the Y axis.
-        if y_mid != 0.0:
+            x_hi =  math.ceil(x_pos)
             y_lo = math.floor(y_pos)
-            y_hi = math.ceil(y_pos)
+            y_hi =  math.ceil(y_pos)
 
-            interp |= 0b10
-
-        # If interpolation is required in both axes,
-        # do bilinear.
-
-        if interp == 0b11:
             interm_1 = interpolate(self.get(x_lo, y_lo), self.get(x_lo, y_hi), x_mid)
             interm_2 = interpolate(self.get(x_hi, y_lo), self.get(x_hi, y_hi), x_mid)
 
             return interpolate(interm_1, interm_2, y_mid)
-
-        # If interpolation is required in one axis,
-        # do linear instead.
-
-        if interp == 0b01:
-            # ...on the X axis
-            y_pos = int(y_pos)
-            return interpolate(self.get(x_lo, y_pos), self.get(x_hi, y_pos), x_mid)
-
-        if interp == 0b10:
-            # ...on the Y axis
-            x_pos = int(x_pos)
-            return interpolate(self.get(x_pos, y_lo), self.get(x_pos, y_hi), y_mid)
 
         # Interpolatoin is not required.
         # Just fetch the value directly.

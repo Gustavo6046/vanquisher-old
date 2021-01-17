@@ -25,30 +25,13 @@ class TerrainRaymarcher(Raymarcher):
     def __init__(
         self,
         subrenderer: "TerrainSubrenderer",
-        bluishness: float = 1.4,
-        scale: float = 32.0,
+        scale: float = 64.0,
     ):
         """Sets this raymarcher up, in this case b setting its subrenderer."""
         super().__init__()
 
         self.subrenderer = subrenderer
-        self.bluishness = bluishness
         self.scale = scale
-
-        self._bluishness_cached: typing.Optional[float] = None
-        self._bluishness_log: float = 0.0
-
-    @property
-    def bluishness_log(self) -> float:
-        """The logarithm of this terrain raymarcher's distance bluishness."""
-        if (
-            self._bluishness_cached is None
-            or self._bluishness_cached != self.bluishness
-        ):
-            self._bluishness_cached = self.bluishness
-            self._bluishness_log = math.log(self.bluishness)
-
-        return self._bluishness_log
 
     @property
     def camera(self) -> "Camera":
@@ -82,12 +65,13 @@ class TerrainRaymarcher(Raymarcher):
     ) -> typing.Tuple[float, float, float]:
         """Gets the current pixel's color depending on the ray's distance and depth."""
 
+        distance = (distance / self.scale) ** 2
+        darkness_denomin = 1.0 + math.sqrt(distance + 1.0)
+
         # Get bluishness from distance
         # (air refracting light type thing?)
-        bluishness = 1.0 - (
-            1.0 / (1.0 + math.log(distance / self.scale + 1.0) / self.bluishness_log)
-        )
-        blue = (0.1, 0.4, 0.8)
+        bluishness = 1.0 - (1.0 / (1.0 + math.log(distance + 1.0)))
+        blue = (0.1, 0.4, 0.65)
 
         # Get brightness from vertical offset
         if height_offset < 0:
@@ -96,6 +80,7 @@ class TerrainRaymarcher(Raymarcher):
             dark_green = (0.02, 0.15, 0.1)
 
             darkness = 1.0 / (1.0 + math.log(-height_offset))
+
             green = interpolate_color(light_green, dark_green, darkness)
 
         else:
@@ -104,9 +89,12 @@ class TerrainRaymarcher(Raymarcher):
             sky_green = (0.5, 0.82, 0.6)
 
             skyness = 1.0 / (1.0 + math.log(height_offset))
+
             green = interpolate_color(light_green, sky_green, skyness)
 
         res = interpolate_color(green, blue, bluishness)
+
+        res = (res[0] / darkness_denomin, res[1] / darkness_denomin, res[2] / darkness_denomin)
 
         return res
 

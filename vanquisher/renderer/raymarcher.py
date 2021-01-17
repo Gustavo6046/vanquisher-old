@@ -67,21 +67,21 @@ class Ray:
     @classmethod
     def _step_offset(
         cls, angle: float, size: float, pitch: float
-    ) -> typing.Tuple[vec.Vec2, float]:
+    ) -> typing.Tuple[typing.Tuple[float, float], float]:
         """
         Gets the step offset, both horizontal and vertical,
         with the given parameters
         """
 
         return (
-            vec.vec2(
+            (
                 math.cos(angle) * math.cos(pitch) * size,
                 math.sin(angle) * math.cos(pitch) * size,
             ),
             math.sin(pitch) * size,
         )
 
-    def step_offset(self, step_size: float) -> typing.Tuple[vec.Vec2, float]:
+    def step_offset(self, step_size: float) -> typing.Tuple[typing.Tuple[float, float], float]:
         """
         Gets the step offset, both horizontal and vertical,
         of this ray, with the given step size.
@@ -90,7 +90,7 @@ class Ray:
         return self._step_offset(self.angle, step_size, self.pitch)
 
     @property
-    def next_step_offset(self) -> typing.Tuple[vec.Vec2, float]:
+    def next_step_offset(self) -> typing.Tuple[typing.Tuple[float, float], float]:
         """
         Gets the step offset, both horizontal and vertical,
         of this ray, with the current step size set in this
@@ -144,8 +144,7 @@ class Ray:
 
         step_offset_xy, step_offset_z = self.step_offset(this_step_size)
 
-        with step_offset_xy:
-            self.pos += step_offset_xy
+        self.pos.add_tuple(step_offset_xy)
 
         self.height += step_offset_z
         self.height_offset += step_offset_z

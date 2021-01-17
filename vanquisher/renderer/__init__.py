@@ -22,6 +22,7 @@ if typing.TYPE_CHECKING:
 
 
 RendererType = typing.TypeVar("RendererType", bound="Renderer")
+SubrendererType = typing.TypeVar("SubrendererType", bound="Subrenderer")
 
 
 class Renderer:
@@ -64,7 +65,7 @@ class Renderer:
         return cls(game, camera)
 
     def add_subrenderer(
-        self, subrenderer_type: typing.Type["Subrenderer"], *args, **kwargs
+        self, subrenderer_type: typing.Type[SubrendererType], *args, **kwargs
     ):
         """Add a Subrendererer to this Renderer's subrendering pipeline.
 
