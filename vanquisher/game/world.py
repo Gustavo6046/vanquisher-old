@@ -65,10 +65,7 @@ class Chunk:
 
 
 class World:
-    """
-    The world in which objects interact to the terrain
-    and each other.
-    """
+    """The world in which objects interact to the terrain and each other."""
 
     def __init__(
         self,
@@ -78,12 +75,12 @@ class World:
         base_height: float = 32.0,
         gravity: float = -4.0,
     ):
-        """
+        """World initialization.
+
         Creates an empty world, with a few parameters and
         an empty list of chunks, and optionally sets its
         generator too.
         """
-
         self.game = my_game
         self.chunk_width = chunk_width
         self.base_height = base_height
@@ -92,11 +89,12 @@ class World:
         self.terrain_generator = terrain_generator
         self.chunks: typing.Dict[typing.Tuple[int, int], Chunk] = {}
 
-    def get_chunk(self, chunk_pos: typing.Tuple[int, int]) -> Chunk:
-        """
-        Gets a chunk at a chunk-space position.
-        """
+    def set_terrain_generator(self, generator: "TerrainGenerator"):
+        """Sets the terrain generator this world should use to generate new chunks."""
+        self.terrain_generator = generator
 
+    def get_chunk(self, chunk_pos: typing.Tuple[int, int]) -> Chunk:
+        """Gets a chunk at a chunk-space position."""
         if chunk_pos in self.chunks:
             return self.chunks[chunk_pos]
 
@@ -105,10 +103,7 @@ class World:
     def chunk_at_pos(
         self, pos: typing.Union[vector.Vec2, typing.Tuple[float, float]]
     ) -> Chunk:
-        """
-        Gets a chunk at a world-space position.
-        """
-
+        """Gets a chunk at a world-space position."""
         if isinstance(pos, vector.Vec2):
             pos_x, pos_y = pos.as_tuple()
 
@@ -120,33 +115,25 @@ class World:
         )
 
     def object_register(self, obj: "objects.GameObject"):
-        """
-        Registers a game object to the chunk it is in.
+        """Registers a game object to the chunk it is in.
 
         Use `Game.oobject_register` instead. That affects the
         whole playsim.
         """
-
         chunk = self.chunk_at_pos(obj.pos.as_tuple())
         chunk.object_register(obj)
 
     def object_unregister(self, obj: "objects.GameObject"):
-        """
-        Unregisters a game object from the chunk it was in.
+        """Unregisters a game object from the chunk it was in.
 
         Use `Game.oobject_unregister` instead. That affects the
         whole playsim.
         """
-
         chunk = self.chunk_at_pos(obj.pos.as_tuple())
         chunk.object_unregister(obj)
 
     def make_chunk(self, chunk_x: int, chunk_y: int) -> Chunk:
-        """
-        Initializes and generates a chunk at a specified
-        chunk-space position.
-        """
-
+        """Initializes and generates a chunk at a specified chunk-space position."""
         new_chunk = Chunk(self, (chunk_x, chunk_y))
         off_x = chunk_x * self.chunk_width
         off_y = chunk_y * self.chunk_width
@@ -159,9 +146,6 @@ class World:
         return new_chunk
 
     def update_objects(self, time_delta: float):
-        """
-        Updates all objects in this world.
-        """
-
+        """Updates all objects in this world."""
         for obj in self.game.objects.values():
             obj.tick(time_delta)
