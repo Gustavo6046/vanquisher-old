@@ -26,7 +26,7 @@ class TerrainRaymarcher(Raymarcher):
         self,
         subrenderer: "TerrainSubrenderer",
         bluishness: float = 1.4,
-        scale: float = 32.0
+        scale: float = 32.0,
     ):
         """Sets this raymarcher up, in this case b setting its subrenderer."""
         super().__init__()
@@ -41,10 +41,13 @@ class TerrainRaymarcher(Raymarcher):
     @property
     def bluishness_log(self) -> float:
         """The logarithm of this terrain raymarcher's distance bluishness."""
-        if self._bluishness_cached is None or self._bluishness_cached != self.bluishness:
+        if (
+            self._bluishness_cached is None
+            or self._bluishness_cached != self.bluishness
+        ):
             self._bluishness_cached = self.bluishness
             self._bluishness_log = math.log(self.bluishness)
-        
+
         return self._bluishness_log
 
     @property
