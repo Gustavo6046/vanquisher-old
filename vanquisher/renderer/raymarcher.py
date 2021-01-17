@@ -243,7 +243,7 @@ class Raymarcher(abc.ABC):
         Sets up this raymarcher's Ray toward the given pixel.
         """
 
-        angle, pitch = self.camera().pixel_angle(x, y, size)
+        angle, pitch = self.camera.pixel_angle(x, y, size)
 
         self.ray.setup(self.camera().pos, self.camera().height, angle, pitch, **kwargs)
 
