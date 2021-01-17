@@ -20,7 +20,7 @@ class PygameSurface(FramebufferSurface):
     """
 
     def __init__(self, *args, **kwargs):
-        """Initializes this surface, including initializing the underlying Pygame surface."""
+        """Initializes this surface, including the underlying Pygame surface."""
 
         self.surf = pygame.display.set_mode(*args, **kwargs)
 
@@ -39,11 +39,11 @@ class PygameSurface(FramebufferSurface):
         Plots an RGB pixel at the specified position with the
         specified colour, within the pygame window.
         """
-        r, g, b = rgb
+        col_r, col_g, col_b = rgb
         rgb_int = (
-            min(255, max(0, math.floor(r * 255.0))),
-            min(255, max(0, math.floor(g * 255.0))),
-            min(255, max(0, math.floor(b * 255.0))),
+            min(255, max(0, math.floor(col_r * 255.0))),
+            min(255, max(0, math.floor(col_g * 255.0))),
+            min(255, max(0, math.floor(col_b * 255.0))),
         )
 
         self.surf.set_at((x, y), rgb_int)

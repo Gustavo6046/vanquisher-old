@@ -35,11 +35,11 @@ class TerrainRaymarcher(Raymarcher):
 
     def camera(self) -> "Camera":
         """Gets this Raymarcher's camera."""
-        return self.subrenderer.camera
+        return self.subrenderer.camera()
 
     def world(self) -> "World":
         """Gets the world whose terrain this raymarcher is rendering."""
-        return self.subrenderer.world
+        return self.subrenderer.world()
 
     def draw_surface(self) -> typing.Optional["surface.FramebufferSurface"]:
         """The surface this raymarcher is rendering to."""
@@ -101,10 +101,10 @@ class TerrainRaymarcher(Raymarcher):
 
     def put(self, x: int, y: int, distance: float, ray: Ray):
         """Puts the current pixel according to the ray's hit status."""
-        if self.draw_surface is not None:
-            self.draw_surface().plot_pixel(
-                x, y, self.get_color(distance, ray.height_offset)
-            )
+        canvas = self.draw_surface()
+
+        if canvas is not None:
+            canvas.plot_pixel(x, y, self.get_color(distance, ray.height_offset))
 
 
 class TerrainSubrenderer(Subrenderer):
