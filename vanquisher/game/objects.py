@@ -113,7 +113,7 @@ class GameObject:
         self.world = my_world
         self.chunk = self.world.chunk_at_pos(self.pos.as_tuple())
 
-        self.height: float = height if height is not None else self.floor_height
+        self.height: float = height if height is not None else self.floor_height()
         self.vel_speed: float = vel_speed
 
         self.restitution: float = restitution
@@ -125,7 +125,7 @@ class GameObject:
         self.sample_distance: float = sample_distance
 
         self._obj_type = obj_type
-        self.type: object_type.ObjectType = self.game.object_types.get_type(
+        self.type: object_type.ObjectType = self.game().object_types.get_type(
             self._obj_type
         )
 
@@ -139,7 +139,6 @@ class GameObject:
         if "begin" in self.type.callbacks:
             self.type.callbacks["begin"](self.js_wrapper)
 
-    @property
     def floor_height(self):
         """
         The height of the floor at this game object's position.
@@ -154,7 +153,6 @@ class GameObject:
 
         return self.chunk.terrain[self.pos.x + off_x, self.pos.y + off_y]
 
-    @property
     def game(self):
         """
         The game this object pertains to.
@@ -191,8 +189,8 @@ class GameObject:
         such as clipping under the terrain.
         """
 
-        if self.height < self.floor_height:
-            self.height = self.floor_height
+        if self.height < self.floor_height():
+            self.height = self.floor_height()
 
     def push(self, offset_x: float, offset_y: float):
         """
@@ -202,7 +200,7 @@ class GameObject:
 
         with vector.vec2(offset_x, offset_y) as offset:
             new_height = self.offset_floor_height(offset_x, offset_y)
-            slope = new_height - self.floor_height
+            slope = new_height - self.floor_height()
 
             if slope > 0:
                 offset /= 1 + slope
@@ -253,8 +251,8 @@ class GameObject:
         with self.horz_speed * time_delta as hspeed:
             self.push(*hspeed.as_tuple())
 
-        if self.height < self.floor_height:
-            self.height = self.floor_height
+        if self.height < self.floor_height():
+            self.height = self.floor_height()
 
             self.vel_speed = -self.vel_speed * max(0, self.restitution)
 
@@ -264,7 +262,7 @@ class GameObject:
                     with roll * (self.vel_speed * self.friction) as roll:
                         self.horz_speed += roll
 
-        elif self.height > self.floor_height:
+        elif self.height > self.floor_height():
             self.vel_speed += self.world.gravity * time_delta
 
         self.horz_speed *= self.friction ** time_delta
@@ -274,7 +272,7 @@ class GameObject:
         Destroys this object.
         """
 
-        self.game.object_remove(self)
+        self.game().object_remove(self)
 
         if self.type.callbacks["end"]:
             self.type.callbacks["end"](self)
@@ -420,7 +418,6 @@ class GameObjectJS:
 
         return self.__obj.type.attributes.get(name.lower(), None)
 
-    @property
     def typename(self) -> str:
         """
         Property primarily for access as JavaScript API.
@@ -436,7 +433,6 @@ class GameObjectJS:
         """
         return str(self.__obj.identifier)
 
-    @property
     def floor_height(self):
         """
         The height of the floor at this game object's position.

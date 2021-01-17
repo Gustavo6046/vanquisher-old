@@ -121,7 +121,6 @@ class GameContextJS:
         """
         self.__game = my_game
 
-    @property
     def def_context(self) -> "ObjectTypeContext":
         """
         The ObjectTypeContext this GameContextJS indirectly pertains to.
@@ -149,9 +148,9 @@ class GameContextJS:
         This is meant to be called from JS.
         """
 
-        otype = ObjectType(self.def_context, type_defs)
+        otype = ObjectType(self.def_context(), type_defs)
 
-        self.def_context.register_type(otype)
+        self.def_context().register_type(otype)
 
     def iter_all_objects(self, callback: "objects.ObjectCallback"):
         """
