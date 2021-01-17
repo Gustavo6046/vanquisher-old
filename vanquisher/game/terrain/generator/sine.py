@@ -1,12 +1,11 @@
 """A lame sine wave terrain generator."""
 
 import math
-import typing
 
 from . import TerrainGenerator
 
 
-class PeakTerrainGenerator(TerrainGenerator):
+class SineTerrainGenerator(TerrainGenerator):
     """A TerrainGenerator implementation that creates wavy terrain using sine waves.
 
     Nothing is randomized, so seed is unused.
