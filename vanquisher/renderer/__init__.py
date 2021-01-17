@@ -63,14 +63,14 @@ class Renderer:
 
         return cls(game, camera)
 
-    def add_subrenderer(self, subrenderer: typing.Type["Subrenderer"], *args, **kwargs):
+    def add_subrenderer(self, subrenderer_type: typing.Type["Subrenderer"], *args, **kwargs):
         """Add a Subrendererer to this Renderer's subrendering pipeline.
 
         You need to pass a Subrenderer type, not an instance; *args and **kwargs
         can be provided to initialize any parameters a specific Subrenderer
         implementation might need.
         """
-        self.subrenderers.append(subrenderer(*args, **kwargs))
+        self.subrenderers.append(subrenderer_type(self, *args, **kwargs))
 
     def render(self, surface: "FramebufferSurface"):
         """
