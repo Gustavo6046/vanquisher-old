@@ -47,7 +47,6 @@ class Camera:
         """
         return math.tan(math.radians(fov) / 2.0)
 
-    @property
     def fov_tan(self):
         """
         The tangent of the width angle of this raymarcher's
@@ -116,8 +115,8 @@ class Camera:
         and pass your own x,y values between -1 and 1.
         """
 
-        angle = self.angle + x * self.fov_tan
-        pitch = self.pitch + y * self.fov_tan
+        angle = self.angle + x * self.fov_tan()
+        pitch = self.pitch + y * self.fov_tan()
 
         return (angle, pitch)
 

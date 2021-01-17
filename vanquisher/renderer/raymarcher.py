@@ -81,7 +81,9 @@ class Ray:
             math.sin(pitch) * size,
         )
 
-    def step_offset(self, step_size: float) -> typing.Tuple[typing.Tuple[float, float], float]:
+    def step_offset(
+        self, step_size: float
+    ) -> typing.Tuple[typing.Tuple[float, float], float]:
         """
         Gets the step offset, both horizontal and vertical,
         of this ray, with the given step size.
@@ -89,7 +91,6 @@ class Ray:
 
         return self._step_offset(self.angle, step_size, self.pitch)
 
-    @property
     def next_step_offset(self) -> typing.Tuple[typing.Tuple[float, float], float]:
         """
         Gets the step offset, both horizontal and vertical,
@@ -203,8 +204,7 @@ class Ray:
 
 
 class Raymarcher(abc.ABC):
-    """
-    A generic raymarcher implementation.
+    """A generic raymarcher implementation.
 
     In order to utilize, please subclass and provide
     a `camera` property and a `ray_hit` function
@@ -215,25 +215,17 @@ class Raymarcher(abc.ABC):
     """
 
     def __init__(self):
-        """
-        Initializes this raymarcher.
-        """
+        """Initializes this raymarcher."""
         self.ray = Ray()
 
-    @abc.abstractproperty
+    @abc.abstractmethod
     def camera(self) -> "Camera":
-        """
-        The camera this Raymarcher should get perspective
-        informatino from.
-        """
+        """The camera this Raymarcher should get perspective information from."""
         ...
 
     @abc.abstractmethod
     def ray_hit(self, ray: Ray) -> bool:
-        """
-        Returns True if this ray hit relevant geometry
-        in its current position, False otherwise
-        """
+        """Returns True only if this ray hits relevant geometry in its position."""
         ...
 
     @abc.abstractmethod
@@ -251,9 +243,9 @@ class Raymarcher(abc.ABC):
         Sets up this raymarcher's Ray toward the given pixel.
         """
 
-        angle, pitch = self.camera.pixel_angle(x, y, size)
+        angle, pitch = self.camera().pixel_angle(x, y, size)
 
-        self.ray.setup(self.camera.pos, self.camera.height, angle, pitch, **kwargs)
+        self.ray.setup(self.camera().pos, self.camera().height, angle, pitch, **kwargs)
 
     def march(self) -> bool:
         """

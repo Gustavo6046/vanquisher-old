@@ -83,7 +83,7 @@ def test_ray():
     # Make sure offsets match
 
     step_size_1: float = guinea_ray.step_size
-    offset_xy, offset_z = guinea_ray.next_step_offset
+    offset_xy, offset_z = guinea_ray.next_step_offset()
     coarsening: float = guinea_ray.first_pass_coarsening
 
     offset_xy = from_tuple2(offset_xy)
@@ -178,7 +178,7 @@ def test_raymarcher():
 
     ray = guinea_marcher.ray
 
-    step_xy, step_z = ray.next_step_offset
+    step_xy, step_z = ray.next_step_offset()
     step_xy = from_tuple2(step_xy)
 
     with step_xy:

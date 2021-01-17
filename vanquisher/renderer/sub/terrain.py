@@ -33,17 +33,14 @@ class TerrainRaymarcher(Raymarcher):
         self.subrenderer = subrenderer
         self.scale = scale
 
-    @property
     def camera(self) -> "Camera":
         """Gets this Raymarcher's camera."""
         return self.subrenderer.camera
 
-    @property
     def world(self) -> "World":
         """Gets the world whose terrain this raymarcher is rendering."""
         return self.subrenderer.world
 
-    @property
     def draw_surface(self) -> typing.Optional["surface.FramebufferSurface"]:
         """The surface this raymarcher is rendering to."""
         return self.subrenderer.renderer.current_surface
@@ -55,7 +52,7 @@ class TerrainRaymarcher(Raymarcher):
         position; in this case, terrain.
         """
 
-        chunk = self.world.chunk_at_pos(ray.pos)
+        chunk = self.world().chunk_at_pos(ray.pos)
         terrain_height = chunk.terrain[ray.pos.as_tuple()]
 
         return ray.height < terrain_height
@@ -94,14 +91,18 @@ class TerrainRaymarcher(Raymarcher):
 
         res = interpolate_color(green, blue, bluishness)
 
-        res = (res[0] / darkness_denomin, res[1] / darkness_denomin, res[2] / darkness_denomin)
+        res = (
+            res[0] / darkness_denomin,
+            res[1] / darkness_denomin,
+            res[2] / darkness_denomin
+        )
 
         return res
 
     def put(self, x: int, y: int, distance: float, ray: Ray):
         """Puts the current pixel according to the ray's hit status."""
         if self.draw_surface is not None:
-            self.draw_surface.plot_pixel(
+            self.draw_surface().plot_pixel(
                 x, y, self.get_color(distance, ray.height_offset)
             )
 

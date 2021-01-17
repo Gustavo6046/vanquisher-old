@@ -34,7 +34,6 @@ class Chunk:
 
         self.objects_in_chunk: typing.Set[uuid.UUID] = set()
 
-    @property
     def game(self):
         """
         Fetches the game whose world this chunk belongs to.
@@ -47,7 +46,7 @@ class Chunk:
         """
 
         for obj_id in self.objects_in_chunk:
-            yield self.game.objects[obj_id]
+            yield self.game().objects[obj_id]
 
     def object_register(self, obj: "objects.GameObject"):
         """
