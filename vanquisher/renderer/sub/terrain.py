@@ -60,12 +60,27 @@ class TerrainRaymarcher(Raymarcher):
         return ray.height < terrain_height
 
     def get_color(
-        self, distance: float, height_offset: float, max_distance: float
+        self, distance: float, height_offset: float, ray: Ray
     ) -> typing.Tuple[float, float, float]:
         """Gets the current pixel's color depending on the ray's distance and depth."""
 
+        max_distance = ray.max_distance
+        hit_x, hit_y = ray.pos.as_tuple()
+        chunk = self.world().chunk_at_pos(ray.pos).terrain
         distance = (distance / self.scale) ** 2
         darkness_denomin = 1.0 + math.sqrt(distance + 1.0)
+
+        # Sample rough surface normals of hit position
+        norm_samp_size = 0.2
+        norm_samp_leng = norm_samp_size * 2
+
+        val_a = chunk[hit_x + norm_samp_size, hit_y]
+        val_b = chunk[hit_x - norm_samp_size, hit_y]
+        val_c = chunk[hit_x, hit_y + norm_samp_size]
+        val_d = chunk[hit_x, hit_y - norm_samp_size]
+
+        norm_x = (val_a - val_b) / norm_samp_leng
+        norm_y = (val_c - val_d) / norm_samp_leng
 
         # Get bluishness from distance
         # (air refracting light type thing?)
@@ -91,7 +106,20 @@ class TerrainRaymarcher(Raymarcher):
 
             green = interpolate_color(light_green, sky_green, skyness)
 
+        # Interpolate bluishness
         res = interpolate_color(green, blue, bluishness)
+
+        # Make distant terrain darker with distance_3d, and northeast
+        # brighter using norm_x and norm_y
+        distance_3d = math.sqrt(distance ** 2 + height_offset ** 2)
+
+        northeastness = (norm_x + norm_y) / 2
+
+        north_bright_alpha = (
+            1.0 / (1.0 + math.exp(northeastness)) + 1
+        ) / 2  # yep, sigmoid!
+
+        multiplier = interpolate(0.5, 2.0, north_bright_alpha) / darkness_denomin
 
         res = (
             res[0] / darkness_denomin,
@@ -99,8 +127,7 @@ class TerrainRaymarcher(Raymarcher):
             res[2] / darkness_denomin,
         )
 
-        distance_3d = math.sqrt(distance ** 2 + height_offset ** 2)
-
+        # Fog with distance_3d
         if distance_3d > self.fog_distance:
             fog_alpha = (distance_3d - self.fog_distance) / (
                 max_distance - self.fog_distance
@@ -114,9 +141,7 @@ class TerrainRaymarcher(Raymarcher):
         canvas = self.draw_surface()
 
         if canvas is not None:
-            canvas.plot_pixel(
-                x, y, self.get_color(distance, ray.height_offset, ray.max_distance)
-            )
+            canvas.plot_pixel(x, y, self.get_color(distance, ray.height_offset, ray))
 
 
 class TerrainSubrenderer(SubrendererUtilMixin):
