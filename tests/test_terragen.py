@@ -41,4 +41,4 @@ def test_terragen_simple():
     my_terrain.generate(PeakTerrainGenerator(0, 10.0, 0.0, my_peak))
 
     assert 10.0 < my_terrain[5.0, 5.0] <= 20.0
-    assert my_terrain[20.0, 5.0] <= 10.0 + 0.001
+    assert my_terrain[20.0, 5.0] <= my_terrain[5.0, 5.0]
