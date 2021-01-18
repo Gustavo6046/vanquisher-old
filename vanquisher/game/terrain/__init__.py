@@ -65,7 +65,6 @@ class TerrainChunk:
         if y_pos > self.width - 1.0:
             y_pos = self.width - 1.0
 
-
         # Do bilinear interpolation.
         x_lo = math.floor(x_pos)
         x_hi = math.ceil(x_pos)

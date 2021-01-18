@@ -471,7 +471,11 @@ class GameObjectJS:
 
         self.__obj.destroy()
 
-    def iter_radius_objects(self, callback: ObjectCallback, radius: float = None, type_filter: typing.Optional[str] = None):
+    def iter_radius_objects(self,
+        callback: ObjectCallback,
+        radius: float = None,
+        type_filter: typing.Optional[str] = None
+    ):
         """
         Iterates on all objects around a radius,
         calling a callback (in ordinary circumstances a
