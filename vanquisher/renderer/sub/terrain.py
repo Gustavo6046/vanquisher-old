@@ -25,7 +25,7 @@ class TerrainRaymarcher(Raymarcher):
     def __init__(
         self,
         subrenderer: "TerrainSubrenderer",
-        fog_distance: float = 48.0,
+        fog_distance: float = 120.0,
         scale: float = 64.0,
     ):
         """Sets this raymarcher up, in this case b setting its subrenderer."""
