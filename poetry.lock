@@ -938,7 +938,7 @@ server-asgi = ["fastapi", "uvicorn"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.2,<3.10.0"
-content-hash = "246301728a83770af23c68b479accd4d91c1d01fa78e5b3a94c110b896167025"
+content-hash = "9527d21dfb3019f4b8ffe965fda0b1c879dd98564ef1822656f3f605ebd84848"
 
 [metadata.files]
 anyio = [
