@@ -5,7 +5,7 @@ description = "Vanquisher is a game about exploration, looting, evolving and hon
 authors = ["Gustavo6046 <rehermann6046@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.6.2"
+python = "^3.6.2,<3.10.0"
 fastapi = "^0.63.0"
 typer = "^0.3.2"
 uvicorn = {extras = ["standard"], version = "^0.13.3"}
