@@ -55,12 +55,12 @@ class Ray:
         self.angle: float = 0.0
         self.pitch: float = 0.0
 
-        self.step_size: float = 0.5
+        self.step_size: float = 0.25
         self.max_hit_check: float = 0.15
-        self.first_pass_coarsening: float = 1.2
+        self.first_pass_coarsening: float = 1.25
         self.hit_slowing: float = 2.0
 
-        self.max_distance: float = 64.0
+        self.max_distance: float = 150.0
         self.first_pass: bool = False
         self.hit: bool = False
 
@@ -289,7 +289,11 @@ class Raymarcher(abc.ABC):
         hit = self.march()
 
         if hit:
+            print(' * ', end='')
             self.put(x, y, self.ray.distance, self.ray)
+
+        else:
+            print('   ', end='')
 
         return hit
 
