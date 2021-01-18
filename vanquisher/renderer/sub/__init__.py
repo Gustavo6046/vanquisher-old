@@ -26,7 +26,11 @@ class Subrenderer(typext.Protocol):
 
     def __init__(self, *args, **kwargs):
         """Subrenderers should be able to specify any argument list."""
-        super().__init__()
+        # this never gets called anyway (Protocol isn't supposed to be
+        # inherited), so just pretend we're being good linter-underlings
+        # and passing args and kwargs.
+        # Nothing to see here, pylint <3
+        super().__init__(*args, **kwargs)
         ...
 
     def render(self, surface: "FramebufferSurface"):

@@ -5,12 +5,9 @@ matches the bluest colour of the terrain
 raymarcher, but slightly brighter.
 """
 
-import math
 import typing
 
-from ...util import interpolate_color
 from .. import Renderer
-from ..raymarcher import Ray, Raymarcher
 from . import SubrendererUtilMixin
 
 if typing.TYPE_CHECKING:
