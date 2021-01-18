@@ -8,7 +8,7 @@ import math
 import typing
 
 try:
-    import pygame
+    import pygame  # type: ignore
 
 except ImportError:
     SUPPORTED = False
