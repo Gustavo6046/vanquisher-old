@@ -3,6 +3,7 @@ A few tests concerning the terrain functionality of Vanquisher, primarily genera
 """
 
 from vanquisher.game.terrain import TerrainChunk, generator as terragen
+from vanquisher.game.terrain.generator.peak import PeakTerrainGenerator, Peak
 
 
 def test_terragen_simple():
@@ -31,3 +32,13 @@ def test_terragen_simple():
     assert my_terrain.get(0, 3) == 1.5
     assert my_terrain.get(0, 0) == 0.0
     assert my_terrain[1.5, 1.5] == 1.5
+
+    # For a change, let's try the peak generator.
+    # Just to make sure it... makes sense.
+
+    my_peak = Peak(x=5, y=5, height=20, max_radius=5, strength=1.5, lip=1.5, tip=1.5)
+
+    my_terrain.generate(PeakTerrainGenerator(0, 10.0, 0.0, my_peak))
+
+    assert 10.0 < my_terrain[5.0, 5.0] <= 20.0
+    assert my_terrain[20.0, 5.0] <= 10.0 + 0.001
