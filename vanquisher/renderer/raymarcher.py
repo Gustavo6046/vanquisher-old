@@ -306,11 +306,14 @@ class Raymarcher(abc.ABC):
         area = width * size[1]
         elapsed = 0.0
 
+        start = time.time()
+
         for pos in range(area):
+            elapsed += time.time() - start
             start = time.time()
 
             print(
-                "\rRaymarching: {}/{} ({:.2f}%) - elapsed: {:.1f}, ETA: {:.1f}s   ".format(
+                "\rRaymarching: {}/{} ({:.2f}%) - elapsed: {:.1f}s, ETA: {:.1f}s   ".format(
                     pos,
                     area,
                     100.0 * pos / area,
@@ -324,7 +327,5 @@ class Raymarcher(abc.ABC):
             y = math.floor(pos / width)
 
             self.raymarch_one(size, x, y, **kwargs)
-
-            elapsed += time.time() - start
 
         print("\r{}".format(" " * len("Raymarching: XXXX/XXXX (XXXXXX%) - elapsed: XXXXXX, ETA: XXXXXX")))
