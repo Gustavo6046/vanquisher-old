@@ -147,7 +147,7 @@ disable=print-statement,
         too-many-arguments,               # a thing nobody cares about
         too-many-locals,                  # a thing nobody cares about
         no-self-use,                      # sometimes only protocol compliance matters
-        C0330, C0326
+        C0330, C0326, R0801:
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
