@@ -86,33 +86,10 @@ class Camera:
         cast at the given screen coordinates.
 
         The screen coordinates must be in the range between
-        (-1,1). Also, y must go up, not down.
+        (-1,1) for square canvases, but the range may be larger
+        for rectangular ones. Also, y must go up, not down.
 
         Returns a (angle, pitch) tuple.
-
-        ### Screen ratios
-
-        If the size of the screen is not square, x and y
-        will be scaled down until only the longest side
-        of the screen rectangle results in an amplitude
-        of 1 in the corresponding axis.
-
-        In other words, a screen that is wider than it is
-        tall should have X be -1 in the leftmost corners and
-        1 in the rightmost ones, but Y should never reach
-        either value.
-
-        The pixel_angle method accomplishes that by dividing
-        both the X and Y pixel positions by the largest value
-        of either width and height, rather than dividing x by
-        width and y by height.
-
-        This is more of a guideline, though, not a hard rule;
-        for instance, if you want to render to a square surface
-        where your pixels are for some reason wider (or thinner)
-        than they should be, resulting in unequal pixel width and
-        height, you can use screen_angle instead of pixel_angle,
-        and pass your own x,y values between -1 and 1.
         """
 
         angle = self.angle + x * self.fov_tan()
@@ -137,7 +114,7 @@ class Camera:
         """
 
         width, height = screen_size
-        view_width = max(width, height)
+        view_width = min(width, height)
 
         # 'Rightness' and 'upwardness' shall be from -1 to 1.
         # Also, y is assumed to be down, so upwardness is inverted.
