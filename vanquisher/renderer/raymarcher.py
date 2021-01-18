@@ -24,6 +24,7 @@ Ray step sizes:
 
 import abc
 import math
+import time
 import typing
 
 from ..game import vector as vec
@@ -303,11 +304,17 @@ class Raymarcher(abc.ABC):
 
         width = size[0]
         area = width * size[1]
+        elapsed = 0.0
 
         for pos in range(area):
+            start = time.time()
+
             print(
-                "\rRaymarching: {}/{} ({:.2f}%)...".format(
-                    pos, area, 100.0 * pos / area
+                "\rRaymarching: {}/{} ({:.2f}%) - ETA: {:.1f}s   ".format(
+                    pos,
+                    area,
+                    100.0 * pos / area,
+                    elapsed * (area - pos) / (pos + 1),
                 ),
                 end="",
             )
@@ -317,4 +324,6 @@ class Raymarcher(abc.ABC):
 
             self.raymarch_one(size, x, y, **kwargs)
 
-        print("\r{}".format(" " * len("Raymarching: XXXX/XXXX (XXXXXX%)...")))
+            elapsed += time.time() - start
+
+        print("\r{}".format(" " * len("Raymarching: XXXX/XXXX (XXXXXX%) - ETA: XXXXX")))
