@@ -116,15 +116,15 @@ class TerrainRaymarcher(Raymarcher):
         northeastness = (norm_x + norm_y) / 2
 
         north_bright_alpha = (
-            1.0 / (1.0 + math.exp(northeastness)) + 1
+            1.0 / (1.0 + math.exp(-northeastness)) + 1
         ) / 2  # yep, sigmoid!
 
         multiplier = interpolate(0.5, 2.0, north_bright_alpha) / darkness_denomin
 
         res = (
-            res[0] / darkness_denomin,
-            res[1] / darkness_denomin,
-            res[2] / darkness_denomin,
+            res[0] * multiplier,
+            res[1] * multiplier,
+            res[2] * multiplier,
         )
 
         # Fog with distance_3d
