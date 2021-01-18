@@ -5,6 +5,7 @@ of specifically terrain. Every world.Chunk has a terrain property
 of type TerrainChunk.
 """
 
+import ctypes
 import math
 import typing
 
@@ -14,12 +15,12 @@ if typing.TYPE_CHECKING:
     from . import generator
 
 try:
-    USE_NUMPY = True
+    from ._interpolate import _bilinear
 
-    import numpy  # type: ignore
+    USE_CYTHON_INTERPOLATOR = True
 
 except ImportError:
-    USE_NUMPY = False
+    USE_CYTHON_INTERPOLATOR = False
 
 
 class TerrainChunk:
@@ -43,12 +44,7 @@ class TerrainChunk:
         really want to use TerrainChunk directly and manually.
         """
 
-        if USE_NUMPY:
-            self.heightmap = numpy.zeros((width, width))
-
-        else:
-            self.heightmap = [0.0 for _ in range(width * width)]
-
+        self.heightmap = (ctypes.c_float * (width * width))()
         self.width = width
 
     def get(self, x_pos: int, y_pos: int) -> float:
@@ -58,10 +54,6 @@ class TerrainChunk:
         heightmap. Use an indexing syntax instead unless you know
         what you are doing.
         """
-
-        if USE_NUMPY:
-            return self.heightmap[x_pos, y_pos]
-
         return self.heightmap[y_pos * self.width + x_pos]
 
     @staticmethod
@@ -91,7 +83,12 @@ class TerrainChunk:
 
         Gets the height at any point of this TerrainChunk, including
         using bilinear interpolation.
+
+        Uses the Cython interpolator whenever possible.
         """
+
+        if USE_CYTHON_INTERPOLATOR:
+            return _bilinear(self.width, *coords, ctypes.byref(self.heightmap))
 
         (x_pos, y_pos) = coords
 
@@ -126,11 +123,7 @@ class TerrainChunk:
 
         (x_pos, y_pos) = pos
 
-        if USE_NUMPY:
-            self.heightmap[x_pos, y_pos] = value
-
-        else:
-            self.heightmap[y_pos * self.width + x_pos] = value
+        self.heightmap[y_pos * self.width + x_pos] = value
 
     @maybe_numba_jit(nopython=False)
     def generate(
