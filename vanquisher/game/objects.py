@@ -513,7 +513,7 @@ class GameObjectJS:
 
             # check if any object is within radius
             for obj in chunk.objects_inside():
-                if type_filter is not None and obj.obj_type != type_filter:
+                if type_filter is not None and obj.type.name != type_filter:
                     continue
 
                 if radius is not None:
