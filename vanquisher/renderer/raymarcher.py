@@ -289,11 +289,11 @@ class Raymarcher(abc.ABC):
         hit = self.march()
 
         if hit:
-            print(' * ', end='')
+            print(" * ", end="")
             self.put(x, y, self.ray.distance, self.ray)
 
         else:
-            print('   ', end='')
+            print("   ", end="")
 
         return hit
 
@@ -332,4 +332,11 @@ class Raymarcher(abc.ABC):
 
             self.raymarch_one(size, x, y, **kwargs)
 
-        print("\r{}".format(" " * len("Raymarching: XXXX/XXXX (XXXXXX%) - elapsed: XXXXXX, ETA: XXXXXX")))
+        print(
+            "\r{}".format(
+                " "
+                * len(
+                    "Raymarching: XXXX/XXXX (XXXXXX%) - elapsed:" "XXXXXX, ETA: XXXXXX"
+                )
+            )
+        )

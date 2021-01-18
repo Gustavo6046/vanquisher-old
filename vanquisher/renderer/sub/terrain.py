@@ -67,10 +67,12 @@ class TerrainRaymarcher(Raymarcher):
         distance_3d = math.sqrt(true_distance ** 2 + height_offset ** 2)
 
         # Get view depth accounting for ray angle
-        distance = true_distance * math.cos(math.sqrt(
-            (ray.angle - self.camera().angle) ** 2 +
-            (ray.pitch - self.camera().pitch) ** 2
-        ))
+        distance = true_distance * math.cos(
+            math.sqrt(
+                (ray.angle - self.camera().angle) ** 2
+                + (ray.pitch - self.camera().pitch) ** 2
+            )
+        )
 
         max_distance = ray.max_distance
         hit_x, hit_y = ray.pos.as_tuple()
