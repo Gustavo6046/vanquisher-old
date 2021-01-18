@@ -10,8 +10,9 @@ from . import TerrainGenerator
 
 @attr.s
 class Peak:
-    """
-    A 'peak'. Used by the basic default implementation of
+    """A peak, that is, parameters relevant to generating terrain with said peak.
+
+    Used by the basic default implementation of
     TerrainGenerator, but can be used freely by subclasses,
     the latter including reassigning new meaning to values
     like strength and height.
@@ -26,25 +27,23 @@ class Peak:
     tip: float = attr.ib(default=9)
 
     def distance_squared(self, other_x: int, other_y: int) -> float:
-        """
-        Distance squared from this peak at any point.
+        """Distance squared from this peak at any point.
 
         Distance 'squared', as in the square root is skipped.
         This does otherwise conform to the Pythagorean theorem.
         """
-
         off_x = self.x - other_x
         off_y = self.y - other_y
 
         return off_x ** 2 + off_y ** 2
 
     def height_offset_at(self, base_height: float, other_x: int, other_y: int) -> float:
-        """
+        """Height offset utility function.
+
         Height offset of this peak at a particular point.
         'base_height' changes how the offset is calculated; the peak is meant
         to "rise" from that.
         """
-
         # max radius, squared, duh.
         max_radius_sq = self.max_radius ** 2
 
@@ -82,20 +81,20 @@ class Peak:
 
 
 class PeakTerrainGenerator(TerrainGenerator):
-    """
+    """A TerrainGenerator implementation that generates using 'peaks'.
+
     A TerrainGenerator implementation that uses 'peaks' in order
     to shape the terrain. Note that the peaks are not automatically
     generated and must be provided manually.
+
+    See Peak for more info.
 
     This implementation is not recommended once a better one
     is available.
     """
 
     def __init__(self, seed: int, height: float, roughness: float, *peaks: Peak):
-        """
-        Initializes the PeakTerrainGenerator's parameters. They are
-        used when generating terrain later on.
-        """
+        """Initializes the PeakTerrainGenerator's terrain generation parameters."""
         super().__init__(seed)
 
         self.height: float = height
@@ -103,7 +102,8 @@ class PeakTerrainGenerator(TerrainGenerator):
         self.peaks: typing.List[Peak] = list(peaks)
 
     def height_at(self, x_pos: int, y_pos: int) -> float:
-        """
+        """Gets the height this generator shall assign to a terrain heightmap point.
+
         For an X and Y coordinate, this generator uses its
         parameters to return a height value. In this case,
         it sums the heights of all peaks, plus a tiny

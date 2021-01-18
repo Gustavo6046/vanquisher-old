@@ -1,5 +1,6 @@
-"""
-This module is concerned with teh representation and generation
+"""Vanquisher base terrain code.
+
+This module is concerned with the representation and generation
 of specifically terrain. Every world.Chunk has a terrain property
 of type TerrainChunk.
 """
@@ -14,26 +15,32 @@ if typing.TYPE_CHECKING:
 
 
 class TerrainChunk:
-    """
-    A square chunk of terrain. This is the terrain part of the game's
-    concept of chunk. Chunk.terrain is a TerrainChunk.
+    """A square chunk of terrain.
+
+    This is the terrain part of the game's concept of chunk.
+    You can tell because Chunk.terrain is always a TerrainChunk.
     """
 
     def __init__(self, width=32):
-        """
+        """TerrainChunk initializer.
+
         Creates a new terrain, with the given square width and
         configuration, and with a heightmap that defaults to a flat
         plane with every point at height zero.
 
         You can then use a TerrainGenerator to make this terrain
         more interesting.
+
+        In general, though, let World handle this job, unless you
+        really want to use TerrainChunk directly and manually.
         """
 
         self.heightmap = [0.0 for _ in range(width * width)]
         self.width = width
 
     def get(self, x_pos: int, y_pos: int) -> float:
-        """
+        """A terrain height getter, at aligned (integer) positions, without interpolation.
+
         Gets the height at the specified integer position of the
         heightmap. Use an indexing syntax instead unless you know
         what you are doing.
@@ -42,7 +49,8 @@ class TerrainChunk:
         return self.heightmap[y_pos * self.width + x_pos]
 
     def __getitem__(self, coords: typing.Tuple[float, float]) -> float:
-        """
+        """A terrain height getter.
+
         Gets the height at any point of this TerrainChunk, including
         using bilinear interpolation.
         """
@@ -77,9 +85,7 @@ class TerrainChunk:
         return interpolate(interm_1, interm_2, y_mid)
 
     def __setitem__(self, pos: typing.Tuple[int, int], value: float):
-        """
-        Sets a value of this TerrainChunk heightmap.
-        """
+        """Sets a value of this TerrainChunk heightmap."""
 
         (x_pos, y_pos) = pos
         self.heightmap[y_pos * self.width + x_pos] = value
@@ -89,7 +95,8 @@ class TerrainChunk:
         generator: "generator.TerrainGenerator",
         offset: typing.Tuple[int, int] = (0, 0),
     ):
-        """
+        """Generate the heightmap according to the passed TerrainGenerator.
+
         Generates the heightmap of this terrain chunk from
         a TerrainGenerator instance.
         """
