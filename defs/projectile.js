@@ -1,4 +1,4 @@
-function def(G) {
+function(G) {
     G.register_object_type({
         name: "projectile",
         attributes: {
