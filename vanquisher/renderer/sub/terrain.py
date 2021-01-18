@@ -7,7 +7,7 @@ the terrain.
 import math
 import typing
 
-from ...util import interpolate_color
+from ...util import interpolate, interpolate_color
 from ..raymarcher import Ray, Raymarcher
 from . import SubrendererUtilMixin
 from .sky import SkySubrenderer  # to get the fog color
