@@ -1,4 +1,5 @@
-"""
+"""The Pygame backend of the renderer.
+
 Defines a pygame surface that implements the
 FramebufferSurface interface.
 """

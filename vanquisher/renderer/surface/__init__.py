@@ -1,8 +1,14 @@
-"""
-The framebuffer is responsible for storing the
-colour and Z-buffer values of each pixel. This
-is the common interface between Vanquisher's
-renderer and backends like Pygame.
+"""The interface to implement renderer backends.
+
+This is the common interface between Vanquisher's
+renderer and backends like Pygame. This enables
+abstracting Vanquisher portably.
+
+Note that this uses abc.ABC instead of
+typing.Protocol - this is a fundamental interface
+and is thus defined formally, rather than
+informally. This also means you HAVE to inherit it
+in order to implement your own.
 
 A few common backends are already implemented
 under framebuffer.pygame, etc., but
@@ -14,8 +20,7 @@ import typing
 
 
 class FramebufferSurface(abc.ABC):
-    """
-    A FramebufferSurface interface.
+    """A FramebufferSurface interface.
 
     This specifies an underlying surface, that is
     used by a renderer.
@@ -23,7 +28,8 @@ class FramebufferSurface(abc.ABC):
 
     @abc.abstractmethod
     def get_size(self) -> typing.Tuple[int, int]:
-        """
+        """A surface size accessor.
+
         Get the width and height of this framebuffer,
         in pixels.
         """
@@ -31,7 +37,8 @@ class FramebufferSurface(abc.ABC):
 
     @abc.abstractmethod
     def plot_pixel(self, x: int, y: int, rgb: typing.Tuple[float, float, float]):
-        """
+        """A surface pixel setter.
+
         Plots an RGB pixel at the specified position with the
         specified colour.
         """
@@ -43,7 +50,8 @@ class FramebufferSurface(abc.ABC):
         xy2: typing.Tuple[int, int],
         rgb: typing.Tuple[float, float, float],
     ):
-        """
+        """A surface rectangle filling utility, with a default implementation.
+
         Plots a rectangle of RGB pixels at the specified position corners,
         with the specified fill colour.
 
@@ -68,7 +76,8 @@ class FramebufferSurface(abc.ABC):
 
     @abc.abstractmethod
     def update(self):
-        """
+        """A surface frame update entrypoint.
+
         Updates this surface with newly plotted pixels, e.g.
         by flipping it.
         """
