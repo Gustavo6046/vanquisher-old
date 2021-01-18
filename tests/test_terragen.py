@@ -2,8 +2,9 @@
 A few tests concerning the terrain functionality of Vanquisher, primarily generation.
 """
 
-from vanquisher.game.terrain import TerrainChunk, generator as terragen
-from vanquisher.game.terrain.generator.peak import PeakTerrainGenerator, Peak
+from vanquisher.game.terrain import TerrainChunk
+from vanquisher.game.terrain import generator as terragen
+from vanquisher.game.terrain.generator.peak import Peak, PeakTerrainGenerator
 
 
 def test_terragen_simple():

@@ -471,10 +471,11 @@ class GameObjectJS:
 
         self.__obj.destroy()
 
-    def iter_radius_objects(self,
+    def iter_radius_objects(
+        self,
         callback: ObjectCallback,
         radius: float = None,
-        type_filter: typing.Optional[str] = None
+        type_filter: typing.Optional[str] = None,
     ):
         """
         Iterates on all objects around a radius,
@@ -498,7 +499,9 @@ class GameObjectJS:
         # search radius to make sure we don't rule out eligible chunks.
         # Also, a little epsilon, just to be extra sure!
         if radius is not None:
-            max_chunk_dist_sq = (radius + math.sqrt(2) * my_world.chunk_width + 0.0001) ** 2
+            max_chunk_dist_sq = (
+                radius + math.sqrt(2) * my_world.chunk_width + 0.0001
+            ) ** 2
 
         for chunk in my_world.chunks.values():
             # check if chunk overlaps radius

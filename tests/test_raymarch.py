@@ -9,7 +9,7 @@ when stepping, when hit, and when not hit.
 import math
 import typing
 
-from vanquisher.game.vector import DEFAULT_POOL, vec2, from_tuple2
+from vanquisher.game.vector import DEFAULT_POOL, from_tuple2, vec2
 from vanquisher.renderer.camera import Camera
 from vanquisher.renderer.raymarcher import Ray, Raymarcher
 

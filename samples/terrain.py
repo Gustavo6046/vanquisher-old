@@ -2,6 +2,7 @@
 
 import math
 import time
+
 import pygame
 
 from vanquisher.game import Game

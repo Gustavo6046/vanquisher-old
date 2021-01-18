@@ -43,11 +43,11 @@ def test_object_radius():
 
     # Add 4 things, one of them the pivot
 
-    pivot = game.object_create('thing', (0, 0), 0)
+    pivot = game.object_create("thing", (0, 0), 0)
 
-    game.object_create('thing', (38, 0), 0)
-    game.object_create('thing', (-50, 0), 0)
-    game.object_create('thing', (-17, 36), 0)
+    game.object_create("thing", (38, 0), 0)
+    game.object_create("thing", (-50, 0), 0)
+    game.object_create("thing", (-17, 36), 0)
 
     num_things = 4
 
@@ -55,9 +55,9 @@ def test_object_radius():
 
     # Add 3 cakes, of special interest later on
 
-    game.object_create('cake', (20, 0))
-    game.object_create('cake', (0, 15))
-    game.object_create('cake', (75, 75))
+    game.object_create("cake", (20, 0))
+    game.object_create("cake", (0, 15))
+    game.object_create("cake", (75, 75))
 
     num_cakes = 3
 
@@ -65,10 +65,10 @@ def test_object_radius():
 
     # Find all things in a radius of 45
 
-    assert pivot.call('countAround',  1000.0,  False)   == 7 # everything
-    assert pivot.call('countAround',  45.0,    False)   == 5 # close things
-    assert pivot.call('countAround',  1000.0,  'cake')  == 3 # every cake
-    assert pivot.call('countAround',  45.0,    'cake')  == 2 # close cakes
+    assert pivot.call("countAround", 1000.0, False) == 7  # everything
+    assert pivot.call("countAround", 45.0, False) == 5  # close things
+    assert pivot.call("countAround", 1000.0, "cake") == 3  # every cake
+    assert pivot.call("countAround", 45.0, "cake") == 2  # close cakes
 
     # Ensure chunk creation is consistent with the
     # positions passed
