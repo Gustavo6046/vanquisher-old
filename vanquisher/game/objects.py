@@ -471,7 +471,7 @@ class GameObjectJS:
 
         self.__obj.destroy()
 
-    def iter_radius_objects(self, radius: float, callback: ObjectCallback):
+    def iter_radius_objects(self, callback: ObjectCallback, radius: float = None, type_filter: typing.Optional[str] = None):
         """
         Iterates on all objects around a radius,
         calling a callback (in ordinary circumstances a
@@ -483,6 +483,9 @@ class GameObjectJS:
         have any corner within a radius of this object.
         """
 
+        if type_filter is not None:
+            type_filter = type_filter.lower()
+
         my_world = self.__obj.world
 
         # Chunks are square. The diagonal of a square is the largest distance
@@ -490,26 +493,33 @@ class GameObjectJS:
         # So sqrt(2) * world.chunk_width is the maximum we need to add to the
         # search radius to make sure we don't rule out eligible chunks.
         # Also, a little epsilon, just to be extra sure!
-        max_chunk_dist_sq = (radius + math.sqrt(2) * my_world.chunk_width + 0.0001) ** 2
+        if radius is not None:
+            max_chunk_dist_sq = (radius + math.sqrt(2) * my_world.chunk_width + 0.0001) ** 2
 
         for chunk in my_world.chunks.values():
             # check if chunk overlaps radius
-            corner_x, corner_y = (
-                (chunk.chunk_pos[0] + 0.5) * my_world.chunk_width,
-                (chunk.chunk_pos[1] + 0.5) * my_world.chunk_width,
-            )
-            distance = (corner_x - self.__obj.pos.x) ** 2 + (
-                corner_y - self.__obj.pos.y
-            ) ** 2
+            if radius is not None:
+                corner_x, corner_y = (
+                    (chunk.chunk_pos[0] + 0.5) * my_world.chunk_width,
+                    (chunk.chunk_pos[1] + 0.5) * my_world.chunk_width,
+                )
 
-            if distance > max_chunk_dist_sq:
-                continue
+                distance = (corner_x - self.__obj.pos.x) ** 2 + (
+                    corner_y - self.__obj.pos.y
+                ) ** 2
+
+                if distance > max_chunk_dist_sq:
+                    continue
 
             # check if any object is within radius
             for obj in chunk.objects_inside():
-                with obj.pos - self.__obj.pos as off_vec:
-                    if off_vec.size > radius:
-                        continue
+                if type_filter is not None and obj.obj_type != type_filter:
+                    continue
+
+                if radius is not None:
+                    with obj.pos - self.__obj.pos as off_vec:
+                        if off_vec.size > radius:
+                            continue
 
                 callback(obj.js_wrapper)
 
