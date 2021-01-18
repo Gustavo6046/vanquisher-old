@@ -30,7 +30,7 @@ class ZBufferSurfaceWrapper:
             return
 
         self.z_buffer[x, y] = depth
-        return self.surface.plot_pixel(x, y, rgb)
+        self.surface.plot_pixel(x, y, rgb)
 
     def update(self):
         """A surface frame update entrypoint.

@@ -1,21 +1,18 @@
 """CFFI build module for _interpolate.c."""
-import os
-
 from cffi import FFI
 
-ffibuilder = FFI()
 
-curr_dir = os.path.realpath(os.path.dirname(__file__))
-
-cdef = """
+C_DEFS = """
 float bilinear(int width, float x, float y, float *vals);
 """
 
-ffibuilder.cdef(cdef)
+ffibuilder = FFI()
+
+ffibuilder.cdef(C_DEFS)
 
 ffibuilder.set_source(
     "vanquisher.game.terrain._interpolate",
-    cdef,
+    C_DEFS,
     sources=["ext/_interpolate.c"],
 )
 
