@@ -114,9 +114,9 @@ class TerrainRaymarcher(Raymarcher):
         canvas = self.draw_surface()
 
         if canvas is not None:
-            canvas.plot_pixel(x, y, self.get_color(
-                distance, ray.height_offset, ray.max_distance
-            ))
+            canvas.plot_pixel(
+                x, y, self.get_color(distance, ray.height_offset, ray.max_distance)
+            )
 
 
 class TerrainSubrenderer(SubrendererUtilMixin):

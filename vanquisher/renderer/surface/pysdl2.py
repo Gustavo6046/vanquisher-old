@@ -22,10 +22,12 @@ else:
 
     class SDLSurfacePointer(typing.Protocol):
         """A ctypes-compliant pointer to a sdl2.SDL_Surface."""
+
         contents: sdl2.SDL_Surface
 
     class SDLWindowPointer(typing.Protocol):
         """A ctypes-compliant pointer to a sdl2.SDL_Window."""
+
         contents: sdl2.SDL_Window
 
     class SDLSurface:

@@ -27,7 +27,8 @@ import math
 import typing
 
 from ..game import vector as vec
-#from ..numba import maybe_numba_jit
+
+# from ..numba import maybe_numba_jit
 
 if typing.TYPE_CHECKING:
     from .camera import Camera
