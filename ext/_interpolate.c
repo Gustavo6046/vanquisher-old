@@ -1,5 +1,5 @@
 /**
- * Bilinear interpolatin.
+ * Bilinear interpolation.
  */
 
 float get(float *vals, int width, int x, int y) {

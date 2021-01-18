@@ -15,12 +15,12 @@ if typing.TYPE_CHECKING:
     from . import generator
 
 try:
-    from ._interpolate import _bilinear
+    from ._interpolate.lib import bilinear
 
-    USE_CYTHON_INTERPOLATOR = True
+    USE_CFFI_INTERPOLATOR = True
 
 except ImportError:
-    USE_CYTHON_INTERPOLATOR = False
+    USE_CFFI_INTERPOLATOR = False
 
 
 class TerrainChunk:
@@ -87,8 +87,8 @@ class TerrainChunk:
         Uses the Cython interpolator whenever possible.
         """
 
-        if USE_CYTHON_INTERPOLATOR:
-            return _bilinear(self.width, *coords, ctypes.byref(self.heightmap))
+        if USE_CFFI_INTERPOLATOR:
+            return bilinear(self.width, *coords, ctypes.pointer(self.heightmap))
 
         (x_pos, y_pos) = coords
 

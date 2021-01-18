@@ -1,6 +1,5 @@
 """CFFI build module for _interpolate.c."""
-from cffi import FFI
-
+from cffi import FFI  # type: ignore
 
 C_DEFS = """
 float bilinear(int width, float x, float y, float *vals);
