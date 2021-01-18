@@ -8,10 +8,19 @@ of type TerrainChunk.
 import math
 import typing
 
+from ...numba import maybe_numba_jit
 from ...util import interpolate
 
 if typing.TYPE_CHECKING:
     from . import generator
+
+try:
+    USE_NUMPY = True
+
+    import numpy  # type: ignore
+
+except ImportError:
+    USE_NUMPY = False
 
 
 class TerrainChunk:
@@ -35,18 +44,48 @@ class TerrainChunk:
         really want to use TerrainChunk directly and manually.
         """
 
-        self.heightmap = [0.0 for _ in range(width * width)]
+        if USE_NUMPY:
+            self.heightmap = numpy.zeros((width, width))
+
+        else:
+            self.heightmap = [0.0 for _ in range(width * width)]
+
         self.width = width
 
     def get(self, x_pos: int, y_pos: int) -> float:
-        """A terrain height getter, at aligned (integer) positions, without interpolation.
+        """A terrain height getter, at aligned (integer) positions, uninterpolated.
 
         Gets the height at the specified integer position of the
         heightmap. Use an indexing syntax instead unless you know
         what you are doing.
         """
 
+        if USE_NUMPY:
+            return self.heightmap[x_pos, y_pos]
+
         return self.heightmap[y_pos * self.width + x_pos]
+
+    @staticmethod
+    @maybe_numba_jit(nopython=True)
+    def _bilinear_interpolate(
+        val_a: float,
+        val_b: float,
+        val_c: float,
+        val_d: float,
+        x_pos: float,
+        y_pos: float,
+        x_lo: float,
+        x_hi: float,
+        y_lo: float,
+        y_hi: float,
+    ) -> float:
+        """Bilinear interpolation without fuss. Made for Numba."""
+        weight_a = (x_hi - x_pos) * (y_hi - y_pos)
+        weight_b = (x_hi - x_pos) * (y_pos - y_lo)
+        weight_c = (x_pos - x_lo) * (y_hi - y_pos)
+        weight_d = (x_pos - x_lo) * (y_pos - y_lo)
+
+        return weight_a * val_a + weight_b * val_b + weight_c * val_c + weight_d * val_d
 
     def __getitem__(self, coords: typing.Tuple[float, float]) -> float:
         """A terrain height getter.
@@ -57,39 +96,44 @@ class TerrainChunk:
 
         (x_pos, y_pos) = coords
 
-        x_mid = x_pos % 1.0
-        y_mid = y_pos % 1.0
-
-        # Cannot interpolate between chunks ... yet.
         if x_pos < 0.0:
             x_pos = 0.0
 
         if x_pos > self.width - 1.0:
-            x_pos = self.width - 1.0
+            x_pos = self.width - 1.0001  # tiny epsilon for flooring purposes
 
         if y_pos < 0.0:
             y_pos = 0.0
 
         if y_pos > self.width - 1.0:
-            y_pos = self.width - 1.0
+            y_pos = self.width - 1.0001  # tiny epsilon for flooring purposes
 
-        # Do bilinear interpolation.
         x_lo = math.floor(x_pos)
-        x_hi = math.ceil(x_pos)
+        x_hi = x_lo + 1
         y_lo = math.floor(y_pos)
-        y_hi = math.ceil(y_pos)
+        y_hi = y_lo + 1
 
-        interm_1 = interpolate(self.get(x_lo, y_lo), self.get(x_lo, y_hi), x_mid)
-        interm_2 = interpolate(self.get(x_hi, y_lo), self.get(x_hi, y_hi), x_mid)
+        val_a = self.get(x_lo, y_lo)
+        val_b = self.get(x_lo, y_hi)
+        val_c = self.get(x_hi, y_lo)
+        val_d = self.get(x_hi, y_hi)
 
-        return interpolate(interm_1, interm_2, y_mid)
+        return self._bilinear_interpolate(
+            val_a, val_b, val_c, val_d, x_pos, y_pos, x_lo, x_hi, y_lo, y_hi
+        )
 
     def __setitem__(self, pos: typing.Tuple[int, int], value: float):
         """Sets a value of this TerrainChunk heightmap."""
 
         (x_pos, y_pos) = pos
-        self.heightmap[y_pos * self.width + x_pos] = value
 
+        if USE_NUMPY:
+            self.heightmap[x_pos, y_pos] = value
+
+        else:
+            self.heightmap[y_pos * self.width + x_pos] = value
+
+    @maybe_numba_jit(nopython=False)
     def generate(
         self,
         generator: "generator.TerrainGenerator",

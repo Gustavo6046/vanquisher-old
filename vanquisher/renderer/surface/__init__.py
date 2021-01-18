@@ -14,19 +14,18 @@ A few common backends are already implemented
 under framebuffer.pygame, etc., but
 """
 
-import abc
 import math
 import typing
+import typing_extensions as typext
 
 
-class FramebufferSurface(abc.ABC):
+class FramebufferSurface(typext.Protocol):
     """A FramebufferSurface interface.
 
     This specifies an underlying surface, that is
     used by a renderer.
     """
 
-    @abc.abstractmethod
     def get_size(self) -> typing.Tuple[int, int]:
         """A surface size accessor.
 
@@ -35,7 +34,6 @@ class FramebufferSurface(abc.ABC):
         """
         ...
 
-    @abc.abstractmethod
     def plot_pixel(self, x: int, y: int, rgb: typing.Tuple[float, float, float]):
         """A surface pixel setter.
 
@@ -50,14 +48,53 @@ class FramebufferSurface(abc.ABC):
         xy2: typing.Tuple[int, int],
         rgb: typing.Tuple[float, float, float],
     ):
-        """A surface rectangle filling utility, with a default implementation.
+        """A surface rectangle filling utility.
+
+        Plots a rectangle of RGB pixels at the specified position corners,
+        with the specified fill colour.
+        """
+        ...
+
+    def update(self):
+        """A surface frame update entrypoint.
+
+        Updates this surface with newly plotted pixels, e.g.
+        by flipping it.
+        """
+        ...
+
+
+class SurfaceDefaultPlotFillMixin:
+    """A mixin for FramebufferSurface.plot_rect
+
+    Provides a (probably slower) fallabck for
+    the rect plotting utility, that calls plot_pixel
+    for every pixel of the rect.
+
+    If you can, avoid using this. Instead, it is
+    recommended to use the underlying library's
+    functions and/or operate at a lower level
+    whenever possible. Only use this if the library
+    itself does not provide any utility whatsoever
+    for drawing a rectangle.
+    """
+
+    def plot_rect(
+        self: FramebufferSurface,
+        xy1: typing.Tuple[int, int],
+        xy2: typing.Tuple[int, int],
+        rgb: typing.Tuple[float, float, float],
+    ):
+        """The fallback implementation of a surface rectangle filling utility.
 
         Plots a rectangle of RGB pixels at the specified position corners,
         with the specified fill colour.
 
-        The default implementation plots it one pixel at a time; it might
+        This fallback implementation plots it one pixel at a time; it might
         be desirable to override it if the underlying surface supports
         drawing filled rectangles directly.
+
+        If it doesn't, the library you're using is disgusting.
         """
 
         x_start, y_start = xy1
@@ -73,12 +110,3 @@ class FramebufferSurface(abc.ABC):
             y = y_start + math.floor(pos / width)
 
             self.plot_pixel(x, y, rgb)
-
-    @abc.abstractmethod
-    def update(self):
-        """A surface frame update entrypoint.
-
-        Updates this surface with newly plotted pixels, e.g.
-        by flipping it.
-        """
-        ...

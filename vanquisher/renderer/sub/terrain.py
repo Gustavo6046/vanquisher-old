@@ -1,5 +1,4 @@
-"""
-The terrain subrenderer.
+"""The terrain subrenderer.
 
 Uses the raymarcher module to render
 the terrain.
@@ -10,11 +9,12 @@ import typing
 
 from ...util import interpolate_color
 from ..raymarcher import Ray, Raymarcher
-from . import Subrenderer
+from . import SubrendererUtilMixin
+from .sky import SkySubrenderer  # to get the fog color
 
 if typing.TYPE_CHECKING:
     from ...game.world import World
-    from .. import Renderer, surface
+    from .. import Renderer
     from ..camera import Camera
     from ..surface import FramebufferSurface
 
@@ -25,6 +25,7 @@ class TerrainRaymarcher(Raymarcher):
     def __init__(
         self,
         subrenderer: "TerrainSubrenderer",
+        fog_distance: float = 48.0,
         scale: float = 64.0,
     ):
         """Sets this raymarcher up, in this case b setting its subrenderer."""
@@ -32,6 +33,7 @@ class TerrainRaymarcher(Raymarcher):
 
         self.subrenderer = subrenderer
         self.scale = scale
+        self.fog_distance = fog_distance
 
     def camera(self) -> "Camera":
         """Gets this Raymarcher's camera."""
@@ -41,7 +43,7 @@ class TerrainRaymarcher(Raymarcher):
         """Gets the world whose terrain this raymarcher is rendering."""
         return self.subrenderer.world()
 
-    def draw_surface(self) -> typing.Optional["surface.FramebufferSurface"]:
+    def draw_surface(self) -> typing.Optional["FramebufferSurface"]:
         """The surface this raymarcher is rendering to."""
         return self.subrenderer.renderer.current_surface
 
@@ -58,7 +60,7 @@ class TerrainRaymarcher(Raymarcher):
         return ray.height < terrain_height
 
     def get_color(
-        self, distance: float, height_offset: float
+        self, distance: float, height_offset: float, max_distance: float
     ) -> typing.Tuple[float, float, float]:
         """Gets the current pixel's color depending on the ray's distance and depth."""
 
@@ -97,6 +99,14 @@ class TerrainRaymarcher(Raymarcher):
             res[2] / darkness_denomin,
         )
 
+        distance_3d = math.sqrt(distance ** 2 + height_offset ** 2)
+
+        if distance_3d > self.fog_distance:
+            fog_alpha = (distance_3d - self.fog_distance) / (
+                max_distance - self.fog_distance
+            )
+            res = interpolate_color(res, SkySubrenderer.sky, fog_alpha)
+
         return res
 
     def put(self, x: int, y: int, distance: float, ray: Ray):
@@ -104,10 +114,12 @@ class TerrainRaymarcher(Raymarcher):
         canvas = self.draw_surface()
 
         if canvas is not None:
-            canvas.plot_pixel(x, y, self.get_color(distance, ray.height_offset))
+            canvas.plot_pixel(x, y, self.get_color(
+                distance, ray.height_offset, ray.max_distance
+            ))
 
 
-class TerrainSubrenderer(Subrenderer):
+class TerrainSubrenderer(SubrendererUtilMixin):
     """The terrain subrenderer.
 
     Uses TerrainRaymarcher (and, by extension, Raymarcher)
@@ -116,8 +128,7 @@ class TerrainSubrenderer(Subrenderer):
 
     def __init__(self, renderer: "Renderer"):
         """Sets this Subrenderer up to have a raymarcher."""
-        super().__init__(renderer)
-
+        self.renderer = renderer
         self.raymarcher = TerrainRaymarcher(self)
 
     def render(self, surface: "FramebufferSurface"):

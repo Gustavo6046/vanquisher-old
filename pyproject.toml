@@ -21,6 +21,7 @@ pygame = { version = "^2.0.1", optional = true }
 # optimizerz
 numba = { git = "https://github.com/numba/numba", optional = true }
 llvmlite = { git = "https://github.com/numba/llvmlite", optional = true }
+numpy = {version = "^1.19.5", optional = true}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -43,11 +44,14 @@ autopep8 = "1.5"
 server = ["anyio"]
 
 # Backends
-client-pygame = ["pygame"]
+display-pygame = ["pygame"]
+display-pysdl2 = ["pysdl2"]
+
 server-asgi = ["fastapi", "uvicorn"]
 
 # Optimizers
 optimizer-numba = ["numba", "llvmlite"]
+optimizer-numpy = ["numpy"]
 
 [tool.isort]
 profile = "black"

@@ -27,6 +27,7 @@ import math
 import typing
 
 from ..game import vector as vec
+from ..numba import maybe_numba_jit
 
 if typing.TYPE_CHECKING:
     from .camera import Camera
@@ -57,7 +58,7 @@ class Ray:
         self.first_pass_coarsening: float = 1.2
         self.hit_slowing: float = 2.0
 
-        self.max_distance: float = 128.0
+        self.max_distance: float = 64.0
         self.first_pass: bool = False
         self.hit: bool = False
 
