@@ -9,7 +9,6 @@ import math
 import typing
 
 from ...numba import maybe_numba_jit
-from ...util import interpolate
 
 if typing.TYPE_CHECKING:
     from . import generator
