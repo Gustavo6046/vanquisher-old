@@ -317,7 +317,10 @@ class Raymarcher(abc.ABC):
             start = time.time()
 
             print(
-                "\rRaymarching: {}/{} ({:.2f}%) - elapsed: {:.1f}s, ETA: {:.1f}s   ".format(
+                (
+                    "\rRaymarching: {}/{} ({:.2f}%) - "
+                    "elapsed: {:.1f}s, ETA: {:.1f}s   "
+                ).format(
                     pos,
                     area,
                     100.0 * pos / area,
