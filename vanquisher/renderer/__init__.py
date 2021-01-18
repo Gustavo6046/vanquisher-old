@@ -14,6 +14,7 @@ import typing
 
 from ..game.vector import vec2
 from .camera import Camera
+from .zbuffer import ZBufferSurfaceWrapper
 
 if typing.TYPE_CHECKING:
     from ..game import Game
@@ -76,6 +77,8 @@ class Renderer:
         Renders to the given surface, calling each
         Subrenderer in order.
         """
+        surface = ZBufferSurfaceWrapper(surface)
+
         self.current_surface = surface
 
         for subrenderer in self.subrenderers:
