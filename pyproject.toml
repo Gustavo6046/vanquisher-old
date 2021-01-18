@@ -6,16 +6,22 @@ authors = ["Gustavo6046 <rehermann6046@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.6.2,<3.10.0"
-fastapi = "^0.63.0"
-typer = "^0.3.2"
-uvicorn = {extras = ["standard"], version = "^0.13.3"}
-pygame = "^2.0.1"
 Js2Py = "^0.70"
-anyio = "^2.0.2"
 attr = "^0.3.1"
+typer = "^0.3.2"
 
-numba = {git = "https://github.com/numba/numba"}
-llvmlite = {git = "https://github.com/numba/llvmlite"}
+# server dependencies
+anyio = "^2.0.2"
+fastapi = "^0.63.0"
+uvicorn = {extras = ["standard"], version = "^0.13.3"}
+
+# client backends
+pygame = { version = "^2.0.1", optional = true }
+
+# optimizerz
+numba = { git = "https://github.com/numba/numba", optional = true }
+llvmlite = { git = "https://github.com/numba/llvmlite", optional = true }
+
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 snakeviz = "^2.1.0"
@@ -32,6 +38,16 @@ coverage = "^5.3.1"
 pytest-cov = "^2.10.1"
 tox = "^3.21.1"
 autopep8 = "1.5"
+
+[tool.poetry.extras]
+server = ["anyio"]
+
+# Backends
+client-pygame = ["pygame"]
+server-asgi = ["fastapi", "uvicorn"]
+
+# Optimizers
+optimizer-numba = ["numba", "llvmlite"]
 
 [tool.isort]
 profile = "black"
