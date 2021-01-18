@@ -332,11 +332,4 @@ class Raymarcher(abc.ABC):
 
             self.raymarch_one(size, x, y, **kwargs)
 
-        print(
-            "\r{}".format(
-                " "
-                * len(
-                    "Raymarching: XXXX/XXXX (XXXXXX%) - elapsed:" "XXXXXX, ETA: XXXXXX"
-                )
-            )
-        )
+        print("\n")
