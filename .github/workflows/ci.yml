@@ -24,8 +24,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - run: cd old
-
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
@@ -52,13 +50,10 @@ jobs:
       #  run: poetry update
 
       - name: Install tox
-        run:  cd old && poetry run pip install tox
+        run:  poetry run pip install tox
 
       - name: Run tox
-        run:  cd old && poetry run tox -e test
-
-      - name: "Copy coverage from 'old' folder"
-        run:  cp old/coverage.xml .
+        run:  poetry run tox -e test
 
       - name: Send XML coverage report to Codacy
         uses: codacy/codacy-coverage-reporter-action@0.2.0
@@ -104,10 +99,10 @@ jobs:
       #  run: poetry update
 
       - name: Install tox
-        run:  cd old && poetry run pip install tox
+        run:  poetry run pip install tox
 
       - name: Run tox
-        run:  cd old && poetry run tox -e lint
+        run:  poetry run tox -e lint
 
   #build-win:
   #  runs-on: ubuntu-latest
