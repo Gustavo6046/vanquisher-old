@@ -24,6 +24,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - run: cd old
+
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
@@ -73,6 +75,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - run: cd old
 
       - name: Setup Python
         uses: actions/setup-python@v1
