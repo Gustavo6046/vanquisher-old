@@ -32,6 +32,8 @@ def test_terragen_simple():
     assert my_terrain.get(3, 2) == 2.5
     assert my_terrain.get(0, 3) == 1.5
     assert my_terrain.get(0, 0) == 0.0
+    assert my_terrain[0.0, 0.0] == 0.0
+    assert my_terrain[0.5, 1.5] == 1.0
     assert my_terrain[1.5, 1.5] == 1.5
 
     # For a change, let's try the peak generator.

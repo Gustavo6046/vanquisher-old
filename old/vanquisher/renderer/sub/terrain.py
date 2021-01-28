@@ -55,7 +55,7 @@ class TerrainRaymarcher(Raymarcher):
         """
 
         chunk = self.world().chunk_at_pos(ray.pos)
-        terrain_height = chunk.terrain[ray.pos.as_tuple()]
+        terrain_height = chunk[ray.pos.as_tuple()]
 
         return ray.height < terrain_height
 
@@ -67,12 +67,15 @@ class TerrainRaymarcher(Raymarcher):
         distance_3d = math.sqrt(true_distance ** 2 + height_offset ** 2)
 
         # Get view depth accounting for ray angle
-        distance = true_distance * math.cos(
-            math.sqrt(
-                (ray.angle - self.camera().angle) ** 2
-                + (ray.pitch - self.camera().pitch) ** 2
-            )
-        )
+
+        distance = true_distance  # this isn't a wall raycaster
+
+        # distance = true_distance * math.cos(
+        #    math.sqrt(
+        #        (ray.angle - self.camera().angle) ** 2
+        #        + (ray.pitch - self.camera().pitch) ** 2
+        #    )
+        # )
 
         max_distance = ray.max_distance
         hit_x, hit_y = ray.pos.as_tuple()
@@ -123,7 +126,7 @@ class TerrainRaymarcher(Raymarcher):
         # brighter using norm_x and norm_y
         distance_3d = math.sqrt(distance ** 2 + height_offset ** 2)
 
-        northeastness = (norm_x + norm_y) / 2
+        northeastness = norm_x + norm_y
 
         north_bright_alpha = (
             1.0 / (1.0 + math.exp(-northeastness)) + 1
@@ -151,7 +154,8 @@ class TerrainRaymarcher(Raymarcher):
         canvas = self.draw_surface()
 
         if canvas is not None:
-            canvas.plot_pixel(x, y, self.get_color(distance, ray.height_offset, ray))
+            color = self.get_color(distance, ray.height_offset, ray)
+            canvas.plot_pixel(x, y, color)
 
 
 class TerrainSubrenderer(SubrendererUtilMixin):

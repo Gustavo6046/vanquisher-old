@@ -30,9 +30,30 @@ class Chunk:
         self.world = world
         self.chunk_pos = chunk_pos
         self.width = self.world.chunk_width
+        self.world_pos = (
+            self.chunk_pos[0] * self.width,
+            self.chunk_pos[1] * self.width,
+        )
         self.terrain = terrain.TerrainChunk(self.width)
 
         self.objects_in_chunk: typing.Set[uuid.UUID] = set()
+
+    def __getitem__(self, coords: typing.Tuple[float, float]) -> float:
+        """Gets terrain at a world-space point.
+
+        Unlike TerrainChunk, this accounts for world-space, not
+        for the coordinates within a chunk. (Chunk-space is the
+        coordinates of a chunk's position with respect to the
+        others, not of positions within said chunk.)
+        """
+        coord_x, coord_y = coords
+
+        terra_pos = (
+            coord_x - self.world_pos[0],
+            coord_y - self.world_pos[1],
+        )
+
+        return self.terrain[terra_pos]
 
     def game(self):
         """

@@ -24,7 +24,7 @@ else:
         """Build CFFI modules."""
         extensions = [
             # List CFFI buildscripts here.
-            "vanquisher.game.terrain._build_interpolate:ffibuilder"
+            "vanquisher/game/terrain/_build_interpolate.py:ffibuilder"
         ]
 
         setup_kwargs.update({"cffi_modules": extensions})

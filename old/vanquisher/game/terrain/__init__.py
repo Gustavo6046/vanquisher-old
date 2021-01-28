@@ -5,7 +5,6 @@ of specifically terrain. Every world.Chunk has a terrain property
 of type TerrainChunk.
 """
 
-import ctypes
 import math
 import typing
 
@@ -15,6 +14,7 @@ if typing.TYPE_CHECKING:
     from . import generator
 
 try:
+    from ._interpolate import ffi
     from ._interpolate.lib import bilinear
 
     USE_CFFI_INTERPOLATOR = True
@@ -44,7 +44,7 @@ class TerrainChunk:
         really want to use TerrainChunk directly and manually.
         """
 
-        self.heightmap = (ctypes.c_float * (width * width))()
+        self.heightmap = ffi.new("float[]", width * width)
         self.width = width
 
     def get(self, x_pos: int, y_pos: int) -> float:
@@ -88,7 +88,16 @@ class TerrainChunk:
         """
 
         if USE_CFFI_INTERPOLATOR:
-            return bilinear(self.width, *coords, ctypes.pointer(self.heightmap))
+            res = bilinear(self.width, *coords, self.heightmap)
+
+            if math.isnan(res):
+                raise ValueError(
+                    ("Got NaN trying to interpolate position ({0[0]},{0[1]})").format(
+                        coords
+                    )
+                )
+
+            return res
 
         (x_pos, y_pos) = coords
 

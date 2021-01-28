@@ -26,6 +26,7 @@ import abc
 import math
 import time
 import typing
+import functools
 
 from ..game import vector as vec
 
@@ -57,8 +58,8 @@ class Ray:
 
         self.step_size: float = 0.25
         self.max_hit_check: float = 0.15
-        self.first_pass_coarsening: float = 1.25
-        self.hit_slowing: float = 2.0
+        self.first_pass_coarsening: float = 1.2
+        self.hit_slowing: float = 2.5
 
         self.max_distance: float = 150.0
         self.first_pass: bool = False
@@ -67,22 +68,31 @@ class Ray:
         self.distance: float = 0.0
         self.height_offset: float = 0.0
 
-    @classmethod
-    def _step_offset(
-        cls, angle: float, size: float, pitch: float
-    ) -> typing.Tuple[typing.Tuple[float, float], float]:
-        """
-        Gets the step offset, both horizontal and vertical,
-        with the given parameters
-        """
+        self.offset_x: float = 0.0
+        self.offset_y: float = 0.0
+        self.offset_z: float = 0.0
 
-        return (
-            (
-                math.cos(angle) * math.cos(pitch) * size,
-                math.sin(angle) * math.cos(pitch) * size,
-            ),
-            math.sin(pitch) * size,
-        )
+    _angle_pitch_comput: typing.Dict[
+        typing.Tuple[float, float], typing.Tuple[float, float]
+    ] = {}
+
+    def update_offset(self):
+        """Updates the X, Y and Z offsets of a ray's unit step (step of size 1)."""
+        angle_pitch = (self.angle, self.pitch)
+
+        if angle_pitch in self._angle_pitch_comput:
+            off_x, off_y, off_z = self._angle_pitch_comput[angle_pitch]
+
+        else:
+            off_x = math.cos(self.angle) * math.cos(self.pitch)
+            off_y = math.sin(self.angle) * math.cos(self.pitch)
+            off_z = math.sin(self.pitch)
+
+            self._angle_pitch_comput[angle_pitch] = (off_x, off_y, off_z)
+
+        self.offset_x = off_x
+        self.offset_y = off_y
+        self.offset_z = off_z
 
     def step_offset(
         self, step_size: float
@@ -92,7 +102,10 @@ class Ray:
         of this ray, with the given step size.
         """
 
-        return self._step_offset(self.angle, step_size, self.pitch)
+        return (
+            (self.offset_x * step_size, self.offset_y * step_size),
+            self.offset_z * step_size,
+        )
 
     def next_step_offset(self) -> typing.Tuple[typing.Tuple[float, float], float]:
         """
@@ -138,6 +151,8 @@ class Ray:
 
         self.distance = 0.0
         self.height_offset = 0.0
+
+        self.update_offset()
 
     def advance(self, this_step_size: float) -> typing.Tuple[vec.Vec2, float]:
         """
