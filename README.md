@@ -1,3 +1,5 @@
+## WARNING: This repository is deprecated. You probably want [this](https://github.com/Gustavo6046/vanquisher) instead.
+
 <!--
   ![PyPI downloads](http://img.shields.io/pypi/dm/vanquisher.svg)
   ![PyPI Version](http://img.shields.io/pypi/v/vanquisher.svg)
