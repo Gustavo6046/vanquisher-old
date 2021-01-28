@@ -1,5 +1,6 @@
 """CFFI build hook for Poetry."""
 
+
 import warnings
 
 try:
@@ -19,7 +20,6 @@ except ImportError:
 
 
 else:
-
     def build(setup_kwargs):
         """Build CFFI modules."""
         extensions = [
