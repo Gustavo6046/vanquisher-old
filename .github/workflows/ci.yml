@@ -52,10 +52,10 @@ jobs:
       #  run: poetry update
 
       - name: Install tox
-        run:  poetry run pip install tox
+        run:  cd old && poetry run pip install tox
 
       - name: Run tox
-        run:  poetry run tox -e test
+        run:  cd old && poetry run tox -e test
 
       - name: Send XML coverage report to Codacy
         uses: codacy/codacy-coverage-reporter-action@0.2.0
@@ -75,8 +75,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - run: cd old
 
       - name: Setup Python
         uses: actions/setup-python@v1
@@ -103,10 +101,10 @@ jobs:
       #  run: poetry update
 
       - name: Install tox
-        run:  poetry run pip install tox
+        run:  cd old && poetry run pip install tox
 
       - name: Run tox
-        run:  poetry run tox -e lint
+        run:  cd old && poetry run tox -e lint
 
   #build-win:
   #  runs-on: ubuntu-latest
